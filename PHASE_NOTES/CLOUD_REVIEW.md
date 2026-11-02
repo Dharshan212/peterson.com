@@ -49,7 +49,7 @@ Read-only run on a Linux cloud container. No tracked file was edited. `templates
 
 **8. Auto-advance can only be held with a mouse. (Accessibility)** `academy.js:146`; `myelin_web_sample.html:3547-3548`
 - By reading: the hold uses `:hover` only. Keyboard and touch users cannot stop steps that advance after 3.5-15 s.
-- Fix: also treat `:focus-within` as a hold.
+- Fix: add a visible HOLD / PAUSE button. Do not use `:focus-within` alone: `focusCoach` moves focus into the coach on every step, so it would switch auto-advance off for everyone.
 - `acHint` and `acAsk` are not live regions, so "That action is not complete yet" and the phase prompts are silent for screen readers. Only `acSay` is `aria-live`.
 
 ## Addendum: highlight box (ring) placement
@@ -65,6 +65,15 @@ Walked all 87 steps (SINE organ) at 1440x900 in headless Chrome and compared eac
 **C. Smaller**
 - `sec.mode` (line 148), `cos.gate` (line 167), target `#secantModeBar`: ring is 1450 px wide and clipped 5 px at each screen edge.
 - `sec.s1read`, `sec.s2read`, `sec.s3read` (lines 152, 154, 157): ring wraps the whole popup (38% of the screen). Looks intended but very large.
+
+## Fixes applied (branch `cloud-review-fixes`, not merged)
+Small edits only, line endings kept (`academy.js` stays CRLF). Each was checked on the live page, then t145 17/17, t146 9/9, t144 46/46 (same method as above) passed.
+- **#1 dead end after BACK:** `academy.js` prompt is shown only while the step is not yet satisfied, so a revisit shows NEXT. Verified.
+- **#2 ESC:** `academy.js` ignores ESC when a `.wl-modal` is open or when typing in the video-name box. Verified: MAP then ESC closes only the map.
+- **#4 telemetry session:** `academy-journey.js` `ensureSession()` runs in `telemetry.setup` and in the `tel.social` auto action. Verified: STOP at the intro, the guide restarts the session and DWELL appears.
+- **#6 focus:** `focusCoach` prefers the YES button. Verified (focus on YES at "Shall we see Live Telemetry?").
+- **Highlight box:** `stu.answer` now targets the popup; `noRing` on the six dashboard read/close steps and on `si.limits`. Highlight audit: 13 flagged steps down to 5 (the minor ones).
+- **Not fixed:** #3 exact-match ADVANCE steps, #5 BACK history, #7 focus trap, #8 hold button, the small-screen layout, and the minor ring items (`sec.mode`, `cos.gate`, `sec.s*read`).
 
 ## Checked, no bug found
 - **Stop and timers:** after SKIP TOUR mid-automation, the delayed `press()` calls found no controls and did nothing. Not reproduced.

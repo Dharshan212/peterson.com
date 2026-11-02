@@ -72,14 +72,15 @@ export function createJourney(api) {
     st('ctl.summary', '.hero-card', 'The Engine Core in short: the ring counts your active time, PAUSE freezes it, STOP ends the session, and EMERGENCY stops everything at once. Shall we see Live Telemetry?', () => true, {noRing: true, ask: {yes: 'YES', no: 'NO'}})]};
 
   // ---------------------------------------------------------------- 2. LIVE TELEMETRY (the guide stands on the left and runs the whole SINE story; no highlight, no pressing needed)
+  const ensureSession = () => { const r = rt(); if (!r) return; if (r.state === 'PAUSED') press('btnEnginePause'); else if (r.state !== 'ACTIVE') press('btnEngineStart'); };   // Live Telemetry needs a running tutorial session (MAP / REPLAY / BACK can arrive here after STOP)
   const skip = (sec) => { const r = rt(); if (r && r.state === 'ACTIVE' && sec > 0) { const sp = r.speed; r.speed = 1; r.advance(sec); r.speed = sp; } };
   // Skips the tutorial clock to ~1.5 s before SINE's next stage (idempotent), then the step's live clock lets the real popup be displayed in real time: a bulk jump alone would out-run the popup display handshake.
   const toNext = () => { const s = rt() && rt().sine; if (!s) return; if (!s.episodeId) skip(300 - (s.dwell || 0) - 1.5); else if (s.remaining != null) skip(s.remaining - 1.5); };
   const SC = ['social', 'task'], LEFT = {left: true, noRing: true, top: true};
   const sineStage = (n) => () => !!$('wlPopup') && !!rt() && rt().sine.stage === n;
-  const telemetry = {name: 'TELEMETRY', title: 'Live Telemetry', page: 'control', setup: () => {}, steps: [
+  const telemetry = {name: 'TELEMETRY', title: 'Live Telemetry', page: 'control', setup: () => { ensureSession(); }, steps: [
     st('tel.intro', '#mlLiveTelemetry', 'This is Live Telemetry: one line for every event, all simulated. Let\'s pretend I start scrolling social media.', () => true, {...LEFT, flow: true}),
-    st('tel.social', '#mlLiveTelemetry', 'There I go, scrolling. Watch the log on the right.', () => feedHas('DWELL'), {...LEFT, scen: SC, speed: 60, auto: () => pickScn('social'), hint: 'Pick "Social" in the small box under my message.'}),
+    st('tel.social', '#mlLiveTelemetry', 'There I go, scrolling. Watch the log on the right.', () => feedHas('DWELL'), {...LEFT, scen: SC, speed: 60, auto: () => { ensureSession(); return pickScn('social'); }, hint: 'Pick "Social" in the small box under my message.'}),
     st('tel.rows', '#feed', 'See DWELL? SOCIAL is where I am, and DWELL means a fresh visit began. Now five minutes of scrolling pass.', () => true, {...LEFT, flow: true}),
     st('tel.s1', '#mlLiveTelemetry', 'Five minutes later, still scrolling…', sineStage(1), {...LEFT, live: 1, auto: toNext, hint: 'Wait a moment: the tutorial clock skips ahead.'}),
     st('tel.trigger', '#feed', 'SINE-1, a friendly nudge! On the right, TRIGGER means SINE just opened an episode.', () => true, {...LEFT, feed: true, flow: true}),
@@ -124,7 +125,7 @@ export function createJourney(api) {
     st('stu.scn', '#slToScenarios', 'Now three situations.', () => !!(labS() && labS().step === 'scenarios'), {auto: () => press('slToScenarios'), hint: 'Press the NEXT button inside the lab.'}),
     st('stu.aligned', '#slScnAligned', 'One: you watch your own video. Aligned, so no reminder at all.', () => !!(labS() && labS().scn && labS().scn.kind === 'aligned'), {auto: () => press('slScnAligned'), hint: 'Press SCENARIO 1 · STUDY ALIGNED.'}),
     st('stu.uncertain', '#slScnUncertain', 'Two: a title that is only half related. Five unclear minutes pass, then MYELIN asks you.', () => !!(labS() && labS().scn && labS().scn.kind === 'uncertain' && labS().scn.prompts >= 1), {auto: () => { press('slScnUncertain'); setTimeout(() => press('slAdvNext'), 250); }, hint: 'Press SCENARIO 2 · UNCERTAIN, then ADVANCE.'}),
-    st('stu.answer', '#slScnPanel', 'I answer THIS IS STUDY MATERIAL. MYELIN believes you and treats it as study.', () => !!(labS() && labS().scn && labS().scn.confirm), {auto: () => btnText('THIS IS STUDY MATERIAL'), hint: 'Press either button in the popup.'}),
+    st('stu.answer', '#wlDemoStage .wl-pp', 'I answer THIS IS STUDY MATERIAL. MYELIN believes you and treats it as study.', () => !!(labS() && labS().scn && labS().scn.confirm), {auto: () => btnText('THIS IS STUDY MATERIAL'), hint: 'Press either button in the popup.'}),
     st('stu.both', '#slScnReset', 'And the other answer: I\'M COMING BACK. That is only your promise, not proof.', both, {auto: () => { press('slScnReset'); setTimeout(() => press('slScnUncertain'), 250); setTimeout(() => press('slAdvNext'), 500); setTimeout(() => btnText('I\'M COMING BACK'), 900); }, hint: 'Repeat scenario 2 and press the other button.'}),
     st('stu.off', '#slScnOff', 'Three: a title with none of your words. Five minutes of that and the first intervention is due.', () => !!(labS() && labS().scn && labS().scn.kind === 'off' && labS().scn.dueLogged), {auto: () => { press('slScnOff'); setTimeout(() => press('slAdvNext'), 250); }, hint: 'Press SCENARIO 3 · NOT ALIGNED, then ADVANCE.'}),
     st('stu.gate', '#slPathway', 'WHAT IF WE TRY TO DISTRACT WHILE STUDYING? Do you wanna see?', () => true, {ask: {yes: 'YES', no: 'NO', onNo: () => { api.go(api.lessonStart(J.chapters.indexOf(cosecant))); return 'handled'; }}})]};
@@ -159,8 +160,8 @@ export function createJourney(api) {
     st('sec.return', '#szAdv10', 'Now MYELIN has to see me stay there: 10 seconds to verify, then 60 seconds to close.', () => stageHead() === null && Number(T('szEpisodes')) >= 1 && T('szSecant') === 'Inactive', {feed: true, auto: async () => { press('szAdv10'); await wait(250); press('szAdv60'); }, hint: 'Press +10 SEC, then +1 MIN.'}),
     st('sec.rule', '#szSecant', 'Not easy, bruh. Back on the video: 10 seconds to verify, then 60 seconds to close it. Same as SINE.', () => true, {flow: true}),
     st('sec.dash', '#sqOpen', 'Let\'s peek at the SECANT dashboard.', () => dashOpen(), {auto: () => press('sqOpen'), hint: 'Press OPEN DEEP ANALYSIS.'}),
-    st('sec.dashread', '.glass-overlay.open', 'Every stage, every popup response and the verified return, all recorded. A button press is a promise; the return is what counts.', () => true, {flow: true}),
-    st('sec.dashclose', '.glass-overlay.open', 'Closing it.', () => !dashOpen(), {auto: closeDash, hint: 'Press Escape to close the dashboard.'})]};
+    st('sec.dashread', '.glass-overlay.open', 'Every stage, every popup response and the verified return, all recorded. A button press is a promise; the return is what counts.', () => true, {flow: true, noRing: true}),
+    st('sec.dashclose', '.glass-overlay.open', 'Closing it.', () => !dashOpen(), {auto: closeDash, hint: 'Press Escape to close the dashboard.', noRing: true})]};
 
   // ---------------------------------------------------------------- 5. COSECANT (gate; the same running session: say you now want a break)
   const cosecant = {name: 'COSECANT', title: 'COSECANT — study breaks', page: 'secant', setup: () => {}, after: () => demoMode('secantModeDemo'), steps: [
@@ -179,8 +180,8 @@ export function createJourney(api) {
     st('cos.pick', '#szStudyRes', 'OK, back to my video: the study feed.', () => /^exact study/i.test(T('szActivityNow')), {feed: true, auto: () => press('szStudyRes'), hint: 'Press EXACT STUDY RESOURCE.', m: {auto: null, direct: true, flow: true, feed: true, say: 'Your turn: choose the study feed. Press EXACT STUDY RESOURCE (I hid the popup so you can see it).'}}),
     st('cos.return', '#szAdv1', 'MYELIN has to see me there for three seconds.', () => T('szCosecant') === 'No break' && T('szStudyState') === 'ACTIVE', {feed: true, auto: async () => { for (let i = 0; i < 4; i++) { press('szAdv1'); await wait(200); } }, hint: 'Press +1 SEC until the break closes.'}),
     st('cos.dash', '#sqOpen', 'The dashboard shows the whole break.', () => dashOpen(), {auto: () => press('sqOpen'), hint: 'Press OPEN DEEP ANALYSIS.'}),
-    st('cos.dashread', '.glass-overlay.open', 'Break started, BREAK COMPLETE, BREAK ALREADY OVER, COME BACK PLEASE, then the return confirmed after three seconds. Only recorded steps appear.', () => true, {flow: true}),
-    st('cos.dashclose', '.glass-overlay.open', 'Closing it. That is Study Mode.', () => !dashOpen(), {auto: closeDash, hint: 'Press Escape to close the dashboard.'})]};
+    st('cos.dashread', '.glass-overlay.open', 'Break started, BREAK COMPLETE, BREAK ALREADY OVER, COME BACK PLEASE, then the return confirmed after three seconds. Only recorded steps appear.', () => true, {flow: true, noRing: true}),
+    st('cos.dashclose', '.glass-overlay.open', 'Closing it. That is Study Mode.', () => !dashOpen(), {auto: closeDash, hint: 'Press Escape to close the dashboard.', noRing: true})]};
 
   // ---------------------------------------------------------------- 6. CHOOSE ONE ORGAN
   const choose = {name: 'CHOOSE', title: 'Choose your organ', page: 'control', setup: () => { J.organ = null; }, steps: [
@@ -194,8 +195,8 @@ export function createJourney(api) {
   const read = (id, target, say) => st(id, target, say, () => true, {flow: true});
   const dashSteps = (p, openBtn, openLabel, what) => [
     st(`${p}.dash`, `#${openBtn}`, `Let's peek at the ${what}.`, () => dashOpen(), {auto: () => press(openBtn), hint: `Press ${openLabel}.`}),
-    st(`${p}.dashread`, '.glass-overlay.open', 'This is the real dashboard, built only from what we just did. Counters, history, timeline: recorded events, never your thoughts.', () => true, {flow: true}),
-    st(`${p}.dashclose`, '.glass-overlay.open', 'Closing it.', () => !dashOpen(), {auto: closeDash, hint: 'Press Escape.'})];
+    st(`${p}.dashread`, '.glass-overlay.open', 'This is the real dashboard, built only from what we just did. Counters, history, timeline: recorded events, never your thoughts.', () => true, {flow: true, noRing: true}),
+    st(`${p}.dashclose`, '.glass-overlay.open', 'Closing it.', () => !dashOpen(), {auto: closeDash, hint: 'Press Escape.', noRing: true})];
   const logStep = (id, target, say, msay, list, type, auto, hint) => doIt(id, target, say, msay, () => logHas(list, type), auto, {hint});
 
   const sine = organ('sine', 'SINE / Live MIRL', 'live-mirl', demo('mirlModeDemo', 'sdReset'), [
@@ -209,7 +210,7 @@ export function createJourney(api) {
     doIt('si.stages', '#sdTrigger', 'Let\'s peek at all three stages.', 'Press TRIGGER NEXT SINE POPUP three times to see every stage.', () => T('sdStage') === 'SINE-3', async () => { for (let i = 0; i < 3; i++) { press('sdTrigger'); await wait(350); } }, {hint: 'Press TRIGGER NEXT SINE POPUP three times.'}),
     read('si.s3read', '#wlDemoStage .wl-pp', 'SINE-3 has no buttons. SINE-2 had just one. And a promise is never a return.'),
     ...dashSteps('si', 'mirlOpenDash', 'OPEN FULL DASHBOARD', 'Live MIRL dashboard'),
-    read('si.limits', '#sdEpisodes', 'SINE sees the simulator\'s social feed and the clock. It can\'t know what you were thinking, or whether a return was real focus.')]);
+    st('si.limits', '#sdEpisodes', 'SINE sees the simulator\'s social feed and the clock. It can\'t know what you were thinking, or whether a return was real focus.', () => true, {flow: true, noRing: true})]);
 
   const mine = organ('mine', 'MINE — messaging', 'mine', demo('mineModeDemo', 'mdReset'), [
     modeStep('mi', '#mineModeBar', 'MINE: the messaging organ. One question after ten minutes, and your answer picks the path. Shall I run the demo, or do you want to try?'),

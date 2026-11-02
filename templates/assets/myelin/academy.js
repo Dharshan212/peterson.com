@@ -120,14 +120,14 @@ export function mountAcademy(app){
     const next=()=>{if(!(achieved||satisfied())){text('acHint','That action is not complete yet. Follow the highlighted control, or use Skip tour.');$('acHint').hidden=false;return;}if(last)stop();else go(index+1);};
     $('acActions').replaceChildren(button('BACK',()=>go(Math.max(0,index-1)),{class:'ac-btn ghost',disabled:index===0}),
       ...(phase==='read'&&needsAct&&mode==='journey'&&exOf().auto?[button('I\'LL DO IT',()=>setPhase('act'),{class:'ac-btn ghost','data-ac':'try'}),button('DO IT NOW',()=>runAuto(),{class:'ac-btn primary','data-ac':'auto'})]:[phase==='read'&&needsAct?button('TRY IT',()=>setPhase('act'),{class:'ac-btn primary','data-ac':'try'}):button(last?'FINISH':'NEXT',next,{class:'ac-btn primary','data-ac':'next'})]));
-    if(mode==='journey'&&exOf().ask)renderAsk(l);else if(mode==='journey'&&exOf().prompt&&phase!=='done')renderPrompt(l);
+    if(mode==='journey'&&exOf().ask)renderAsk(l);else if(mode==='journey'&&exOf().prompt&&phase!=='done'&&!achieved)renderPrompt(l);
     $('acBar').style.width=`${(index+1)/total*100}%`;
     $('acDim').classList.toggle('off',phase!=='read'||flowStep()||(mode==='journey'&&!!exOf().ask));
     {const sc=$('acScenario'),keys=l.step[5];if(keys){const sig=keys.join();if(sc.dataset.keys!==sig){sc.dataset.keys=sig;app.simulator.picker(sc,keys);}sc.hidden=false;}else{sc.hidden=true;delete sc.dataset.keys;}}
     clockPolicy();
   }
   function focusTarget(){const t=document.querySelector(curTarget);if(!t)return;try{if(curTarget==='#acScenario')t.querySelector('button')?.focus({preventScroll:true});else if(curTarget==='#wlPopup'||t.matches('button,input,select,textarea,[tabindex]'))t.focus({preventScroll:true});}catch{/* focus is a convenience only */}}
-  function focusCoach(){requestAnimationFrame(()=>{try{document.querySelector('#acActions [data-ac]')?.focus({preventScroll:true});}catch{/* focus is a convenience only */}});}
+  function focusCoach(){requestAnimationFrame(()=>{try{(document.querySelector('#acActions [data-ac=yes]')||document.querySelector('#acActions [data-ac]'))?.focus({preventScroll:true});}catch{/* focus is a convenience only */}});}
   function setPhase(p){phase=p;arranged='';lastRing=null;render();if(p==='act'){ensureVisible();focusTarget();}else if(p==='done')focusCoach();}
   function draw(){
     if(!open)return;if(mode==='journey'&&exOf().skip&&exOf().skip()){const n=index+dir;if(n>=0&&n<lessons.length){go(n);return;}}
@@ -168,7 +168,8 @@ export function mountAcademy(app){
   $('acReplay').onclick=app.ui.guard(()=>{const first=lessons.findIndex(l=>l.c===lessons[index].c);go(first);});
   $('acHintBtn').onclick=()=>{text('acHint',exOf().hint||'Use the highlighted control. Choose the workspace resource explicitly; clicking a return button records intent only. There is no timeout that pretends success.');$('acHint').hidden=!$('acHint').hidden;};
   $('acMapBtn').onclick=()=>{const content=el('div',{class:'wl-grid'},chapters.map((c,i)=>[c,i]).filter(([,i])=>lessonStart(i)>=0).map(([c,i])=>button(c.title,app.ui.guard(async()=>{app.ui.closeModal();await go(lessonStart(i));}))));app.ui.openModal('Academy chapter map',content);};
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(open)stop();else if(!$('acIntro').hidden){$('acIntro').hidden=true;setSetting('academySeen',true);}}});
+  let escModal=false;document.addEventListener('keydown',e=>{if(e.key==='Escape')escModal=!!document.querySelector('.wl-modal');},true);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(open){if(e.defaultPrevented||escModal||(e.target&&e.target.closest&&e.target.closest('.acj-input')))return;stop();}else if(!$('acIntro').hidden){$('acIntro').hidden=true;setSetting('academySeen',true);}}});
   document.addEventListener('visibilitychange',()=>{if(open){token++;cancelAnimationFrame(raf);raf=null;if(!document.hidden)startLoop();}});
   if(!setting('academySeen',false))$('acIntro').hidden=false;
   return {launch,launchJourney,stop,get open(){return open;},get mode(){return mode;},get chapters(){return chapters;},get lessons(){return lessons;},get index(){return index;}};

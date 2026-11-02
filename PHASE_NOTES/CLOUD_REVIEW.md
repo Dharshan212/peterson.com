@@ -52,6 +52,20 @@ Read-only run on a Linux cloud container. No tracked file was edited. `templates
 - Fix: also treat `:focus-within` as a hold.
 - `acHint` and `acAsk` are not live regions, so "That action is not complete yet" and the phase prompts are silent for screen readers. Only `acSay` is `aria-live`.
 
+## Addendum: highlight box (ring) placement
+Walked all 87 steps (SINE organ) at 1440x900 in headless Chrome and compared each ring with the screen. 13 steps were flagged. The ring is `target.getBoundingClientRect()` plus 5 px (`academy.js:152-157`), so each problem below comes from the step's target selector in `academy-journey.js`, not from the ring code. Ring is missing on purpose in Live Telemetry, `ctl.summary`, the organ chooser and the letter.
+
+**A. Wrong or hidden target**
+- `stu.answer` (line 127, `#slScnPanel`): the panel is taller than the screen (ring 84,-42 to 1356,942). Only two blue side lines show, and the popup the guide explains has no ring. Fix: target the Study confirmation popup.
+- `si.limits` (line 212, `#sdEpisodes`): the target is a 23x32 px counter hidden behind the SINE-3 popup left on screen by `si.stages`. The ring and arrow land on popup text. Fix: close the popup first, or point at a visible element.
+
+**B. Ring around the whole screen**
+- `sec.dashread`, `sec.dashclose`, `cos.dashread`, `cos.dashclose`, `si.dashread`, `si.dashclose` (via `dashSteps`, line 197-198, target `.glass-overlay.open`): the ring covers 102% of the screen. Fix: set `noRing: true` on these steps.
+
+**C. Smaller**
+- `sec.mode` (line 148), `cos.gate` (line 167), target `#secantModeBar`: ring is 1450 px wide and clipped 5 px at each screen edge.
+- `sec.s1read`, `sec.s2read`, `sec.s3read` (lines 152, 154, 157): ring wraps the whole popup (38% of the screen). Looks intended but very large.
+
 ## Checked, no bug found
 - **Stop and timers:** after SKIP TOUR mid-automation, the delayed `press()` calls found no controls and did nothing. Not reproduced.
 - **Storage:** the Academy code only calls `setSetting` for `myelin.web.academy` and `myelin.web.academySeen`. t144 F4 passes (no other localStorage or sessionStorage keys after a full run). I did not inspect IndexedDB.

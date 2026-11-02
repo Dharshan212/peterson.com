@@ -1,0 +1,1531 @@
+{
+ "schema": "myelin-study-evidence-v5",
+ "source": "COSECANT_STUDY_MODE/study_alignment.py",
+ "cases": [
+  {
+   "name": "aligned",
+   "title": "Action Potential in a Neuron: Sodium and Potassium Channels Across the Membrane",
+   "cert": true,
+   "exact": false,
+   "subject": "Neuroscience",
+   "task": "Action potential lecture",
+   "keywords": [
+    "membrane",
+    "sodium",
+    "potassium",
+    "signal",
+    "channels"
+   ],
+   "important": [
+    "action potential",
+    "neuron"
+   ],
+   "expected": {
+    "confidence": 90.909,
+    "caps": [],
+    "rawMatched": 10,
+    "rawPossible": 11,
+    "effMatched": 10,
+    "effPossible": 11,
+    "coreMatched": 3,
+    "corePossible": 3,
+    "penalty": 0,
+    "suspicious": [],
+    "basis": "WEIGHTED_KEYWORDS",
+    "reasons": [],
+    "kw": [
+     [
+      "membrane",
+      "NORMAL",
+      1,
+      true
+     ],
+     [
+      "sodium",
+      "NORMAL",
+      1,
+      true
+     ],
+     [
+      "potassium",
+      "NORMAL",
+      1,
+      true
+     ],
+     [
+      "signal",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "channels",
+      "NORMAL",
+      1,
+      true
+     ],
+     [
+      "action",
+      "IMPORTANT",
+      2,
+      true
+     ],
+     [
+      "potential",
+      "IMPORTANT",
+      2,
+      true
+     ],
+     [
+      "neuron",
+      "IMPORTANT",
+      2,
+      true
+     ]
+    ]
+   }
+  },
+  {
+   "name": "uncertain_partial",
+   "title": "Neuron Signal Basics: Sodium Explained",
+   "cert": true,
+   "exact": false,
+   "subject": "Neuroscience",
+   "task": "Action potential lecture",
+   "keywords": [
+    "membrane",
+    "sodium",
+    "potassium",
+    "signal",
+    "channels"
+   ],
+   "important": [
+    "action potential",
+    "neuron"
+   ],
+   "expected": {
+    "confidence": 36.364,
+    "caps": [],
+    "rawMatched": 4,
+    "rawPossible": 11,
+    "effMatched": 4,
+    "effPossible": 11,
+    "coreMatched": 1,
+    "corePossible": 3,
+    "penalty": 0,
+    "suspicious": [],
+    "basis": "WEIGHTED_KEYWORDS",
+    "reasons": [
+     "Less than half of important Study keywords matched"
+    ],
+    "kw": [
+     [
+      "membrane",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "sodium",
+      "NORMAL",
+      1,
+      true
+     ],
+     [
+      "potassium",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "signal",
+      "NORMAL",
+      1,
+      true
+     ],
+     [
+      "channels",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "action",
+      "IMPORTANT",
+      2,
+      false
+     ],
+     [
+      "potential",
+      "IMPORTANT",
+      2,
+      false
+     ],
+     [
+      "neuron",
+      "IMPORTANT",
+      2,
+      true
+     ]
+    ]
+   }
+  },
+  {
+   "name": "off_mismatch",
+   "title": "Funny Cat Fails Compilation — Weekend Highlights",
+   "cert": true,
+   "exact": false,
+   "subject": "Neuroscience",
+   "task": "Action potential lecture",
+   "keywords": [
+    "membrane",
+    "sodium",
+    "potassium",
+    "signal",
+    "channels"
+   ],
+   "important": [
+    "action potential",
+    "neuron"
+   ],
+   "expected": {
+    "confidence": 0.0,
+    "caps": [],
+    "rawMatched": 0,
+    "rawPossible": 11,
+    "effMatched": 0,
+    "effPossible": 11,
+    "coreMatched": 0,
+    "corePossible": 3,
+    "penalty": 60,
+    "suspicious": [],
+    "basis": "WEIGHTED_KEYWORDS",
+    "reasons": [
+     "Background mismatch evidence reduced confidence by 60 percentage points",
+     "No important Study keyword matched the current title"
+    ],
+    "kw": [
+     [
+      "membrane",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "sodium",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "potassium",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "signal",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "channels",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "action",
+      "IMPORTANT",
+      2,
+      false
+     ],
+     [
+      "potential",
+      "IMPORTANT",
+      2,
+      false
+     ],
+     [
+      "neuron",
+      "IMPORTANT",
+      2,
+      false
+     ]
+    ]
+   }
+  },
+  {
+   "name": "uncertified_aligned",
+   "title": "Action Potential in a Neuron: Sodium and Potassium Channels Across the Membrane",
+   "cert": false,
+   "exact": false,
+   "subject": "Neuroscience",
+   "task": "Action potential lecture",
+   "keywords": [
+    "membrane",
+    "sodium",
+    "potassium",
+    "signal",
+    "channels"
+   ],
+   "important": [
+    "action potential",
+    "neuron"
+   ],
+   "expected": {
+    "confidence": 74.0,
+    "caps": [
+     "RESOURCE_IDENTITY_NOT_CERTIFIED"
+    ],
+    "rawMatched": 10,
+    "rawPossible": 11,
+    "effMatched": 10,
+    "effPossible": 11,
+    "coreMatched": 3,
+    "corePossible": 3,
+    "penalty": 0,
+    "suspicious": [],
+    "basis": "WEIGHTED_KEYWORDS",
+    "reasons": [
+     "Uncertified resource identity cannot receive automatic Study protection"
+    ],
+    "kw": [
+     [
+      "membrane",
+      "NORMAL",
+      1,
+      true
+     ],
+     [
+      "sodium",
+      "NORMAL",
+      1,
+      true
+     ],
+     [
+      "potassium",
+      "NORMAL",
+      1,
+      true
+     ],
+     [
+      "signal",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "channels",
+      "NORMAL",
+      1,
+      true
+     ],
+     [
+      "action",
+      "IMPORTANT",
+      2,
+      true
+     ],
+     [
+      "potential",
+      "IMPORTANT",
+      2,
+      true
+     ],
+     [
+      "neuron",
+      "IMPORTANT",
+      2,
+      true
+     ]
+    ]
+   }
+  },
+  {
+   "name": "single_keyword",
+   "title": "Neuron",
+   "cert": true,
+   "exact": false,
+   "subject": "Neuroscience",
+   "task": "Action potential lecture",
+   "keywords": [
+    "membrane",
+    "sodium",
+    "potassium",
+    "signal",
+    "channels"
+   ],
+   "important": [
+    "action potential",
+    "neuron"
+   ],
+   "expected": {
+    "confidence": 18.182,
+    "caps": [],
+    "rawMatched": 2,
+    "rawPossible": 11,
+    "effMatched": 2,
+    "effPossible": 11,
+    "coreMatched": 1,
+    "corePossible": 3,
+    "penalty": 0,
+    "suspicious": [],
+    "basis": "WEIGHTED_KEYWORDS",
+    "reasons": [
+     "A single matching keyword cannot automatically prove Study alignment",
+     "Less than half of important Study keywords matched"
+    ],
+    "kw": [
+     [
+      "membrane",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "sodium",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "potassium",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "signal",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "channels",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "action",
+      "IMPORTANT",
+      2,
+      false
+     ],
+     [
+      "potential",
+      "IMPORTANT",
+      2,
+      false
+     ],
+     [
+      "neuron",
+      "IMPORTANT",
+      2,
+      true
+     ]
+    ]
+   }
+  },
+  {
+   "name": "no_important",
+   "title": "Sodium potassium membrane signal channels explained",
+   "cert": true,
+   "exact": false,
+   "subject": "Neuroscience",
+   "task": "Action potential lecture",
+   "keywords": [
+    "membrane",
+    "sodium",
+    "potassium",
+    "signal",
+    "channels"
+   ],
+   "important": [
+    "action potential",
+    "neuron"
+   ],
+   "expected": {
+    "confidence": 45.455,
+    "caps": [],
+    "rawMatched": 5,
+    "rawPossible": 11,
+    "effMatched": 5,
+    "effPossible": 11,
+    "coreMatched": 0,
+    "corePossible": 3,
+    "penalty": 0,
+    "suspicious": [],
+    "basis": "WEIGHTED_KEYWORDS",
+    "reasons": [
+     "No important Study keyword matched the current title"
+    ],
+    "kw": [
+     [
+      "membrane",
+      "NORMAL",
+      1,
+      true
+     ],
+     [
+      "sodium",
+      "NORMAL",
+      1,
+      true
+     ],
+     [
+      "potassium",
+      "NORMAL",
+      1,
+      true
+     ],
+     [
+      "signal",
+      "NORMAL",
+      1,
+      true
+     ],
+     [
+      "channels",
+      "NORMAL",
+      1,
+      true
+     ],
+     [
+      "action",
+      "IMPORTANT",
+      2,
+      false
+     ],
+     [
+      "potential",
+      "IMPORTANT",
+      2,
+      false
+     ],
+     [
+      "neuron",
+      "IMPORTANT",
+      2,
+      false
+     ]
+    ]
+   }
+  },
+  {
+   "name": "important_below_half",
+   "title": "Action sodium potassium membrane signal channels",
+   "cert": true,
+   "exact": false,
+   "subject": "Neuroscience",
+   "task": "Action potential lecture",
+   "keywords": [
+    "membrane",
+    "sodium",
+    "potassium",
+    "signal",
+    "channels"
+   ],
+   "important": [
+    "action potential",
+    "neuron"
+   ],
+   "expected": {
+    "confidence": 50.0,
+    "caps": [
+     "IMPORTANT_KEYWORD_COVERAGE_BELOW_HALF"
+    ],
+    "rawMatched": 7,
+    "rawPossible": 11,
+    "effMatched": 7,
+    "effPossible": 11,
+    "coreMatched": 1,
+    "corePossible": 3,
+    "penalty": 0,
+    "suspicious": [],
+    "basis": "WEIGHTED_KEYWORDS",
+    "reasons": [
+     "Less than half of important Study keywords matched"
+    ],
+    "kw": [
+     [
+      "membrane",
+      "NORMAL",
+      1,
+      true
+     ],
+     [
+      "sodium",
+      "NORMAL",
+      1,
+      true
+     ],
+     [
+      "potassium",
+      "NORMAL",
+      1,
+      true
+     ],
+     [
+      "signal",
+      "NORMAL",
+      1,
+      true
+     ],
+     [
+      "channels",
+      "NORMAL",
+      1,
+      true
+     ],
+     [
+      "action",
+      "IMPORTANT",
+      2,
+      true
+     ],
+     [
+      "potential",
+      "IMPORTANT",
+      2,
+      false
+     ],
+     [
+      "neuron",
+      "IMPORTANT",
+      2,
+      false
+     ]
+    ]
+   }
+  },
+  {
+   "name": "exact_task_allowed",
+   "title": "Khan Academy | Action potential lecture - Part 2",
+   "cert": true,
+   "exact": true,
+   "subject": "Neuroscience",
+   "task": "Action potential lecture",
+   "keywords": [
+    "membrane",
+    "sodium",
+    "potassium",
+    "signal",
+    "channels"
+   ],
+   "important": [
+    "action potential",
+    "neuron"
+   ],
+   "expected": {
+    "confidence": 100.0,
+    "caps": [],
+    "rawMatched": 4,
+    "rawPossible": 11,
+    "effMatched": 4,
+    "effPossible": 11,
+    "coreMatched": 2,
+    "corePossible": 3,
+    "penalty": 0,
+    "suspicious": [],
+    "basis": "EXACT_TASK_TITLE",
+    "reasons": [
+     "The complete declared task title matches the certified learning resource"
+    ],
+    "kw": [
+     [
+      "membrane",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "sodium",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "potassium",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "signal",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "channels",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "action",
+      "IMPORTANT",
+      2,
+      true
+     ],
+     [
+      "potential",
+      "IMPORTANT",
+      2,
+      true
+     ],
+     [
+      "neuron",
+      "IMPORTANT",
+      2,
+      false
+     ]
+    ]
+   }
+  },
+  {
+   "name": "exact_task_not_allowed",
+   "title": "Khan Academy | Action potential lecture - Part 2",
+   "cert": true,
+   "exact": false,
+   "subject": "Neuroscience",
+   "task": "Action potential lecture",
+   "keywords": [
+    "membrane",
+    "sodium",
+    "potassium",
+    "signal",
+    "channels"
+   ],
+   "important": [
+    "action potential",
+    "neuron"
+   ],
+   "expected": {
+    "confidence": 36.364,
+    "caps": [],
+    "rawMatched": 4,
+    "rawPossible": 11,
+    "effMatched": 4,
+    "effPossible": 11,
+    "coreMatched": 2,
+    "corePossible": 3,
+    "penalty": 0,
+    "suspicious": [],
+    "basis": "WEIGHTED_KEYWORDS",
+    "reasons": [],
+    "kw": [
+     [
+      "membrane",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "sodium",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "potassium",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "signal",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "channels",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "action",
+      "IMPORTANT",
+      2,
+      true
+     ],
+     [
+      "potential",
+      "IMPORTANT",
+      2,
+      true
+     ],
+     [
+      "neuron",
+      "IMPORTANT",
+      2,
+      false
+     ]
+    ]
+   }
+  },
+  {
+   "name": "exact_task_uncertified",
+   "title": "Action potential lecture",
+   "cert": false,
+   "exact": true,
+   "subject": "Neuroscience",
+   "task": "Action potential lecture",
+   "keywords": [
+    "membrane",
+    "sodium",
+    "potassium",
+    "signal",
+    "channels"
+   ],
+   "important": [
+    "action potential",
+    "neuron"
+   ],
+   "expected": {
+    "confidence": 36.364,
+    "caps": [],
+    "rawMatched": 4,
+    "rawPossible": 11,
+    "effMatched": 4,
+    "effPossible": 11,
+    "coreMatched": 2,
+    "corePossible": 3,
+    "penalty": 0,
+    "suspicious": [],
+    "basis": "WEIGHTED_KEYWORDS",
+    "reasons": [
+     "Uncertified resource identity cannot receive automatic Study protection"
+    ],
+    "kw": [
+     [
+      "membrane",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "sodium",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "potassium",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "signal",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "channels",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "action",
+      "IMPORTANT",
+      2,
+      true
+     ],
+     [
+      "potential",
+      "IMPORTANT",
+      2,
+      true
+     ],
+     [
+      "neuron",
+      "IMPORTANT",
+      2,
+      false
+     ]
+    ]
+   }
+  },
+  {
+   "name": "empty_title",
+   "title": "",
+   "cert": true,
+   "exact": false,
+   "subject": "Neuroscience",
+   "task": "Action potential lecture",
+   "keywords": [
+    "membrane",
+    "sodium",
+    "potassium",
+    "signal",
+    "channels"
+   ],
+   "important": [
+    "action potential",
+    "neuron"
+   ],
+   "expected": {
+    "confidence": 0.0,
+    "caps": [],
+    "rawMatched": 0,
+    "rawPossible": 11,
+    "effMatched": 0,
+    "effPossible": 11,
+    "coreMatched": 0,
+    "corePossible": 3,
+    "penalty": 0,
+    "suspicious": [],
+    "basis": "WEIGHTED_KEYWORDS",
+    "reasons": [
+     "No important Study keyword matched the current title"
+    ],
+    "kw": [
+     [
+      "membrane",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "sodium",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "potassium",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "signal",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "channels",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "action",
+      "IMPORTANT",
+      2,
+      false
+     ],
+     [
+      "potential",
+      "IMPORTANT",
+      2,
+      false
+     ],
+     [
+      "neuron",
+      "IMPORTANT",
+      2,
+      false
+     ]
+    ]
+   }
+  },
+  {
+   "name": "mismatch_legit",
+   "title": "Music therapy and the neuron",
+   "cert": true,
+   "exact": false,
+   "subject": "Music Therapy",
+   "task": "Neuron response",
+   "keywords": [
+    "therapy",
+    "response"
+   ],
+   "important": [
+    "music",
+    "neuron"
+   ],
+   "expected": {
+    "confidence": 83.333,
+    "caps": [],
+    "rawMatched": 5,
+    "rawPossible": 6,
+    "effMatched": 5,
+    "effPossible": 6,
+    "coreMatched": 2,
+    "corePossible": 2,
+    "penalty": 0,
+    "suspicious": [],
+    "basis": "WEIGHTED_KEYWORDS",
+    "reasons": [],
+    "kw": [
+     [
+      "therapy",
+      "NORMAL",
+      1,
+      true
+     ],
+     [
+      "response",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "music",
+      "IMPORTANT",
+      2,
+      true
+     ],
+     [
+      "neuron",
+      "IMPORTANT",
+      2,
+      true
+     ]
+    ]
+   }
+  },
+  {
+   "name": "suspicious_keyword",
+   "title": "Neuron action potential",
+   "cert": true,
+   "exact": false,
+   "subject": "Neuroscience",
+   "task": "Action potential lecture",
+   "keywords": [
+    "funny",
+    "membrane"
+   ],
+   "important": [
+    "neuron"
+   ],
+   "expected": {
+    "confidence": 50.0,
+    "caps": [
+     "ONLY_ONE_KEYWORD_MATCHED"
+    ],
+    "rawMatched": 2,
+    "rawPossible": 4,
+    "effMatched": 2,
+    "effPossible": 3,
+    "coreMatched": 1,
+    "corePossible": 1,
+    "penalty": 0,
+    "suspicious": [
+     "funny"
+    ],
+    "basis": "WEIGHTED_KEYWORDS",
+    "reasons": [
+     "Suspicious user keywords were excluded because Subject/Task did not support them",
+     "A single matching keyword cannot automatically prove Study alignment"
+    ],
+    "kw": [
+     [
+      "funny",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "membrane",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "neuron",
+      "IMPORTANT",
+      2,
+      true
+     ]
+    ]
+   }
+  },
+  {
+   "name": "all_suspicious",
+   "title": "Neuron",
+   "cert": true,
+   "exact": false,
+   "subject": "Chemistry",
+   "task": "Reaction rates",
+   "keywords": [
+    "funny",
+    "meme"
+   ],
+   "important": [
+    "gameplay"
+   ],
+   "expected": {
+    "confidence": 0.0,
+    "caps": [],
+    "rawMatched": 0,
+    "rawPossible": 4,
+    "effMatched": 0,
+    "effPossible": 0,
+    "coreMatched": 0,
+    "corePossible": 0,
+    "penalty": 0,
+    "suspicious": [
+     "funny",
+     "gameplay",
+     "meme"
+    ],
+    "basis": "WEIGHTED_KEYWORDS",
+    "reasons": [
+     "Suspicious user keywords were excluded because Subject/Task did not support them",
+     "No eligible Study keywords remained for scoring"
+    ],
+    "kw": [
+     [
+      "funny",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "meme",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "gameplay",
+      "IMPORTANT",
+      2,
+      false
+     ]
+    ]
+   }
+  },
+  {
+   "name": "hyphen_apostrophe",
+   "title": "Hodgkin-Huxley model: the neuron's membrane",
+   "cert": true,
+   "exact": false,
+   "subject": "Neuroscience",
+   "task": "Action potential lecture",
+   "keywords": [
+    "hodgkin-huxley",
+    "neuron's"
+   ],
+   "important": [
+    "membrane"
+   ],
+   "expected": {
+    "confidence": 100.0,
+    "caps": [],
+    "rawMatched": 4,
+    "rawPossible": 4,
+    "effMatched": 4,
+    "effPossible": 4,
+    "coreMatched": 1,
+    "corePossible": 1,
+    "penalty": 0,
+    "suspicious": [],
+    "basis": "WEIGHTED_KEYWORDS",
+    "reasons": [],
+    "kw": [
+     [
+      "hodgkin-huxley",
+      "NORMAL",
+      1,
+      true
+     ],
+     [
+      "neuron's",
+      "NORMAL",
+      1,
+      true
+     ],
+     [
+      "membrane",
+      "IMPORTANT",
+      2,
+      true
+     ]
+    ]
+   }
+  },
+  {
+   "name": "digits",
+   "title": "Chapter 12 neuron lecture",
+   "cert": true,
+   "exact": false,
+   "subject": "Neuroscience",
+   "task": "Action potential lecture",
+   "keywords": [
+    "12"
+   ],
+   "important": [
+    "neuron"
+   ],
+   "expected": {
+    "confidence": 100.0,
+    "caps": [],
+    "rawMatched": 3,
+    "rawPossible": 3,
+    "effMatched": 3,
+    "effPossible": 3,
+    "coreMatched": 1,
+    "corePossible": 1,
+    "penalty": 0,
+    "suspicious": [],
+    "basis": "WEIGHTED_KEYWORDS",
+    "reasons": [],
+    "kw": [
+     [
+      "12",
+      "NORMAL",
+      1,
+      true
+     ],
+     [
+      "neuron",
+      "IMPORTANT",
+      2,
+      true
+     ]
+    ]
+   }
+  },
+  {
+   "name": "common_words_only",
+   "title": "the video of the study",
+   "cert": true,
+   "exact": false,
+   "subject": "Neuroscience",
+   "task": "Action potential lecture",
+   "keywords": [
+    "the",
+    "study"
+   ],
+   "important": [
+    "video"
+   ],
+   "expected": {
+    "confidence": 0.0,
+    "caps": [],
+    "rawMatched": 0,
+    "rawPossible": 0,
+    "effMatched": 0,
+    "effPossible": 0,
+    "coreMatched": 0,
+    "corePossible": 0,
+    "penalty": 0,
+    "suspicious": [],
+    "basis": "WEIGHTED_KEYWORDS",
+    "reasons": [
+     "No eligible Study keywords remained for scoring"
+    ],
+    "kw": []
+   }
+  },
+  {
+   "name": "multi_important",
+   "title": "Action potential neuron threshold",
+   "cert": true,
+   "exact": false,
+   "subject": "Neuroscience",
+   "task": "Action potential lecture",
+   "keywords": [
+    "sodium"
+   ],
+   "important": [
+    "action potential",
+    "neuron",
+    "threshold",
+    "refractory"
+   ],
+   "expected": {
+    "confidence": 72.727,
+    "caps": [],
+    "rawMatched": 8,
+    "rawPossible": 11,
+    "effMatched": 8,
+    "effPossible": 11,
+    "coreMatched": 4,
+    "corePossible": 5,
+    "penalty": 0,
+    "suspicious": [],
+    "basis": "WEIGHTED_KEYWORDS",
+    "reasons": [],
+    "kw": [
+     [
+      "sodium",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "action",
+      "IMPORTANT",
+      2,
+      true
+     ],
+     [
+      "potential",
+      "IMPORTANT",
+      2,
+      true
+     ],
+     [
+      "neuron",
+      "IMPORTANT",
+      2,
+      true
+     ],
+     [
+      "threshold",
+      "IMPORTANT",
+      2,
+      true
+     ],
+     [
+      "refractory",
+      "IMPORTANT",
+      2,
+      false
+     ]
+    ]
+   }
+  },
+  {
+   "name": "coverage_exactly_half",
+   "title": "Action potential sodium",
+   "cert": true,
+   "exact": false,
+   "subject": "Neuroscience",
+   "task": "Action potential lecture",
+   "keywords": [
+    "sodium"
+   ],
+   "important": [
+    "action potential",
+    "neuron",
+    "threshold"
+   ],
+   "expected": {
+    "confidence": 55.556,
+    "caps": [],
+    "rawMatched": 5,
+    "rawPossible": 9,
+    "effMatched": 5,
+    "effPossible": 9,
+    "coreMatched": 2,
+    "corePossible": 4,
+    "penalty": 0,
+    "suspicious": [],
+    "basis": "WEIGHTED_KEYWORDS",
+    "reasons": [],
+    "kw": [
+     [
+      "sodium",
+      "NORMAL",
+      1,
+      true
+     ],
+     [
+      "action",
+      "IMPORTANT",
+      2,
+      true
+     ],
+     [
+      "potential",
+      "IMPORTANT",
+      2,
+      true
+     ],
+     [
+      "neuron",
+      "IMPORTANT",
+      2,
+      false
+     ],
+     [
+      "threshold",
+      "IMPORTANT",
+      2,
+      false
+     ]
+    ]
+   }
+  },
+  {
+   "name": "no_keywords",
+   "title": "Anything at all",
+   "cert": true,
+   "exact": false,
+   "subject": "Neuroscience",
+   "task": "Action potential lecture",
+   "keywords": [],
+   "important": [],
+   "expected": {
+    "confidence": 0.0,
+    "caps": [],
+    "rawMatched": 0,
+    "rawPossible": 0,
+    "effMatched": 0,
+    "effPossible": 0,
+    "coreMatched": 0,
+    "corePossible": 0,
+    "penalty": 0,
+    "suspicious": [],
+    "basis": "WEIGHTED_KEYWORDS",
+    "reasons": [
+     "No eligible Study keywords remained for scoring"
+    ],
+    "kw": []
+   }
+  },
+  {
+   "name": "important_only_all",
+   "title": "Neuron membrane",
+   "cert": true,
+   "exact": false,
+   "subject": "Neuroscience",
+   "task": "Action potential lecture",
+   "keywords": [],
+   "important": [
+    "neuron",
+    "membrane"
+   ],
+   "expected": {
+    "confidence": 100.0,
+    "caps": [],
+    "rawMatched": 4,
+    "rawPossible": 4,
+    "effMatched": 4,
+    "effPossible": 4,
+    "coreMatched": 2,
+    "corePossible": 2,
+    "penalty": 0,
+    "suspicious": [],
+    "basis": "WEIGHTED_KEYWORDS",
+    "reasons": [],
+    "kw": [
+     [
+      "neuron",
+      "IMPORTANT",
+      2,
+      true
+     ],
+     [
+      "membrane",
+      "IMPORTANT",
+      2,
+      true
+     ]
+    ]
+   }
+  },
+  {
+   "name": "penalty_cap",
+   "title": "Neuron membrane lofi music song",
+   "cert": true,
+   "exact": false,
+   "subject": "Neuroscience",
+   "task": "Action potential lecture",
+   "keywords": [],
+   "important": [
+    "neuron",
+    "membrane"
+   ],
+   "expected": {
+    "confidence": 30.0,
+    "caps": [],
+    "rawMatched": 4,
+    "rawPossible": 4,
+    "effMatched": 4,
+    "effPossible": 4,
+    "coreMatched": 2,
+    "corePossible": 2,
+    "penalty": 70,
+    "suspicious": [],
+    "basis": "WEIGHTED_KEYWORDS",
+    "reasons": [
+     "Background mismatch evidence reduced confidence by 70 percentage points"
+    ],
+    "kw": [
+     [
+      "neuron",
+      "IMPORTANT",
+      2,
+      true
+     ],
+     [
+      "membrane",
+      "IMPORTANT",
+      2,
+      true
+     ]
+    ]
+   }
+  },
+  {
+   "name": "case_unicode",
+   "title": "NEURON — Action Potential (Hodgkin–Huxley)",
+   "cert": true,
+   "exact": false,
+   "subject": "Neuroscience",
+   "task": "Action potential lecture",
+   "keywords": [
+    "MEMBRANE"
+   ],
+   "important": [
+    "Neuron",
+    "Action Potential"
+   ],
+   "expected": {
+    "confidence": 85.714,
+    "caps": [],
+    "rawMatched": 6,
+    "rawPossible": 7,
+    "effMatched": 6,
+    "effPossible": 7,
+    "coreMatched": 3,
+    "corePossible": 3,
+    "penalty": 0,
+    "suspicious": [],
+    "basis": "WEIGHTED_KEYWORDS",
+    "reasons": [],
+    "kw": [
+     [
+      "membrane",
+      "NORMAL",
+      1,
+      false
+     ],
+     [
+      "neuron",
+      "IMPORTANT",
+      2,
+      true
+     ],
+     [
+      "action",
+      "IMPORTANT",
+      2,
+      true
+     ],
+     [
+      "potential",
+      "IMPORTANT",
+      2,
+      true
+     ]
+    ]
+   }
+  }
+ ]
+}

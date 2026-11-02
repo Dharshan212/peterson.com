@@ -1,0 +1,5 @@
+[build]
+  command = "node scripts/build-static.mjs"
+  publish = "dist"
+
+# Existing file routing needs no SPA wildcard redirect.

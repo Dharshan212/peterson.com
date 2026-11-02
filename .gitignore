@@ -1,0 +1,28 @@
+# MYELIN Web Lite: what stays OUT of the repository (it is bulky, regenerated, or only local evidence)
+
+# Built site: regenerate with  py -3 PHASE_NOTES/tools/build_equiv.py .
+dist/
+
+# Old phase checkpoints (full copies of earlier builds), backups and test screenshots
+PHASE_NOTES/CHECKPOINT_*/
+# ...but keep the Stage A checkpoint's templates: t144 compares the Academy build against it
+!PHASE_NOTES/CHECKPOINT_academy_stageA_study_lab_20261101/
+PHASE_NOTES/CHECKPOINT_academy_stageA_study_lab_20261101/dist/
+PHASE_NOTES/backup_before_*/
+PHASE_NOTES/evidence*/
+
+# Python / editor / OS noise
+__pycache__/
+*.pyc
+.vscode/
+Thumbs.db
+.DS_Store
+
+# Anything that could hold personal or imported data must never be committed
+*.db
+*.sqlite
+*.sqlite3
+*.env
+.env*
+*.pem
+*.key

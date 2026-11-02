@@ -1,0 +1,111 @@
+/* ============================================================
+   Dharshan Keba — Unified Site Theme
+   Shared design tokens, nav, footer, and button components used
+   across every page (index, about, skills, research, publications,
+   contact, myelin-hub).
+   ============================================================ */
+
+:root {
+  --bg-base:      #030712;
+  --bg-panel:     #0b0f19;
+  --bg-panel-alt: #0f1240;
+  --border:       #1e293b;
+
+  --accent-purple: #a855f7;
+  --accent-cyan:   #06b6d4;
+  --accent-blue:   #0ea5e9;
+  --accent-pink:   #e879f9;
+
+  --text-light: #f8fafc;
+  --text-muted: #64748b;
+  --silver:     #94a3b8;
+}
+
+/* ── SHARED NAV ── */
+.site-nav {
+  position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem 2.5rem;
+  background: rgba(3, 7, 18, 0.75);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(168, 85, 247, 0.15);
+  font-family: 'DM Mono', 'Segoe UI', monospace;
+}
+.site-nav .nav-brand {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--accent-purple);
+  letter-spacing: 0.02em;
+}
+.site-nav .nav-links {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+.site-nav .nav-links a {
+  color: var(--silver);
+  text-decoration: none;
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.site-nav .nav-links a:hover { color: var(--accent-cyan); }
+.site-nav .nav-links a.active { color: var(--accent-purple); font-weight: 700; }
+
+@media (max-width: 768px) {
+  .site-nav .nav-links { display: none; }
+}
+
+/* ── SHARED FOOTER ── */
+.site-footer {
+  background: #020617;
+  border-top: 1px solid var(--border);
+  padding: 3rem 2rem;
+  text-align: center;
+}
+.site-footer .footer-social {
+  display: flex; gap: 1.5rem; justify-content: center; margin-bottom: 1.5rem;
+}
+.site-footer .footer-social a {
+  color: var(--silver);
+  display: inline-flex;
+  transition: color 0.2s;
+}
+.site-footer .footer-social a:hover { color: var(--accent-purple); }
+.site-footer .footer-copy {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+/* ── SHARED BUTTON ── */
+.btn-cyber {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1.8rem;
+  background: transparent;
+  border: 1px solid rgba(168, 85, 247, 0.5);
+  border-radius: 6px;
+  text-decoration: none;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  transition: border-color 0.25s, color 0.25s, box-shadow 0.25s;
+}
+.btn-cyber:hover {
+  border-color: var(--accent-purple);
+  color: var(--accent-purple);
+  box-shadow: 0 0 24px rgba(168, 85, 247, 0.2);
+}
+
+/* ── SHARED PAGE HEADER SPACING ── */
+.page-top-spacer { height: 70px; }
+</content>

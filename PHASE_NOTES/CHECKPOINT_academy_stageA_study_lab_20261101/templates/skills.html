@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dharshan Keba — Curriculum Vitae</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="stylesheet" href="../static/css/theme.css">
+    
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+    <style>
+        :root {
+            --bg-base: #030712;
+            --bg-panel: #0b0f19;
+            --accent-purple: #a855f7;
+            --accent-blue: #0ea5e9;
+            --accent-cyan: #06b6d4;
+            --text-muted: #64748b;
+            --text-light: #f8fafc;
+            --border: #1e293b;
+            --border-glow: rgba(168, 85, 247, 0.15);
+        }
+
+        body#cv-hub {
+            background-color: var(--bg-base) !important;
+            color: var(--text-light) !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 72px 0 0;
+        }
+
+
+        /* Navigation Header Override */
+        .header {
+            background: #0b0f19 !important;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* CV title and future download action. */
+        body#cv-hub .cv-page-header {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+            align-items: center;
+            gap: 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 0;
+        }
+        body#cv-hub .cv-page-title {
+            grid-column: 2;
+            margin: 0;
+            color: var(--text-light);
+            font-family: monospace;
+            font-size: clamp(1.35rem, 2.5vw, 2rem);
+            font-weight: 600;
+            line-height: 1.25;
+            text-align: center;
+        }
+        body#cv-hub .cv-download {
+            grid-column: 3;
+            justify-self: end;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            border-radius: 6px;
+            background: var(--accent-purple);
+            color: white;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            line-height: 1.4;
+            white-space: nowrap;
+        }
+        body#cv-hub .cv-download:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+        body#cv-hub .cv-download svg { width: 1rem; height: 1rem; }
+        body#cv-hub .dashboard-grid > div,
+        body#cv-hub .dashboard-grid > aside { min-width: 0; }
+        @media (max-width: 900px) {
+            body#cv-hub .dashboard-grid { grid-template-columns: minmax(0, 1fr); }
+            body#cv-hub .item-header { flex-wrap: wrap; gap: 0.75rem; }
+        }
+        @media (max-width: 640px) {
+            body#cv-hub .cv-page-header { grid-template-columns: minmax(0, 1fr); padding-top: 1.5rem; }
+            body#cv-hub .cv-page-title,
+            body#cv-hub .cv-download { grid-column: 1; }
+        }
+
+        /* Master Dashboard Container Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Tactical Panel Glassmorphism Boxes */
+        .cyber-panel {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .cyber-panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 2px;
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue));
+        }
+
+        .panel-title {
+            font-family: monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.95rem;
+            color: var(--accent-purple);
+            margin-bottom: 1.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.6rem;
+        }
+
+        /* Timeline Structural Nodes */
+        .timeline-container {
+            position: relative;
+            padding-left: 1.5rem;
+            border-left: 2px solid #1e293b;
+            margin-left: 0.5rem;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+        }
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -29px;
+            top: 4px;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            border: 4px solid var(--bg-panel);
+            box-shadow: 0 0 8px var(--accent-cyan);
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+        .institution-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin: 0;
+        }
+        .degree-subtitle {
+            font-size: 0.95rem;
+            color: var(--accent-blue);
+            font-family: monospace;
+            margin: 0.2rem 0 0.5rem 0;
+        }
+        .timeline-date {
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            background: #020617;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+
+        /* Sub-bullet listings mapping resume content */
+        .history-details {
+            padding-left: 1.2rem;
+            margin: 0;
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .history-details li {
+            margin-bottom: 0.5rem;
+        }
+        .history-details strong {
+            color: var(--text-light);
+        }
+
+        /* Inline Data Blocks Right Side */
+        .skill-group {
+            margin-bottom: 1.75rem;
+        }
+        .skill-group:last-child {
+            margin-bottom: 0;
+        }
+        .skill-label {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .tech-tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .tech-tag {
+            background: #020617;
+            color: var(--accent-cyan);
+            border: 1px solid var(--border);
+            padding: 0.25rem 0.65rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body id="cv-hub">
+
+    <nav class="site-nav">
+  <div class="nav-brand">Dharshan Keba</div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="skills.html" class="active">CV</a></li>
+    <li><a href="research.html">Research</a></li>
+    <li><a href="publications.html">Publications</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+    <header class="cv-page-header">
+        <h1 class="cv-page-title">Curriculum Vitae</h1>
+        <button class="cv-download" type="button" disabled aria-label="Download CV (coming soon)" title="CV download will be added later">
+            <i data-lucide="download" aria-hidden="true"></i>
+            <span>Download CV</span>
+        </button>
+    </header>
+
+    <div class="dashboard-grid">
+        
+        <div style="display: flex; flex-direction: column; gap: 2rem;">
+            
+            <main class="cyber-panel">
+                <div class="panel-title"><i data-lucide="graduation-cap"></i> Academic Foundation Timeline</div>
+                
+                <div class="timeline-container">
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="item-header">
+                            <div>
+                                <h3 class="institution-title">University of Dundee</h3>
+                                <div class="degree-subtitle">Master of Science in Biomedical Engineering</div>
+                            </div>
+                            <span class="timeline-date">Sep 2024 - Sep 2025</span>
+                        </div>
+                        <ul class="history-details">
+                            <li>Completed comprehensive advanced specialization coursework in <strong>Medical Device Quality Management Systems</strong>, <strong>Bioinstrumentation</strong>, <strong>Medical Robotics</strong>, and <strong>Operating Room Technology</strong>.</li>
+                            <li>Executed master's level research thesis dissertation engineering an <strong>Open-source Hardware and Software Control Platform for Medical Robotics</strong> using standardized processing components.</li>
+                            <li>Acquired advanced software modeling competencies designing functional <strong>Heart Valve Simulations inside ANSYS</strong> alongside responsive multi-part <strong>Boneplate and Hip Joint Assemblies inside SolidWorks</strong>.</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="item-header">
+                            <div>
+                                <h3 class="institution-title">Jerusalem College of Engineering</h3>
+                                <div class="degree-subtitle">Bachelor of Engineering in Biomedical Engineering</div>
+                            </div>
+                            <span class="timeline-date">Jun 2018 - Jun 2022</span>
+                        </div>
+                        <ul class="history-details">
+                            <li>Developed high-impact core graduation dissertation designing and launching an <strong>Automated Anesthesia Machine featuring integrated real-time patient vital signal monitoring pipelines</strong>.</li>
+                            <li>Built sound foundational pillars across operational medical metrics through dedicated coursework targets exploring global <strong>Hospital Management architectures</strong>.</li>
+                            <li>Pioneered core algorithmic engineering applications using targeted Python libraries while mastering complex mathematical concepts including <strong>Differential equations, Integral calculus, and Vector matrices</strong>.</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </main>
+
+            <section class="cyber-panel">
+                <div class="panel-title"><i data-lucide="briefcase"></i> Clinical & Engineering Experience</div>
+                
+                <div class="timeline-container">
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot" style="background: var(--accent-purple); box-shadow: 0 0 8px var(--accent-purple);"></div>
+                        <div class="item-header">
+                            <div>
+                                <h3 class="institution-title">Deepam Hospitals</h3>
+                                <div class="degree-subtitle">Clinical Intern & Healthcare Volunteer</div>
+                            </div>
+                            <span class="timeline-date">Jun 2020 - Aug 2020</span>
+                        </div>
+                        <ul class="history-details">
+                            <li>Acquired deep domain methodologies in applied healthcare ecosystems, mastering the critical <strong>essentials of Clinical Engineering</strong> within high-velocity clinical test theaters.</li>
+                            <li>Authorized with key cross-functional duties managing and implementing <strong>daily diagnostic walkthrough sequences</strong> and technical inspection rounds across a suite of live medical devices.</li>
+                            <li>Trained directly under specialized medical staff troubleshooting on-site equipment, bridging the technical gap between engineering development arrays and critical patient-centric safety standards.</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+
+        <aside style="display: flex; flex-direction: column; gap: 2rem;">
+            
+            <div class="cyber-panel">
+                <div class="panel-title"><i data-lucide="cpu"></i> Software & Core Competencies</div>
+                
+                <div class="skill-group">
+                    <span class="skill-label">Programming Core Languages</span>
+                    <div class="tech-tags-container">
+                        <span class="tech-tag" style="color: var(--accent-purple);">Python</span>
+                        <span class="tech-tag">MySQL</span>
+                        <span class="tech-tag">Java</span>
+                        <span class="tech-tag">C++</span>
+                        <span class="tech-tag">MATLAB</span>
+                        <span class="tech-tag">R Script</span>
+                        <span class="tech-tag">HTML / CSS</span>
+                    </div>
+                </div>
+
+                <div class="skill-group">
+                    <span class="skill-label">Frameworks & Analytical Packages</span>
+                    <div class="tech-tags-container">
+                        <span class="tech-tag">NumPy</span>
+                        <span class="tech-tag">SciPy</span>
+                        <span class="tech-tag">Matplotlib</span>
+                        <span class="tech-tag">Django</span>
+                        <span class="tech-tag">Flask</span>
+                        <span class="tech-tag">React.js</span>
+                        <span class="tech-tag">Node.js</span>
+                    </div>
+                </div>
+
+                <div class="skill-group">
+                    <span class="skill-label">Engineering Design & Simulation Modeling</span>
+                    <div class="tech-tags-container">
+                        <span class="tech-tag" style="color: var(--accent-blue);">SolidWorks</span>
+                        <span class="tech-tag" style="color: var(--accent-blue);">ANSYS</span>
+                        <span class="tech-tag">Arduino IDE</span>
+                        <span class="tech-tag">PyCharm</span>
+                        <span class="tech-tag">Jupyter</span>
+                    </div>
+                </div>
+
+                <div class="skill-group">
+                    <span class="skill-label">Mathematical Optimization Architecture</span>
+                    <div class="tech-tags-container">
+                        <span class="tech-tag">Linear Algebra</span>
+                        <span class="tech-tag">Vector Calculus</span>
+                        <span class="tech-tag">Neural Networks</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cyber-panel">
+                <div class="panel-title"><i data-lucide="award"></i> Verified Credentials</div>
+                
+                <ul class="history-details" style="padding-left: 0; list-style: none;">
+                    <li style="margin-bottom: 1.25rem; border-left: 3px solid var(--accent-blue); padding-left: 0.75rem;">
+                        <strong style="color: var(--text-light); font-size: 0.9rem; block; display: block;">Certified Biomedical Equipment Technician (CBET)</strong>
+                        <span style="font-size: 0.8rem; color: var(--text-muted); font-family: monospace;">Atheenapandian Private Limited — India's Premier Industry Center</span>
+                    </li>
+                    <li style="margin-bottom: 1.25rem; border-left: 3px solid var(--accent-blue); padding-left: 0.75rem;">
+                        <strong style="color: var(--text-light); font-size: 0.9rem; block; display: block;">Mathematics for Machine Learning Specialization</strong>
+                        <span style="font-size: 0.8rem; color: var(--accent-purple); font-family: monospace;">Imperial College London — Coursera Verified Academic Specialization</span>
+                    </li>
+                    <li style="margin-bottom: 1.25rem; border-left: 3px solid var(--accent-blue); padding-left: 0.75rem;">
+                        <strong style="color: var(--text-light); font-size: 0.9rem; block; display: block;">Python for Everybody Specialization Blueprint</strong>
+                        <span style="font-size: 0.8rem; color: var(--text-purple); font-family: monospace;">University of Michigan — Coursera verified Core Logic Matrix Development</span>
+                    </li>
+                    <li style="margin-bottom: 0; border-left: 3px solid var(--accent-purple); padding-left: 0.75rem;">
+                        <strong style="color: var(--text-light); font-size: 0.9rem; block; display: block;">7-Day Medical Equipment Servicing Industrial Certification</strong>
+                        <span style="font-size: 0.8rem; color: var(--text-muted); font-family: monospace;">AMS Solutions Private Limited — Intensive Equipment Calibration Testing Workshop</span>
+                    </li>
+                </ul>
+            </div>
+
+        </aside>
+
+    </div>
+
+    <footer class="site-footer">
+  <div class="footer-social">
+    <a href="https://github.com/Dharshan212" target="_blank" aria-label="GitHub">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/dharshan-keba-432512168/" target="_blank" aria-label="LinkedIn">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+    </a>
+    <a href="https://www.researchgate.net/profile/Dharshan-Keba-Morris/research" target="_blank" aria-label="ResearchGate">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.58 3.012c-2.31 0-4.402 1.226-5.59 3.092a6.974 6.974 0 0 0-5.59-3.092C3.84 3.012 0 6.846 0 11.586c0 4.74 3.84 8.574 8.4 8.574 2.31 0 4.402-1.226 5.59-3.092a6.974 6.974 0 0 0 5.59 3.092c4.56 0 8.4-3.834 8.4-8.574 0-4.74-3.84-8.574-8.4-8.574zm-11.18 14.18c-3.1 0-5.61-2.507-5.61-5.606 0-3.099 2.51-5.606 5.61-5.606 3.1 0 5.61 2.507 5.61 5.606 0 3.099-2.51 5.606-5.61 5.606zm11.18 0c-3.1 0-5.61-2.507-5.61-5.606 0-3.099 2.51-5.606 5.61-5.606 3.1 0 5.61 2.507 5.61 5.606 0 3.099-2.51 5.606-5.61 5.606z"/></svg>
+    </a>
+    <a href="https://www.youtube.com/@dharshan079" target="_blank" aria-label="YouTube">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+    </a>
+  </div>
+  <p class="footer-copy">&copy; 2026 Dharshan Keba. All rights reserved.</p>
+</footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

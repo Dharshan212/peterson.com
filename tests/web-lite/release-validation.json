@@ -1,0 +1,284 @@
+{
+  "release": "MYELIN Web Lite v1",
+  "validatedUTC": "2026-10-01T23:01:43.318868+00:00",
+  "implementationStatus": "COMPLETE",
+  "deployed": false,
+  "coreSourceModified": false,
+  "coreIntegrity": {
+    "compared_files": 531,
+    "changed_added_deleted": [],
+    "unchanged": true,
+    "cache_exclusion": "__pycache__"
+  },
+  "technology": "Plain HTML/CSS/JavaScript ES modules; no runtime package dependency",
+  "deterministicTests": {
+    "passed": 30,
+    "failed": 0,
+    "runner": "node --test tests/web-lite/organ-contracts.test.mjs"
+  },
+  "browserAcceptance": {
+    "passed": 31,
+    "failed": 0,
+    "environment": "Windows Chrome 154 / Playwright; dist served with release security headers",
+    "checks": [
+      {
+        "name": "Browser startup and real IndexedDB",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "SINE → MIRL supported recovery",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "MIRL relapse",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "Normal Break → same SINE resume",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "MINE branch A, platform switch and final return",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "MINE branch B allowance",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "COSINE return intention",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "COSINE committed break, hopper and callback",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "Study start/pause/resume and safe subject",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "SECANT qualification, relapse and recovery",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "SECANT → COSECANT overdue/final and exact-resource return",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "Study completion",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "Bounded experiment → finalized Chapter 5",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "Metric Hub accepted-evidence consistency",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "GET CHART poster and JPG",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "Six report PDFs and dashboard snapshot agreement",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "Academy isolated runtime and restored local history",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "Academy SECANT bindings and no timeout-success",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "Academy finalized package cannot leak into ordinary Science Lab",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "Theme, keyboard pager, modal focus containment and Escape",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "Browser emergency cancels unresolved popup",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "Real IndexedDB reload marks unfinished session interrupted",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "Second tab cannot own/write a concurrent session",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "Viewport 1920×1080",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "Viewport 1366×768",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "Viewport 1280×720",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "Viewport 820×1180",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "Viewport 390×844",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "Notes, planner, report snapshot persistence and full local export",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "Explicit local deletion survives reload",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "No page errors, external requests or telemetry",
+        "status": "PASS",
+        "detail": ""
+      }
+    ],
+    "pageErrors": [],
+    "externalNetworkRequests": 0
+  },
+  "requestedAcceptanceScenarios": {
+    "passed": 24,
+    "failed": 0,
+    "mapping": "tests/web-lite/README.md",
+    "visibilityEvidenceTest": "Injected unavailable/hidden evidence contract; browser visibility adapter uses the same authority"
+  },
+  "reports": {
+    "MIRL": "PASS",
+    "MINE": "PASS",
+    "COSINE": "PASS",
+    "Study Recovery": "PASS",
+    "Science Lab Lite": "PASS",
+    "Metric Hub": "PASS",
+    "delivery": "Browser print / Save as PDF",
+    "visualQA": "Six report types, 25 total pages rendered and inspected; readable tables and repeated headings"
+  },
+  "poster": {
+    "preview": "PASS",
+    "JPG": "PASS",
+    "print": "PASS",
+    "format": "Single-page A3 landscape; unique SVG paint IDs in print clone"
+  },
+  "staticBuild": {
+    "output": "C:\\Users\\Dharshan\\Downloads\\Peterson.com\\dist",
+    "fileCount": 26,
+    "allowlist": "PASS",
+    "sourceOutputAgreement": "PASS",
+    "inlineScriptAndHandlerCheck": "PASS",
+    "files": {
+      "_headers": "c4e3c5df7e7c24fc7a31ac9495cdf0416c1464b6b19c364cc556b404ad83c561",
+      "assets/myelin/academy.js": "e28119c692822c661bc3570e954580d78a334a0310555d3ec5f8dbd70566bc08",
+      "assets/myelin/app.js": "a5c29e1783dca4af4bcd40cd6e9948252f19818d1f24a1e7e85c68850d961f2c",
+      "assets/myelin/dom.js": "7863da3095947c7e53e099346c430a23af3b7bdf28e55d1f0f49dcee8d30ccd1",
+      "assets/myelin/events.js": "1ad3068129a51504e0ce76844ddf8870602364a0d366b9658fc20051e8d65871",
+      "assets/myelin/mascot.js": "a6b3ef6b6118279265ef2cfc405d918c3250a2d332e0c9e12231a0c679b14925",
+      "assets/myelin/organs/cosecant.js": "7bb3920e94938e528486d5490e91a737c7149530f12886328bd1852f8e11b660",
+      "assets/myelin/organs/cosine.js": "40a2bfc8117dc24fb5305a1f2d404c49feb2d931c46d795d61a9d28b10b17de6",
+      "assets/myelin/organs/mine.js": "805cd72359bc1ee30e72b256601306c8d7399faa37427b329d408f29f0805d11",
+      "assets/myelin/organs/mirl.js": "ed42855258684362f713e56fe672168ca8fa355ed1c87b7c0d7c8bab2db8899b",
+      "assets/myelin/organs/normal-break.js": "0aef66a908a82c9d5f012a04310d5ecf6b91941e5f5507fbb6c5f885416f1f79",
+      "assets/myelin/organs/secant.js": "ace8b50bd8217f84bd07a52d06414510f76b4e2a9b1496a059f0651e60fc60e3",
+      "assets/myelin/organs/shared.js": "eb1d4cc532feefa25891617e2b395245db8afa610f06327fdf05e7c502c8d736",
+      "assets/myelin/organs/sine.js": "a9a10d5cc67a509f89243e6d7477790b7772439ba1b46efa24d31631a4bbf118",
+      "assets/myelin/organs/study.js": "66fe7791477318dbe04e30e38810c98d9dc3a344d183956b3ae20d587f332baa",
+      "assets/myelin/poster.js": "7ec0e96e70427c82b34a37e9e79c98cf77b2be81bf0e1266b7a63a27a663d887",
+      "assets/myelin/projections.js": "ddeae12a35d2eec33bb7d5dd4914b58ec432a6ac92f5b0ecc6ad2d282c85af95",
+      "assets/myelin/reports.css": "09eb24f9243bd6dcddd55598ad5f721bbd6ea62af47e573fda25a625931cc5c2",
+      "assets/myelin/reports.js": "9a3a1248798edee999234ed0940102c9ec6aeef741634f5527d5955310b09ac7",
+      "assets/myelin/runtime.js": "8fe54c767014d779ca5cbcd8fc2627e03faa61b4c7424a6d521a59d742d83ce4",
+      "assets/myelin/simulator.js": "66154c5fe9704cf6592a93ce14ceb9831cd8716504312140edd3292ef7737d2b",
+      "assets/myelin/storage.js": "535a872776e209efe1b0bed191595670a62b9115964eaeda7b1c450f49a481d0",
+      "assets/myelin/ui.js": "f22584e35600147112afa5a3b90d12bae9511394eb3eeeab79f5bf5bfec91555",
+      "assets/myelin/web-lite.css": "64dd64f85f279057b9d1797e02f42f54fc616b2fba1d980243ed590e894803e9",
+      "index.html": "b5b2f1e3181b8dccafcd9402cb56a0bae683dcde953d911d99a0fef46e82e33d",
+      "myelin_web_sample.html": "b5b2f1e3181b8dccafcd9402cb56a0bae683dcde953d911d99a0fef46e82e33d"
+    }
+  },
+  "limitations": [
+    "In-app simulation, not external app monitoring or biological evidence",
+    "Origin-specific browser storage; no cloud sync/backup",
+    "Planner is a manual dated preparation list",
+    "Reports use browser print, no direct PDF library",
+    "No service worker/offline guarantee, desktop history import or intro video",
+    "Representative Chrome viewport QA, not every browser/device"
+  ],
+  "filesChanged": [
+    "templates/myelin_web_sample.html"
+  ],
+  "filesCreated": [
+    "netlify.toml",
+    "scripts/build-static.mjs",
+    "templates/_headers",
+    "templates/assets/myelin/academy.js",
+    "templates/assets/myelin/app.js",
+    "templates/assets/myelin/dom.js",
+    "templates/assets/myelin/events.js",
+    "templates/assets/myelin/mascot.js",
+    "templates/assets/myelin/organs/cosecant.js",
+    "templates/assets/myelin/organs/cosine.js",
+    "templates/assets/myelin/organs/mine.js",
+    "templates/assets/myelin/organs/mirl.js",
+    "templates/assets/myelin/organs/normal-break.js",
+    "templates/assets/myelin/organs/secant.js",
+    "templates/assets/myelin/organs/shared.js",
+    "templates/assets/myelin/organs/sine.js",
+    "templates/assets/myelin/organs/study.js",
+    "templates/assets/myelin/poster.js",
+    "templates/assets/myelin/projections.js",
+    "templates/assets/myelin/reports.css",
+    "templates/assets/myelin/reports.js",
+    "templates/assets/myelin/runtime.js",
+    "templates/assets/myelin/simulator.js",
+    "templates/assets/myelin/storage.js",
+    "templates/assets/myelin/ui.js",
+    "templates/assets/myelin/web-lite.css",
+    "tests/web-lite/browser-acceptance.cjs",
+    "tests/web-lite/organ-contracts.test.mjs",
+    "tests/web-lite/README.md",
+    "tests/web-lite/release-validation.json"
+  ],
+  "finalAction": "STOP — WAIT FOR CHIEF"
+}

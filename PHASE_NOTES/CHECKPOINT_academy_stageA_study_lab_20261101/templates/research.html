@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dharshan Keba — Research Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&family=Crimson+Pro:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../static/css/theme.css">
+<style>
+/* ─── NATIVE RESET & UNIFIED DARK PURPLE BASE ──────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink:      #0a0e2a;
+  --deep:     #0d1535;
+  --card:     #0f1240;
+  --border:   #1e2a5a;
+  --muted:    #334155;
+  --slate:    #64748b;
+  --silver:   #94a3b8;
+  --cloud:    #cbd5e1;
+  --white:    #f1f5f9;
+  --violet:   #7c3aed;
+  --indigo:   #6366f1;
+  --lavender: #818cf8;
+  --lilac:    #a78bfa;
+  --pink:     #c084fc;
+  --rose:     #f472b6;
+  --teal:     #34d399;
+  --blue:     #60a5fa;
+  --accent1:  #4f46e5;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink) !important; /* Forces entire viewport to remain deep purple */
+  color: var(--cloud) !important;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ─── NAVIGATION: see theme.css (.site-nav) ───────────────── */
+
+/* ─── HERO CONTAINER ───────────────────────────────────────── */
+.hero-wrap {
+  position: relative;
+  width: 100%;
+  padding-top: 70px; /* nav layout headroom offset */
+  background: linear-gradient(135deg, #0a0e2a 0%, #12164a 40%, #1a0a3e 70%, #0d1535 100%);
+  overflow: hidden;
+  border-bottom: 1px solid rgba(138,92,246,0.2);
+}
+.hero-wrap svg { display: block; width: 100%; height: auto; }
+.hero-fade {
+  position: absolute; bottom: 0; left: 0; width: 100%; height: 80px;
+  background: linear-gradient(to bottom, transparent, var(--ink));
+  pointer-events: none;
+}
+
+/* ─── VECTOR ANIMATION ENGINE KEYFRAMES ───────────────────── */
+@keyframes waveScroll { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -600; } }
+.eeg-wave  { animation: waveScroll 3.2s linear infinite; }
+.ecg-wave  { animation: waveScroll 2.8s linear infinite; }
+.emg-wave  { animation: waveScroll 1.8s linear infinite; }
+
+@keyframes pulseRing { 0% { r: 72; opacity: .7; } 100% { r: 112; opacity: 0; } }
+.pulse-ring  { animation: pulseRing 2.4s ease-out infinite; }
+.pulse-ring2 { animation: pulseRing 2.4s ease-out .8s infinite; }
+.pulse-ring3 { animation: pulseRing 2.4s ease-out 1.6s infinite; }
+
+@keyframes spinMesh { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.spin-mesh { transform-origin: 980px 200px; animation: spinMesh 18s linear infinite; }
+
+@keyframes barGrow { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(1.12); } }
+.bar-a { transform-origin: bottom; animation: barGrow 2.1s ease-in-out infinite; }
+.bar-b { transform-origin: bottom; animation: barGrow 2.1s ease-in-out .35s infinite; }
+.bar-c { transform-origin: bottom; animation: barGrow 2.1s ease-in-out .7s infinite; }
+
+@keyframes drawLine { from { stroke-dashoffset: 300; } to { stroke-dashoffset: 0; } }
+.perf-line { stroke-dasharray: 300; animation: drawLine 3s ease-out forwards; }
+
+@keyframes spinRing { from { stroke-dashoffset: 220; } to { stroke-dashoffset: 60; } }
+.sig-arc { stroke-dasharray: 220; stroke-dashoffset: 220; animation: spinRing 2s ease-out 0.5s forwards; }
+
+@keyframes floatNode { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.float-node  { animation: floatNode 3.5s ease-in-out infinite; }
+.float-node2 { animation: floatNode 4s ease-in-out .6s infinite; }
+.float-node3 { animation: floatNode 3.2s ease-in-out 1.2s infinite; }
+
+@keyframes subtitleReveal { from { opacity: 0; letter-spacing: .6em; } to { opacity: 1; letter-spacing: .25em; } }
+.hero-subtitle-text { animation: subtitleReveal 1.8s ease-out .3s both; }
+
+@keyframes magnifyBob { 0%,100%{transform:translate(0,0) rotate(-8deg)} 50%{transform:translate(-4px,-6px) rotate(-10deg)} }
+.magnify-glass { animation: magnifyBob 3s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) { .hero-symbol { animation: none; } }
+
+/* ─── CONTENT BLOCKS ──────────────────────────────────────── */
+main { padding: 4rem 0 0; background: var(--ink); }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+
+.section-eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pink);
+  margin-bottom: 0.6rem;
+}
+.section-title {
+  font-family: 'Crimson Pro', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+.section-desc {
+  font-size: 1rem;
+  color: var(--silver);
+  max-width: 620px;
+  margin-bottom: 2.5rem;
+  line-height: 1.7;
+}
+
+/* ─── LIVE INTERACTIVE FILTER PILLS ───────────────────────── */
+.filter-bar {
+  display: flex; gap: 0.5rem; flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+.filter-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.5rem 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  background: transparent;
+  color: var(--silver);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filter-btn:hover { border-color: var(--lavender); color: var(--lavender); }
+.filter-btn.active {
+  background: var(--violet);
+  border-color: var(--violet);
+  color: #fff;
+}
+
+/* ─── CASE STUDY CARD STRUCTURES ──────────────────────────── */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 5rem;
+}
+.project-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+  position: relative;
+}
+.project-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--violet), var(--pink));
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.3s;
+}
+.project-card:hover { transform: translateY(-4px); border-color: rgba(124,58,237,0.4); box-shadow: 0 12px 40px rgba(124,58,237,0.15); }
+.project-card:hover::before { transform: scaleX(1); }
+
+.card-header { padding: 1.4rem 1.4rem 0; display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.card-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.2rem; }
+.card-meta { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.tag { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.25rem 0.6rem; border-radius: 100px; border: 1px solid; }
+.tag-published { color: var(--teal); border-color: rgba(52,211,153,0.3); background: rgba(52,211,153,0.06); }
+.tag-progress  { color: var(--blue); border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.06); }
+.tag-planning  { color: var(--lilac); border-color: rgba(167,139,250,0.3); background: rgba(167,139,250,0.06); }
+
+.card-body { padding: 1rem 1.4rem 1.4rem; }
+.card-title { font-family: 'Crimson Pro', serif; font-size: 1.15rem; font-weight: 600; color: var(--white); line-height: 1.35; margin-bottom: 0.6rem; }
+.card-desc { font-size: 0.85rem; color: var(--silver); line-height: 1.6; margin-bottom: 1rem; }
+.card-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+.topic-tag { font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 4px; background: rgba(99,102,241,0.12); color: var(--lavender); font-family: 'Space Mono', monospace; }
+
+.card-footer { padding: 0.8rem 1.4rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.card-author { font-size: 0.75rem; color: var(--slate); }
+.card-link { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--lavender); text-decoration: none; display: flex; align-items: center; gap: 0.3rem; transition: color 0.2s; }
+.card-link:hover { color: var(--pink); }
+
+.progress-bar { height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; margin-bottom: 0.8rem; }
+.progress-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--violet), var(--pink)); transition: width 0.8s ease; }
+.progress-label { font-size: 0.7rem; color: var(--slate); margin-bottom: 0.4rem; display: flex; justify-content: space-between; }
+
+/* ─── RESEARCH DOMAIN CARD MATRIX ─────────────────────────── */
+.areas-section { padding: 4rem 0; background: linear-gradient(180deg, var(--ink) 0%, #0c1030 100%); }
+.areas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
+.area-card { padding: 2rem; border: 1px solid var(--border); border-radius: 14px; background: var(--card); position: relative; overflow: hidden; transition: border-color 0.25s, box-shadow 0.25s; }
+.area-card:hover { border-color: rgba(124,58,237,0.35); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+.area-icon { font-size: 2rem; margin-bottom: 1rem; }
+.area-title { font-family: 'Crimson Pro', serif; font-size: 1.2rem; font-weight: 600; color: var(--white); margin-bottom: 0.5rem; }
+.area-desc { font-size: 0.83rem; color: var(--silver); line-height: 1.65; }
+
+/* ─── BANNER INTERACTIVES ─────────────────────────────────── */
+.collab-banner { margin: 4rem 0; padding: 3rem; border: 1px solid rgba(124,58,237,0.25); border-radius: 16px; background: linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(192,132,252,0.05) 100%); text-align: center; position: relative; }
+.collab-title { font-family: 'Crimson Pro', serif; font-size: 1.8rem; font-weight: 600; color: var(--white); margin-bottom: 0.8rem; }
+.collab-desc { color: var(--silver); margin-bottom: 1.5rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+.cta-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 2rem; background: linear-gradient(135deg, var(--violet), var(--indigo)); color: #fff; border: none; border-radius: 100px; font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
+.cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,58,237,0.4); }
+
+/* ─── FOOTER: see theme.css (.site-footer) ────────────────── */
+
+/* Dynamic Animations Layer Transitions */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+@media (max-width: 768px) {
+  .areas-grid { grid-template-columns: 1fr; }
+  .projects-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-brand">Dharshan Keba</div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="skills.html">CV</a></li>
+    <li><a href="research.html" class="active">Research</a></li>
+    <li><a href="publications.html">Publications</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+<div class="hero-wrap">
+  <svg viewBox="0 0 1280 520" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+    <defs>
+      <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%"   stop-color="#0a0e2a"/>
+        <stop offset="40%"  stop-color="#12164a"/>
+        <stop offset="70%"  stop-color="#1a0a3e"/>
+        <stop offset="100%" stop-color="#0d1535"/>
+      </linearGradient>
+      <radialGradient id="brainGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%"   stop-color="#c084fc" stop-opacity="0.4"/>
+        <stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/>
+      </radialGradient>
+      <filter id="glow">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <linearGradient id="sigArcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%"   stop-color="#7c3aed"/>
+        <stop offset="100%" stop-color="#c084fc"/>
+      </linearGradient>
+      <clipPath id="waveClip"><rect x="20" y="0" width="240" height="200"/></clipPath>
+    </defs>
+
+    <rect width="1280" height="520" fill="url(#bgGrad)"/>
+
+    <g opacity="0.06" stroke="#818cf8" stroke-width="0.5" fill="none">
+      <path d="M50,0 L100,28 L100,86 L50,114 L0,86 L0,28 Z" transform="translate(0,0)"/>
+      <path d="M50,0 L100,28 L100,86 L50,114 L0,86 L0,28 Z" transform="translate(100,0)"/>
+      <path d="M50,0 L100,28 L100,86 L50,114 L0,86 L0,28 Z" transform="translate(200,0)"/>
+      <path d="M50,0 L100,28 L100,86 L50,114 L0,86 L0,28 Z" transform="translate(0,114)"/>
+      <path d="M50,0 L100,28 L100,86 L50,114 L0,86 L0,28 Z" transform="translate(100,114)"/>
+      <path d="M50,0 L100,28 L100,86 L50,114 L0,86 L0,28 Z" transform="translate(900,0)"/>
+      <path d="M50,0 L100,28 L100,86 L50,114 L0,86 L0,28 Z" transform="translate(1000,0)"/>
+      <path d="M50,0 L100,28 L100,86 L50,114 L0,86 L0,28 Z" transform="translate(1100,0)"/>
+    </g>
+
+    <g class="spin-mesh" opacity="0.28">
+      <line x1="980" y1="200" x2="1050" y2="130" stroke="#a78bfa" stroke-width="0.8"/>
+      <line x1="980" y1="200" x2="1120" y2="165" stroke="#a78bfa" stroke-width="0.8"/>
+      <line x1="980" y1="200" x2="1090" y2="250" stroke="#a78bfa" stroke-width="0.8"/>
+      <line x1="980" y1="200" x2="920"  y2="140" stroke="#a78bfa" stroke-width="0.8"/>
+      <line x1="980" y1="200" x2="900"  y2="260" stroke="#a78bfa" stroke-width="0.8"/>
+      <line x1="1050" y1="130" x2="1120" y2="165" stroke="#7c3aed" stroke-width="0.6"/>
+      <line x1="920"  y1="140" x2="1050" y2="130" stroke="#7c3aed" stroke-width="0.6"/>
+      <line x1="900"  y1="260" x2="1090" y2="250" stroke="#7c3aed" stroke-width="0.6"/>
+      <circle cx="980"  cy="200" r="4" fill="#c084fc"/>
+      <circle cx="1050" cy="130" r="3" fill="#a78bfa"/>
+      <circle cx="1120" cy="165" r="3" fill="#a78bfa"/>
+      <circle cx="1090" cy="250" r="3" fill="#a78bfa"/>
+      <circle cx="920"  cy="140" r="3" fill="#a78bfa"/>
+      <circle cx="900"  cy="260" r="3" fill="#a78bfa"/>
+    </g>
+
+    <g opacity="0.15">
+      <path d="M300,260 L380,260 L400,220 L420,300 L440,200 L460,320 L480,260 L650,260"
+            fill="none" stroke="#c084fc" stroke-width="1.5" stroke-dasharray="600" class="ecg-wave"/>
+    </g>
+
+    <text x="52" y="112" font-family="'Segoe UI', sans-serif" font-size="56" font-weight="900" fill="white" letter-spacing="-1" filter="url(#glow)">Biomedical Engineering</text>
+    <text x="52" y="165" font-family="'Segoe UI', sans-serif" font-size="36" font-weight="700" fill="white" letter-spacing="1">RESEARCH &amp; PROJECTS</text>
+    <rect x="52" y="178" width="240" height="3" rx="1.5" fill="url(#sigArcGrad)"></rect>
+    <text x="53" y="210" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="400" fill="#a78bfa" letter-spacing="6" class="hero-subtitle-text">INNOVATE. ENGINEER. IMPACT.</text>
+
+    <g transform="translate(20, 240)">
+      <rect x="0" y="0" width="255" height="175" rx="10" fill="#0f1240" fill-opacity="0.88" stroke="#3730a3" stroke-width="1"/>
+      <text x="14" y="22" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#818cf8" letter-spacing="2">BIO-SIGNALS</text>
+      <text x="14" y="52" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">EEG</text>
+      <g clip-path="url(#waveClip)">
+        <path d="M48,50 L56,44 L60,56 L64,42 L68,58 L72,44 L76,52 L82,44 L86,58 L90,44 L94,52 L100,44 L104,56 L108,42 L112,52 L116,44 L120,58 L124,44 L128,52 L134,44 L138,58 L142,42 L146,52 L150,46 L154,54 L160,46 L164,56 L168,44 L172,52 L178,44 L182,58 L186,44 L190,52 L196,44 L200,56 L204,42 L208,52 L214,46 L218,58 L222,44 L226,52 L232,46 L240,52 L246,44 L252,56" fill="none" stroke="#60a5fa" stroke-width="1.4" stroke-dasharray="600" class="eeg-wave" transform="translate(-6,0)"/>
+      </g>
+      <text x="14" y="94" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">ECG</text>
+      <path d="M48,92 L70,92 L76,78 L82,106 L88,68 L94,116 L100,92 L130,92 L136,78 L142,106 L148,68 L154,116 L160,92 L190,92 L196,78 L202,106 L208,68 L214,116 L220,92 L252,92" fill="none" stroke="#f472b6" stroke-width="1.4" stroke-dasharray="600" class="ecg-wave" clip-path="url(#waveClip)"/>
+      <text x="14" y="136" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">EMG</text>
+      <path d="M48,134 L54,126 L56,142 L58,122 L60,146 L62,130 L64,138 L68,132 L70,140 L72,128 L74,136 L78,130 L82,138 L86,130 L90,142 L94,126 L98,138 L102,130 L106,134 L110,128 L114,140 L118,132 L122,136 L128,128 L132,142 L136,126 L140,138 L144,132 L148,134 L154,128 L158,140 L162,132 L166,136 L170,128 L174,142 L178,134 L182,136 L188,130 L192,140 L196,134 L200,128 L204,140 L208,132 L212,136 L218,130 L222,138 L226,134 L230,128 L234,140 L238,134 L244,136 L250,134" fill="none" stroke="#34d399" stroke-width="1.2" stroke-dasharray="600" class="emg-wave" clip-path="url(#waveClip)"/>
+    </g>
+
+    <g transform="translate(750, 30)">
+      <circle cx="125" cy="130" r="130" fill="url(#brainGlow)"/>
+      <circle cx="125" cy="130" r="72" fill="none" stroke="#7c3aed" stroke-width="1.5" opacity="0.7" class="pulse-ring"/>
+      <circle cx="125" cy="130" r="72" fill="none" stroke="#7c3aed" stroke-width="1.5" opacity="0.7" class="pulse-ring2"/>
+      <g fill="none" stroke="#c084fc" stroke-width="1.8" opacity="0.9" filter="url(#glow)">
+        <path d="M125,60 C158,60 185,82 185,112 C185,130 178,144 166,152 C170,160 170,172 162,178 C154,184 142,180 135,174 C132,180 128,184 124,184 C120,184 116,180 113,174 C106,180 94,184 86,178 C78,172 78,160 82,152 C70,144 63,130 63,112 C63,82 90,60 125,60 Z"/>
+      </g>
+    </g>
+
+    <g transform="translate(360, 280)">
+      <rect x="0" y="0" width="310" height="185" rx="10" fill="#0f1240" fill-opacity="0.88" stroke="#3730a3" stroke-width="1"/>
+      <text x="14" y="24" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#e2e8f0" letter-spacing="1.5">BME ANALYTICS</text>
+      <rect x="30"  y="93"  width="18" height="60" fill="#6366f1" rx="2" class="bar-a"/>
+      <rect x="52"  y="103" width="18" height="50" fill="#8b5cf6" rx="2" class="bar-b"/>
+      <rect x="74"  y="118" width="18" height="35" fill="#a78bfa" rx="2" class="bar-c"/>
+      <rect x="120" y="78"  width="18" height="75" fill="#6366f1" rx="2" class="bar-a"/>
+      <rect x="142" y="88"  width="18" height="65" fill="#8b5cf6" rx="2" class="bar-b"/>
+      <rect x="164" y="108" width="18" height="45" fill="#a78bfa" rx="2" class="bar-c"/>
+      <line x1="18" y1="153" x2="295" y2="153" stroke="#334155" stroke-width="1"/>
+      <polyline points="30,148 64,120 154,95 244,108" fill="none" stroke="#c084fc" stroke-width="2" stroke-dasharray="300" class="perf-line" stroke-linecap="round"/>
+    </g>
+
+    <g transform="translate(1080, 50)">
+      <rect x="0" y="0" width="170" height="85" rx="8" fill="#0f1240" fill-opacity="0.9" stroke="#3730a3" stroke-width="1"/>
+      <text x="12" y="20" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="600" fill="#818cf8" letter-spacing="2">BRAIN ACTIVITY</text>
+      <path d="M12,42 L24,42 L28,32 L32,52 L36,28 L40,56 L44,42 L60,42 L64,32 L68,52 L72,28 L76,56 L80,42 L96,42 L100,32 L104,52 L108,28 L112,56 L116,42 L150,42" fill="none" stroke="#a78bfa" stroke-width="1.2" stroke-dasharray="300" class="eeg-wave"/>
+    </g>
+
+    <g transform="translate(1080, 148)">
+      <rect x="0" y="0" width="170" height="90" rx="8" fill="#0f1240" fill-opacity="0.9" stroke="#3730a3" stroke-width="1"/>
+      <circle cx="40" cy="48" r="28" fill="none" stroke="#1e2a5a" stroke-width="5"/>
+      <circle cx="40" cy="48" r="28" fill="none" stroke="#7c3aed" stroke-width="5" class="sig-arc" stroke-linecap="round" transform="rotate(-90 40 48)"/>
+      <text x="40" y="53" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="white" text-anchor="middle">72%</text>
+      <text x="84" y="34" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="600" fill="#818cf8" letter-spacing="1">SIGNAL QUALITY</text>
+    </g>
+
+    <g transform="translate(1080, 255)">
+      <rect x="0" y="0" width="170" height="110" rx="8" fill="#0f1240" fill-opacity="0.9" stroke="#3730a3" stroke-width="1"/>
+      <text x="12" y="20" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="600" fill="#818cf8" letter-spacing="1.5">MOTION ANALYSIS</text>
+    </g>
+
+    <!-- Keep fixed positions outside the animated groups so floating icons cannot drift over the heading. -->
+    <g transform="translate(22, 435)" aria-hidden="true">
+      <g class="float-node hero-symbol">
+        <g transform="translate(18, 0)" fill="none" stroke="#c084fc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 6 C13 0 6 3 6 9 C0 10 0 19 4 22 C0 29 6 36 12 33 C14 39 18 37 18 32 V6 Z M18 6 C23 0 30 3 30 9 C36 10 36 19 32 22 C36 29 30 36 24 33 C22 39 18 37 18 32"/>
+          <path d="M6 9 C12 9 13 13 10 17 M4 22 C10 19 14 22 12 27 M30 9 C24 9 23 13 26 17 M32 22 C26 19 22 22 24 27"/>
+        </g>
+        <text x="36" y="53" font-family="'Segoe UI', sans-serif" font-size="8" fill="#94a3b8" text-anchor="middle" letter-spacing="0.5">NEURAL ENGINEERING</text>
+      </g>
+    </g>
+    <g transform="translate(132, 435)" aria-hidden="true">
+      <g class="float-node2 hero-symbol">
+        <path d="M36 34 C28 28 15 19 15 11 C15 0 30 -2 36 8 C42 -2 57 0 57 11 C57 19 44 28 36 34 Z" fill="none" stroke="#f472b6" stroke-width="1.8"/>
+        <path d="M18 17 H27 L31 10 L36 24 L40 14 L44 17 H54" fill="none" stroke="#f472b6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="36" y="53" font-family="'Segoe UI', sans-serif" font-size="8" fill="#94a3b8" text-anchor="middle" letter-spacing="0.5">BIOSIGNALS</text>
+      </g>
+    </g>
+    <g transform="translate(242, 435)" aria-hidden="true">
+      <g class="float-node3 hero-symbol">
+        <g fill="none" stroke="#60a5fa" stroke-width="1.8" stroke-linecap="round">
+          <path d="M25 0 C25 14 47 20 47 36 M47 0 C47 14 25 20 25 36"/>
+          <path d="M26 3 H46 M29 10 H43 M33 16 H39 M33 21 H39 M29 28 H43 M26 34 H46"/>
+        </g>
+        <text x="36" y="53" font-family="'Segoe UI', sans-serif" font-size="8" fill="#94a3b8" text-anchor="middle" letter-spacing="0.5">BIOENGINEERING</text>
+      </g>
+    </g>
+  </svg>
+  <div class="hero-fade"></div>
+</div>
+
+<main>
+
+  <section style="padding: 2rem 0 1rem;">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-eyebrow">Portfolio</p>
+        <h2 class="section-title">Research &amp; Projects</h2>
+        <p class="section-desc">Exploring the intersection of neuroscience, biomedical engineering, and machine learning to develop next-generation clinical and assistive technologies.</p>
+      </div>
+
+      <div class="filter-bar reveal" id="filterBar">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="published">Published Research</button>
+        <button class="filter-btn" data-filter="progress">In Progress</button>
+        <button class="filter-btn" data-filter="planning">In Planning</button>
+      </div>
+
+      <div class="projects-grid" id="projectsGrid">
+
+        <article class="project-card reveal" data-category="completed">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(96,165,250,0.12);">🤖</div>
+            <div class="card-meta"><span class="tag tag-published">MSc Thesis</span></div>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Open-Source Control Platform for a Medical Robot Using Standard Components</h3>
+            <p class="card-desc">Developed a low-cost robotic control prototype using an ESP32 microcontroller, an Xbox wireless controller, and Ricardo Quesada's Bluepad32 library. The system translates Bluetooth gamepad inputs into servo-motor commands using a PCA9685 driver. The project investigated control responsiveness, motion smoothing, and the use of accessible electronics for medical robotics research.</p>
+            <div class="card-tags">
+              <span class="topic-tag">Medical Robotics</span><span class="topic-tag">ESP32</span><span class="topic-tag">Bluepad32</span>
+            </div>
+            <div class="progress-label"><span>Completion</span><span>100%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+          </div>
+          <div class="card-footer">
+            <span class="card-author">Researcher: Dharshan Keba Morris<br>Supervisor: Dr Luigi Manfredi<br>University of Dundee · MSc Biomedical Engineering · 2025</span>
+            <a href="bluepad32-thesis.html" class="card-link" style="flex-shrink:0;white-space:nowrap;">View Research &rarr;</a>
+          </div>
+        </article>
+
+        <article class="project-card reveal" data-category="published">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(52,211,153,0.12);">🩺</div>
+            <div class="card-meta"><span class="tag tag-published">PUBLISHED</span></div>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Automated Anesthesia Control System With Patient Monitoring</h3>
+            <p class="card-desc">An undergraduate biomedical engineering team project exploring automated syringe control with patient monitoring. The Arduino Uno-based prototype combines a motor-driven syringe mechanism with heartbeat, temperature and ECG sensors, keypad input, LCD display and an alert system. The research was published in 2022.</p>
+            <div class="card-tags">
+              <span class="topic-tag">Arduino Uno</span><span class="topic-tag">Patient Monitoring</span><span class="topic-tag">Biomedical Engineering</span>
+            </div>
+            <div class="progress-label"><span>Completion</span><span>100%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+          </div>
+          <div class="card-footer">
+            <span class="card-author">M. Dharshan Keba et al. · 2022</span>
+            <a href="anesthesia-control-research.html" class="card-link" style="flex-shrink:0;white-space:nowrap;">VIEW RESEARCH &rarr;</a>
+          </div>
+        </article>
+
+        <article class="project-card reveal" data-category="progress">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(244,114,182,0.12);">🧠</div>
+            <div class="card-meta"><span class="tag tag-progress">In Progress</span></div>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">PROJECT MYELIN</h3>
+            <p class="card-desc">Designing an edge-compute pipeline for continuous cardiac monitoring. A lightweight transformer model processes 12-lead ECG streams on-device, flagging arrhythmias with sub-200ms latency.</p>
+            <div class="card-tags">
+              <span class="topic-tag">ECG</span><span class="topic-tag">Edge AI</span><span class="topic-tag">Wearables</span>
+            </div>
+            <div class="progress-label"><span>Progress</span><span>48%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:48%"></div></div>
+          </div>
+          <div class="card-footer">
+            <span class="card-author">Dharshan Keba · 2026</span>
+            <a href="myelin-hub.html" class="card-link">View Draft &rarr;</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="areas-section">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-eyebrow">Focus Areas</p>
+        <h2 class="section-title">Research Domains</h2>
+      </div>
+      <div class="areas-grid">
+        <div class="area-card reveal">
+          <div class="area-icon">🧠</div>
+          <div class="area-title">Neural Engineering</div>
+          <div class="area-desc">Brain-computer interfaces, neural signal decoding, and closed-loop neuromodulation for restoring lost sensorimotor function.</div>
+        </div>
+        <div class="area-card reveal">
+          <div class="area-icon">💓</div>
+          <div class="area-title">Biomedical Signal Processing</div>
+          <div class="area-desc">Real-time analysis of EEG, ECG, and EMG streams using adaptive filtering, time-frequency analysis, and deep learning classifiers.</div>
+        </div>
+        <div class="area-card reveal">
+          <div class="area-icon">🦾</div>
+          <div class="area-title">Rehabilitation Engineering</div>
+          <div class="area-desc">Designing intelligent prosthetics and exoskeletal systems guided by intent signals, gait kinematics, and biomechanical modelling.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="collab-banner reveal">
+      <p class="section-eyebrow" style="margin-bottom:0.8rem;">Open to Collaboration</p>
+      <h3 class="collab-title">Interested in working together?</h3>
+      <p class="collab-desc">I welcome collaborations with clinicians, engineers, and researchers pushing the boundaries of neurotechnology and biomedical systems.</p>
+      <a href="contact.html" class="cta-btn">Get in Touch →</a>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-social">
+    <a href="https://github.com/Dharshan212" target="_blank" aria-label="GitHub">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/dharshan-keba-432512168/" target="_blank" aria-label="LinkedIn">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+    </a>
+    <a href="https://www.researchgate.net/profile/Dharshan-Keba-Morris/research" target="_blank" aria-label="ResearchGate">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.58 3.012c-2.31 0-4.402 1.226-5.59 3.092a6.974 6.974 0 0 0-5.59-3.092C3.84 3.012 0 6.846 0 11.586c0 4.74 3.84 8.574 8.4 8.574 2.31 0 4.402-1.226 5.59-3.092a6.974 6.974 0 0 0 5.59 3.092c4.56 0 8.4-3.834 8.4-8.574 0-4.74-3.84-8.574-8.4-8.574zm-11.18 14.18c-3.1 0-5.61-2.507-5.61-5.606 0-3.099 2.51-5.606 5.61-5.606 3.1 0 5.61 2.507 5.61 5.606 0 3.099-2.51 5.606-5.61 5.606zm11.18 0c-3.1 0-5.61-2.507-5.61-5.606 0-3.099 2.51-5.606 5.61-5.606 3.1 0 5.61 2.507 5.61 5.606 0 3.099-2.51 5.606-5.61 5.606z"/></svg>
+    </a>
+    <a href="https://www.youtube.com/@dharshan079" target="_blank" aria-label="YouTube">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+    </a>
+  </div>
+  <p class="footer-copy">&copy; 2026 Dharshan Keba. All rights reserved.</p>
+</footer>
+
+<script>
+// Scroll reveal activation triggers
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 60);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(el => observer.observe(el));
+
+// Live case-study filters engine sorting loops
+const btns = document.querySelectorAll('.filter-btn');
+const cards = document.querySelectorAll('.project-card');
+btns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    btns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    cards.forEach(card => {
+      const match = filter === 'all' || card.dataset.category === filter;
+      card.style.transition = 'opacity 0.3s, transform 0.3s';
+      card.style.opacity = match ? '1' : '0.2';
+      card.style.transform = match ? '' : 'scale(0.97)';
+      card.style.pointerEvents = match ? '' : 'none';
+    });
+  });
+});
+
+// Dynamic progress bar loading fills
+const progFills = document.querySelectorAll('.progress-fill');
+const progObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const target = el.style.width;
+      el.style.width = '0';
+      requestAnimationFrame(() => {
+        setTimeout(() => { el.style.width = target; }, 100);
+      });
+      progObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.3 });
+progFills.forEach(el => progObserver.observe(el));
+</script>
+
+</body>
+</html>

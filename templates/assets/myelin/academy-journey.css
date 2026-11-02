@@ -1,0 +1,67 @@
+/* MYELIN Academy journey: organ choice, closing letter and final screen (see academy-journey.js). Theme tokens only, so all seven themes apply. */
+#acRoot[data-overlay] .ac-coach, #acRoot[data-overlay] .ac-ring, #acRoot[data-overlay] .ac-hud { display: none; }
+#acRoot[data-overlay] .ac-dim { opacity: 1; }
+/* a centred demonstration popup must stay fully visible: no dim layer over it, and the guide HUD keeps to the left of the popup's SIMULATION label */
+body:has(#wlDemoStage.on) #acRoot[data-mode='journey'] .ac-dim { display: none; }
+#acRoot[data-mode='journey'] .ac-coach.acj-narrow .ac-blobwrap { display: none; }
+#acRoot[data-mode='journey'] .ac-coach.acj-narrow .ac-chip2 { display: none; }
+#acRoot[data-mode='journey'] .ac-coach.acj-narrow .ac-bub-head { flex-wrap: wrap; row-gap: 4px; }   /* a narrow guide beside a big popup gives its whole width to the text */
+#acRoot[data-mode='journey'] .ac-hud { left: 16px; right: auto; transform: none; top: 10px; }
+.acj-overlay { position: fixed; inset: 0; z-index: 12500; overflow: auto; display: flex; align-items: flex-start; justify-content: center; padding: clamp(16px, 4vh, 48px) 16px; box-sizing: border-box; background: radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--cyan) 11%, transparent) 0%, transparent 60%), var(--base); color: var(--text); pointer-events: auto; }
+.acj-overlay[hidden], .acj-letter[hidden], .acj-final[hidden] { display: none; }
+.acj-panel { width: min(1060px, 100%); margin: auto; display: grid; gap: 14px; padding: 26px 28px; background: var(--surface); border: 1px solid var(--cyan-dim); border-radius: 20px; box-shadow: var(--shadow), 0 0 44px -14px var(--axon-glow); }
+.acj-panel .ac-chip { justify-self: start; }
+.acj-panel h2 { margin: 0; font-size: clamp(22px, 3vw, 30px); letter-spacing: 2px; color: var(--cyan); text-transform: uppercase; }
+.acj-panel p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--text); }
+.acj-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.acj-card { text-align: left; display: grid; gap: 6px; align-content: start; min-height: 120px; padding: 16px; cursor: pointer; font: inherit; color: var(--text); background: var(--surface-soft); border: 1px solid var(--border); border-radius: 14px; border-top: 3px solid var(--acj-tone, var(--cyan)); }
+.acj-card b { font-size: 15px; letter-spacing: 1.5px; color: var(--acj-tone, var(--cyan)); }
+.acj-card span { font-size: 13px; line-height: 1.45; color: var(--muted); }
+.acj-card:hover { background: color-mix(in srgb, var(--acj-tone, var(--cyan)) 10%, var(--surface-soft)); border-color: var(--acj-tone, var(--cyan)); }
+.acj-card:focus-visible, .acj-overlay .ac-btn:focus-visible, .acj-letter h2:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+.acj-card.tone-red { --acj-tone: var(--red); }
+.acj-card.tone-violet { --acj-tone: var(--stage-purple, #a78bfa); }
+.acj-card.tone-cyan { --acj-tone: var(--cyan); }
+.acj-card.tone-amber { --acj-tone: var(--amber); }
+.acj-card.tone-green { --acj-tone: var(--green); }
+.acj-card.tone-blue { --acj-tone: color-mix(in srgb, var(--cyan) 60%, var(--text)); }
+.acj-card.tone-teal { --acj-tone: color-mix(in srgb, var(--green) 55%, var(--cyan)); }
+.acj-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; }
+/* the closing letter: calm, personal, no scores or celebration */
+.acj-letterwrap { align-items: flex-start; }
+.acj-letter, .acj-final { width: min(720px, 100%); margin: auto; display: grid; gap: 16px; padding: clamp(24px, 4vw, 44px); background: var(--surface); border: 1px solid var(--cyan-dim); border-radius: 22px; box-shadow: var(--shadow), 0 0 50px -16px var(--axon-glow); }
+.acj-letter h2 { margin: 0 0 4px; font-size: clamp(24px, 3.4vw, 34px); font-weight: 600; letter-spacing: .5px; color: var(--text); outline: none; }
+.acj-letter p { margin: 0; font-size: 17px; line-height: 1.75; color: var(--text); }
+.acj-letter .acj-from { margin-top: 2px; font-weight: 600; }
+.acj-letter .acj-role { margin-top: -10px; color: var(--muted); font-size: 14px; letter-spacing: 1.5px; text-transform: uppercase; }
+.acj-sig { margin: 6px 0 -2px; padding: 12px 0 4px; border-top: 1px solid var(--border); display: flex; }
+.acj-sig img { display: block; width: min(210px, 56%); height: auto; }
+.acj-sig .acj-sig-neon { filter: brightness(3) saturate(.55) hue-rotate(-6deg) drop-shadow(0 0 5px color-mix(in srgb, var(--cyan) 45%, transparent)); }   /* light neon blue on the dark themes; the handwriting itself is untouched */
+.acj-sig .acj-sig-ink { display: none; }
+html[data-theme='light'] .acj-sig .acj-sig-neon { display: none; }
+html[data-theme='light'] .acj-sig .acj-sig-ink { display: block; }
+.acj-final { text-align: center; justify-items: center; padding-block: clamp(40px, 8vh, 80px); }
+.acj-final h2 { margin: 0; font-size: clamp(26px, 4vw, 40px); letter-spacing: 4px; color: var(--cyan); font-weight: 700; }
+.acj-big { font-size: 16px; padding: 16px 40px; }
+.acj-note { margin: 0; max-width: 46ch; font-size: 13px; line-height: 1.6; color: var(--muted); }
+@media (max-width: 1100px) { .acj-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .acj-grid { grid-template-columns: minmax(0, 1fr); } .acj-panel { padding: 18px; } }
+
+/* pointing arrow: shows which button the guide is talking about (journey only; never intercepts clicks) */
+.acj-arrow { position: absolute; width: 40px; height: 44px; pointer-events: none; color: var(--cyan); filter: drop-shadow(0 0 8px var(--axon-glow)); animation: acjBob .9s ease-in-out infinite; z-index: 3; }
+.acj-arrow[hidden] { display: none; }
+.acj-arrow svg { width: 100%; height: 100%; display: block; }
+.acj-arrow.up { transform: rotate(180deg); animation-name: acjBobUp; }
+@keyframes acjBob { 0%, 100% { translate: 0 0; } 50% { translate: 0 8px; } }
+@keyframes acjBobUp { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
+@media (prefers-reduced-motion: reduce) { .acj-arrow { animation: none; } }
+
+/* while the guide points at a button or telemetry rows, a displayed popup is hidden completely (no ghost over the controls); the popup itself is untouched and returns at once */
+body.acj-feedview #wlPopup, body.acj-feedview #wlDemoStage .wl-pp { opacity: 0 !important; pointer-events: none !important; transition: opacity .2s ease; }
+
+/* text box inside the guide (custom video name) */
+.acj-input { flex: 1 1 140px; min-width: 120px; padding: 9px 12px; border-radius: 10px; border: 1px solid var(--cyan-dim, var(--cyan)); background: color-mix(in srgb, var(--surface-2, #0b1220) 90%, transparent); color: var(--text, inherit); font: inherit; font-size: 13px; }
+.acj-input:focus { outline: 2px solid var(--cyan); outline-offset: 1px; }
+
+/* the guide's header chips wrap instead of being clipped when the guide is squeezed beside a popup */
+#acRoot[data-mode='journey'] .ac-coach .ac-bub-head { flex-wrap: wrap; row-gap: 4px; }

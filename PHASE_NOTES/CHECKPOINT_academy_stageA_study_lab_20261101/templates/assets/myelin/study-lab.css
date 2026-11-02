@@ -1,0 +1,95 @@
+/* Study Mode teaching simulation (see study-lab.js). Theme tokens only, so all seven themes apply. */
+.sx[data-lab='on'] > .sx-surface:not(#sxLab) { display: none; }
+.sl-modebar { margin: 0 0 12px; align-items: center; }
+.sl-root .st-btn, .sl-modebar .st-btn { min-height: 38px; padding: 8px 14px; }
+.sl-root[hidden] { display: none; }
+.sl-head { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+.sl-head h2 { margin: 0 0 4px; font-size: 18px; letter-spacing: 2px; }
+.sl-badges { display: flex; flex-wrap: wrap; gap: 8px; }
+.sl-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 12px; }
+.sl-navbtn:disabled { opacity: .45; }
+.sl-step { margin-bottom: 14px; }
+.sl-lead { font-size: 15px; line-height: 1.55; margin: 0 0 12px; color: var(--text); }
+.sl-picks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 10px 0 14px; }
+.sl-picks.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.sl-pick { text-align: left; display: grid; gap: 4px; padding: 14px 16px; min-height: 64px; cursor: pointer; color: var(--text); background: var(--surface-soft); border: 1px solid var(--border); border-radius: 12px; font: inherit; }
+.sl-pick b { color: var(--cyan); letter-spacing: 1.5px; font-size: 12.5px; }
+.sl-pick span { font-size: 13px; color: var(--muted); line-height: 1.4; }
+.sl-pick.on { border-color: var(--cyan); background: color-mix(in srgb, var(--cyan) 10%, var(--surface-soft)); box-shadow: 0 0 0 1px var(--cyan-dim); }
+.sl-pick:focus-visible, .sl-navbtn:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.sl-pane { display: grid; gap: 12px; padding: 14px; border: 1px solid var(--border); border-radius: 12px; background: color-mix(in srgb, var(--base) 55%, var(--surface)); }
+.sl-kv { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 16px; margin: 0; font-size: 14px; }
+.sl-kv dt { color: var(--muted); font-size: 11.5px; letter-spacing: 1px; text-transform: uppercase; align-self: center; }
+.sl-kv dd { margin: 0; color: var(--text); overflow-wrap: anywhere; }
+.sl-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 18px; align-items: start; }
+.sl-field { display: grid; gap: 5px; min-width: 0; }
+.sl-field label { font-size: 11.5px; letter-spacing: 1px; color: var(--muted); font-weight: 700; text-transform: uppercase; }
+.sl-input { width: 100%; box-sizing: border-box; min-height: 40px; }
+.sl-why { margin: 0; font-size: 12.5px; line-height: 1.45; color: var(--muted); }
+.sl-presets { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
+.sl-prepared { margin-top: 14px; padding: 12px 14px; border: 1px solid var(--cyan-dim); border-radius: 12px; background: color-mix(in srgb, var(--cyan) 7%, var(--surface)); display: grid; gap: 8px; }
+.sl-prepared p { margin: 0; }
+.sl-rules { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 0 0 14px; }
+.sl-rule { display: grid; gap: 4px; padding: 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface-soft); font-size: 13px; line-height: 1.4; color: var(--muted); }
+.sl-rule b { font-size: 20px; color: var(--text); font-family: var(--font-mono, monospace); }
+.sl-rule.imp { border-color: var(--amber); }
+.sl-rule.imp b { color: var(--amber); }
+.sl-table { width: 100%; border-collapse: collapse; margin: 8px 0 12px; font-size: 13px; }
+.sl-table th { text-align: left; font-size: 10.5px; letter-spacing: 1px; color: var(--muted); padding: 6px 8px; border-bottom: 1px solid var(--border); }
+.sl-table td { padding: 6px 8px; border-bottom: 1px solid color-mix(in srgb, var(--border) 60%, transparent); color: var(--text); }
+.sl-table tr.sl-yes td:nth-child(4), .sl-table tr.sl-yes td:nth-child(5) { color: var(--green); font-weight: 700; }
+.sl-table tr.sl-no td { color: var(--muted); }
+.sl-table tr.sl-excl td { color: var(--amber); text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--amber) 60%, transparent); }
+.sl-table tr.sl-imp td:first-child { color: var(--amber); font-weight: 700; }
+.sl-table tr.sl-total td { font-weight: 700; color: var(--cyan); }
+.sl-bands { margin: 0 0 14px; }
+.sl-bands h4, .sl-try h4, .sl-evwrap h4 { margin: 0 0 6px; font-size: 12px; letter-spacing: 1.4px; color: var(--cyan); }
+.sl-bands b.ok { color: var(--green); }
+.sl-bands b.warn { color: var(--amber); }
+.sl-bands b.bad { color: var(--red); }
+.sl-lines { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 13.5px; line-height: 1.5; color: var(--text); }
+.sl-cap { color: var(--amber); }
+.sl-try { margin: 0 0 14px; padding: 14px; border: 1px dashed var(--cyan-dim); border-radius: 12px; display: grid; gap: 10px; }
+.sl-check { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+.sl-check input { width: 18px; height: 18px; accent-color: var(--cyan); }
+.sl-limit { margin: 0 0 12px; padding: 10px 12px; border-left: 3px solid var(--amber); background: color-mix(in srgb, var(--amber) 8%, transparent); font-size: 13px; line-height: 1.5; color: var(--text); }
+.sl-obs { margin: 0 0 6px; font-size: 15px; line-height: 1.5; overflow-wrap: anywhere; }
+.sl-obs-l { font-size: 11px; letter-spacing: 1px; color: var(--muted); }
+.sl-hit { background: color-mix(in srgb, var(--green) 28%, transparent); color: var(--text); border-radius: 3px; padding: 0 2px; }
+.sl-hit-imp { background: color-mix(in srgb, var(--amber) 38%, transparent); font-weight: 700; }
+.sl-explain { display: grid; gap: 10px; margin: 6px 0 12px; }
+.sl-result { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.sl-result > span:first-child { font-size: 11px; letter-spacing: 1.2px; color: var(--muted); }
+.sl-num { font: 800 24px var(--font-mono, monospace); color: var(--text); }
+.sl-resnote { font-size: 11px; color: var(--muted); }
+.sl-band { display: grid; gap: 4px; }
+.sl-band-track { position: relative; display: flex; height: 26px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+.sl-seg { display: grid; place-items: center; font-style: normal; font-size: 10px; letter-spacing: 1px; font-weight: 700; color: var(--text); }
+.sl-seg.bad { background: color-mix(in srgb, var(--red) 28%, var(--surface-soft)); }
+.sl-seg.warn { background: color-mix(in srgb, var(--amber) 24%, var(--surface-soft)); }
+.sl-seg.ok { background: color-mix(in srgb, var(--green) 26%, var(--surface-soft)); }
+.sl-marker { position: absolute; top: 0; bottom: 0; width: 4px; margin-left: -2px; background: var(--text); border-radius: 2px; box-shadow: 0 0 0 2px var(--base); }
+.sl-band-scale { position: relative; height: 14px; font-size: 10px; color: var(--muted); }
+.sl-band-scale span { position: absolute; transform: translateX(-50%); }
+.sl-band-scale span:first-child { transform: none; }
+.sl-band-scale span:last-child { transform: translateX(-100%); }
+.sl-clock { margin: 6px 0 14px; align-items: center; }
+.sl-clockval { font: 800 14px var(--font-mono, monospace); letter-spacing: 1.5px; color: var(--cyan); }
+.sl-scn { display: grid; gap: 10px; padding: 14px; border: 1px solid var(--border); border-radius: 12px; background: color-mix(in srgb, var(--base) 50%, var(--surface)); }
+.sl-scn-h { display: flex; flex-wrap: wrap; gap: 8px; }
+.sl-treat, .sl-callout, .sl-sep { margin: 0; padding: 10px 12px; border-radius: 10px; font-size: 13.5px; line-height: 1.55; color: var(--text); background: var(--surface-soft); border: 1px solid var(--border); }
+.sl-callout { border-color: var(--cyan-dim); }
+.sl-callout button { margin-top: 8px; display: block; }
+.sl-sep { font-size: 12px; color: var(--muted); }
+.sl-evwrap { margin-top: 14px; }
+.sl-events { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; max-height: 260px; overflow: auto; font-size: 12.5px; }
+.sl-events li { display: grid; grid-template-columns: 52px max-content minmax(0, 1fr); gap: 4px 10px; padding: 6px 8px; border-radius: 6px; background: var(--surface-soft); align-items: baseline; }
+.sl-events time { font-family: var(--font-mono, monospace); color: var(--cyan); }
+.sl-events b { color: var(--text); font-size: 11px; letter-spacing: .8px; }
+.sl-events span { color: var(--muted); }
+.sl-events i { grid-column: 3; color: var(--muted); font-size: 11px; }
+.sl-foot { margin-top: 10px; align-items: center; }
+@media (max-width: 900px) {
+  .sl-picks, .sl-picks.three, .sl-form, .sl-rules { grid-template-columns: minmax(0, 1fr); }
+  .sl-kv { grid-template-columns: minmax(0, 1fr); }
+}

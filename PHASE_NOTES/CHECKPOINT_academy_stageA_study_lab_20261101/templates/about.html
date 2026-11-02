@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dharshan Keba - About Me</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="stylesheet" href="../static/css/theme.css">
+    
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+    <style>
+        :root {
+            --bg-base: #030712;
+            --bg-panel: #0b0f19;
+            --accent-purple: #a855f7;
+            --accent-blue: #0ea5e9;
+            --accent-cyan: #06b6d4;
+            --text-muted: #64748b;
+            --text-light: #f8fafc;
+            --border: #1e293b;
+        }
+
+        body#about {
+            background-color: var(--bg-base) !important;
+            color: var(--text-light) !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 72px 0 0;
+        }
+
+
+        /* Header Overrides */
+        .header {
+            background: #0b0f19 !important;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* Main Structural Split Layout */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            max-width: 1300px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+            align-items: start;
+        }
+
+        .cyber-panel {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .cyber-panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 2px;
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue));
+        }
+
+        .section-heading {
+            color: var(--text-light);
+            font-size: 1.75rem;
+            font-family: monospace;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.025em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .about-content p {
+            color: #94a3b8;
+            line-height: 1.75;
+            font-size: 1.05rem;
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+        .about-content strong {
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        /* Sidebar Elements */
+        .panel-title {
+            font-family: monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.9rem;
+            color: var(--accent-purple);
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        /* System Nodes: full project titles with natural wrapping. */
+        body#about .system-node-group-label {
+            font-family: monospace;
+            font-size: 0.75rem;
+            line-height: 1.7;
+            color: var(--accent-blue);
+            margin-bottom: 0.65rem;
+        }
+        body#about .system-nodes-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            font-family: monospace;
+            font-size: 0.75rem;
+            line-height: 1.7;
+        }
+        body#about .system-nodes-list li {
+            display: grid;
+            grid-template-columns: 0.75rem minmax(0, 1fr);
+            gap: 0.35rem;
+            margin-bottom: 1rem;
+        }
+        body#about .system-nodes-list li:last-child { margin-bottom: 0; }
+        body#about .system-nodes-list li::before {
+            content: "—";
+            color: var(--accent-purple);
+        }
+        body#about .system-node-link {
+            display: block;
+            min-width: 0;
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-weight: 600;
+            white-space: normal;
+            overflow-wrap: anywhere;
+        }
+        body#about .system-node-link:hover { color: var(--accent-purple); }
+        body#about .system-node-link:focus-visible {
+            outline: 2px solid var(--accent-cyan);
+            outline-offset: 3px;
+        }
+        body#about .content-grid > main,
+        body#about .content-grid > aside { min-width: 0; }
+        @media (max-width: 900px) {
+            body#about .content-grid { grid-template-columns: minmax(0, 1fr); }
+            body#about .content-grid > aside { position: static !important; }
+        }
+
+        /* ── Core CSS SVG Animation Keyframes ── */
+        @keyframes droneFloat {
+            0% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-8px) translateX(4px); }
+            100% { transform: translateY(0px) translateX(0px); }
+        }
+        @keyframes pulseTelemetry {
+            0%, 100% { opacity: 0.3; filter: drop-shadow(0 0 2px var(--accent-cyan)); }
+            50% { opacity: 1; filter: drop-shadow(0 0 8px var(--accent-cyan)); }
+        }
+        @keyframes transitStreamLeft {
+            0% { transform: translateX(900px); }
+            100% { transform: translateX(-200px); }
+        }
+        @keyframes transitStreamRight {
+            0% { transform: translateX(-200px); }
+            100% { transform: translateX(900px); }
+        }
+        @keyframes helixRotate {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.9; }
+        }
+
+        /* ── CSS Typing Text Animation Keyframes ── */
+        @keyframes typing {
+            0%, 90%, 100% { width: 0; }
+            30%, 60% { width: 100%; }
+        }
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+        @keyframes textNudge {
+            0%, 100% { opacity: 0.4; transform: scale(0.98); }
+            50% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.6)); }
+        }
+
+        .animated-drone-1 { animation: droneFloat 4s ease-in-out infinite; }
+        .animated-drone-2 { animation: droneFloat 5s ease-in-out infinite alternate; }
+        .telemetry-glow { animation: pulseTelemetry 2.5s ease-in-out infinite; }
+        .transit-link-left { animation: transitStreamLeft 14s linear infinite; }
+        .transit-link-right { animation: transitStreamRight 18s linear infinite; }
+        .helix-glow { animation: helixRotate 3s ease-in-out infinite; }
+
+        /* Style for the typing container */
+        .typing-text {
+            font-family: monospace;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            color: var(--accent-cyan);
+            border-right: 3px solid var(--accent-cyan);
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            margin: 0 auto;
+            animation: typing 6s steps(30, end) infinite, blink 0.75s step-end infinite;
+        }
+
+        /* Style for the running navigation sub-text link directive */
+        .running-directive {
+            font-family: monospace;
+            font-size: 0.75rem;
+            color: var(--accent-purple);
+            letter-spacing: 3px;
+            margin-top: 0.6rem;
+            font-weight: 600;
+            display: inline-block;
+            animation: textNudge 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body id="about">
+
+    <nav class="site-nav">
+  <div class="nav-brand">Dharshan Keba</div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="skills.html">CV</a></li>
+    <li><a href="research.html">Research</a></li>
+    <li><a href="publications.html">Publications</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+    <div style="position: relative; overflow: hidden; background: #020617; border-bottom: 1px solid var(--border); width: 100%; display: flex; align-items: center; justify-content: center;">
+        
+        <div style="position: absolute; top: 2.2rem; width: 100%; text-align: center; z-index: 10; pointer-events: none;">
+            <div style="font-family: monospace; font-size: 0.75rem; color: var(--text-muted); letter-spacing: 4px; margin-bottom: 0.4rem; text-transform: uppercase;">
+                System Core Matrix
+            </div>
+            <div class="typing-text" id="typingTarget">
+                BIOMEDICAL COMPUTATION
+            </div>
+            <div class="running-directive">
+                ▼ PLEASE READ ABOUT ME BELOW ▼
+            </div>
+        </div>
+        
+        <svg viewBox="0 0 800 360" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="display: block; background: linear-gradient(180deg, #030712 0%, #090d16 60%, #0c101d 100%);">
+            <defs>
+                <filter id="neonCyan">
+                    <feGaussianBlur stdDeviation="3" result="blur"/>
+                    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+                <filter id="neonPurple">
+                    <feGaussianBlur stdDeviation="4" result="blur"/>
+                    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+
+                <linearGradient id="towerGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#111827"/>
+                    <stop offset="100%" stop-color="#030712"/>
+                </linearGradient>
+                <linearGradient id="cyberSky" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#070a12"/>
+                    <stop offset="100%" stop-color="#0b132b"/>
+                </linearGradient>
+            </defs>
+
+            <g stroke="#1e293b" stroke-width="0.5" opacity="0.3">
+                <line x1="0" y1="60" x2="800" y2="60" />
+                <line x1="0" y1="120" x2="800" y2="120" />
+                <line x1="0" y1="180" x2="800" y2="180" />
+                <line x1="200" y1="0" x2="200" y2="280" />
+                <line x1="400" y1="0" x2="400" y2="280" />
+                <line x1="600" y1="0" x2="600" y2="280" />
+            </g>
+
+            <g fill="#0b0f19" opacity="0.7">
+                <rect x="70" y="120" width="45" height="160" />
+                <rect x="290" y="90" width="55" height="190" />
+                <rect x="520" y="140" width="40" height="140" />
+            </g>
+
+            <g>
+                <rect x="160" y="60" width="75" height="220" fill="url(#towerGrad)" stroke="#1e293b" stroke-width="1.5"/>
+                <rect x="172" y="80" width="51" height="90" fill="#020617" stroke="#334155" stroke-width="1" />
+                
+                <g stroke="var(--accent-cyan)" stroke-width="2" fill="none" class="helix-glow" filter="url(#neonCyan)">
+                    <path d="M182 95 Q197.5 85, 213 95 T213 125 T182 155" opacity="0.75"/>
+                    <path d="M213 95 Q197.5 85, 182 95 T182 125 T213 155" opacity="0.4"/>
+                    <line x1="183" y1="110" x2="212" y2="110" stroke-width="1" opacity="0.6"/>
+                    <line x1="183" y1="140" x2="212" y2="140" stroke-width="1" opacity="0.6"/>
+                </g>
+                <circle cx="178" cy="185" r="2" fill="var(--accent-cyan)" class="telemetry-glow"/>
+                <circle cx="186" cy="185" r="2" fill="var(--accent-purple)" class="telemetry-glow" style="animation-delay:0.5s;"/>
+                <circle cx="194" cy="185" r="2" fill="var(--accent-cyan)" class="telemetry-glow" style="animation-delay:1s;"/>
+            </g>
+
+            <g>
+                <rect x="580" y="45" width="80" height="235" fill="url(#towerGrad)" stroke="#1e293b" stroke-width="1.5"/>
+                <rect x="592" y="65" width="56" height="110" fill="#020617" stroke="#334155" stroke-width="1" />
+                
+                <g stroke="var(--accent-purple)" stroke-width="3" fill="none" filter="url(#neonPurple)" class="telemetry-glow">
+                    <line x1="620" y1="90" x2="620" y2="130" />
+                    <line x1="600" y1="110" x2="640" y2="110" />
+                </g>
+
+                <g fill="#1e293b" opacity="0.6">
+                    <rect x="595" y="195" width="10" height="4" />
+                    <rect x="612" y="195" width="10" height="4" />
+                    <rect x="629" y="195" width="10" height="4" />
+                    <rect x="646" y="195" width="10" height="4" />
+                    <rect x="595" y="210" width="10" height="4" fill="var(--accent-cyan)"/>
+                    <rect x="612" y="210" width="10" height="4" />
+                    <rect x="629" y="210" width="10" height="4" fill="var(--accent-purple)"/>
+                </g>
+            </g>
+
+            <g>
+                <path d="M120 280 A45 45 0 0 1 210 280 Z" fill="#090d16" stroke="#1e293b" stroke-width="2"/>
+                <path d="M125 280 A40 40 0 0 1 205 280 Z" fill="none" stroke="var(--accent-cyan)" stroke-width="0.75" opacity="0.4" filter="url(#neonCyan)"/>
+                
+                <path d="M470 280 A55 55 0 0 1 580 280 Z" fill="#090d16" stroke="#1e293b" stroke-width="2"/>
+                <path d="M476 280 A49 49 0 0 1 574 280 Z" fill="none" stroke="var(--accent-purple)" stroke-width="1" opacity="0.5" filter="url(#neonPurple)"/>
+                <line x1="525" y1="226" x2="525" y2="280" stroke="#1e293b" stroke-width="1"/>
+                <line x1="540" y1="228" x2="540" y2="280" stroke="#1e293b" stroke-width="1"/>
+            </g>
+
+            <g stroke="#1e293b" fill="none" stroke-width="2">
+                <path d="M0 130 L160 130 M235 130 L580 130 M660 130 L800 130" />
+                <path d="M0 240 L134 240 M200 240 L480 240 M574 240 L800 240" stroke-width="1.5" />
+            </g>
+
+            <g class="transit-link-left">
+                <rect x="0" y="125" width="22" height="4" rx="2" fill="var(--accent-cyan)" filter="url(#neonCyan)"/>
+                <circle cx="6" cy="127" r="1" fill="#ffffff" />
+                <rect x="40" y="125" width="18" height="4" rx="2" fill="var(--accent-purple)" opacity="0.6"/>
+            </g>
+
+            <g class="transit-link-right">
+                <rect x="0" y="236" width="26" height="3.5" rx="1.5" fill="var(--accent-purple)" filter="url(#neonPurple)"/>
+                <rect x="60" y="236" width="20" height="3.5" rx="1.5" fill="var(--accent-cyan)" opacity="0.7"/>
+            </g>
+
+            <g class="animated-drone-1" transform="translate(80, 70)">
+                <ellipse cx="20" cy="15" rx="10" ry="3" fill="#1e293b" stroke="#334155" stroke-width="1" />
+                <circle cx="20" cy="15" r="2" fill="var(--accent-cyan)" filter="url(#neonCyan)" class="telemetry-glow" />
+                <line x1="10" y1="15" x2="30" y2="15" stroke="var(--accent-cyan)" stroke-width="0.5" />
+            </g>
+            <g class="animated-drone-2" transform="translate(430, 40)">
+                <ellipse cx="20" cy="15" rx="12" ry="3.5" fill="#1e293b" stroke="#334155" stroke-width="1" />
+                <circle cx="20" cy="15" r="2" fill="var(--accent-purple)" filter="url(#neonPurple)" class="telemetry-glow" />
+                <line x1="8" y1="15" x2="32" y2="15" stroke="var(--accent-purple)" stroke-width="0.5" />
+            </g>
+
+            <rect x="0" y="278" width="800" height="82" fill="#05070f" stroke="#1e293b" stroke-width="1" />
+            <line x1="0" y1="278" x2="800" y2="278" stroke="var(--accent-purple)" stroke-width="1" opacity="0.3" />
+        </svg>
+    </div>
+
+    <div class="content-grid">
+
+        <main class="cyber-panel">
+            <h1 class="section-heading">
+                <i data-lucide="user" style="color: var(--accent-purple);"></i> 
+                About Me
+            </h1>
+            
+            <div class="about-content">
+                <p>
+                    <strong>I am a highly motivated Biomedical Engineer with a passion for advancing medical technology through innovative applications of robotics and AI.</strong> My expertise lies in designing and developing automated systems for healthcare, with a strong foundation in control systems and data analysis. I am committed to leveraging my skills to create solutions that improve patient outcomes and streamline medical procedures.
+                </p>
+                <p>
+                    <strong>My core interest lies in building powerful machines by creating the software, control platforms, and operating systems that power them.</strong> I have a deep interest in biomechanics and neuroscience, using these fields to shape a machine's physical form to solve specific problems. My skills in hardware design and research are a crucial part of this process, helping me visualize and refine these complex concepts into intuitive and effective solutions that truly bridge the gap between technology and human need.
+                </p>
+                <p>
+                    <strong>I am a good communicator and team player, able to work effectively in multidisciplinary environments.</strong> I am committed to continuous learning and staying updated with the latest advancements in biomedical engineering and technology. Feel free to explore my website to learn more about my research, skills, and publications. I am open to connecting with like-minded professionals and exploring potential collaborations.
+                </p>
+                <p>
+                    <strong>Outside of my professional interests, I am a pianist,  photographer, and exploring new technologies.</strong> These hobbies not only provide a creative outlet but also inspire my work in biomedical engineering by fostering a mindset of curiosity and innovation.
+                </p>
+                <p style="margin-bottom: 0;">
+                    Thank you for visiting my portfolio. I look forward to connecting with you!
+                </p>
+            </div>
+        </main>
+
+        <aside style="display: flex; flex-direction: column; gap: 1.5rem; position: sticky; top: 1.5rem;">
+            
+            <div class="cyber-panel" style="padding: 1.5rem;">
+                <div class="panel-title"><i data-lucide="info"></i> Quick Overview</div>
+                
+                <div class="metric-row">
+                    <span class="metric-label">FOCUS FIELDS</span>
+                    <span class="metric-val" style="color: var(--accent-cyan); font-size: 0.8rem; text-align: right;">Neural Engineering</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">CORE VALUES</span>
+                    <span class="metric-val" style="color: var(--accent-purple); font-size: 0.8rem; text-align: right;">Biomechanics</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">PIPELINES</span>
+                    <span class="metric-val" style="color: #22c55e; font-size: 0.8rem; text-align: right;">Control Systems</span>
+                </div>
+            </div>
+
+            <div class="cyber-panel" id="system-nodes" style="padding: 1.5rem;">
+                <div class="panel-title"><i data-lucide="network"></i> System Nodes</div>
+                <div class="system-node-group-label">[PROJECT ARCHIVE]</div>
+                <ul class="system-nodes-list">
+                    <li><a class="system-node-link" href="bluepad32-thesis.html">Open-Source Control Platform for a Medical Robot Using Standard Components</a></li>
+                    <li><a class="system-node-link" href="anesthesia-control-research.html">Automated Anesthesia Control System With Patient Monitoring</a></li>
+                    <li><a class="system-node-link" href="myelin-hub.html">PROJECT MYELIN</a></li>
+                </ul>
+                <hr style="border: 0; height: 1px; background: var(--border); margin: 1.25rem 0;">
+                <a href="contact.html" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none; font-size: 0.85rem; padding: 0.65rem; background: var(--accent-purple); color: white; border-radius: 6px; font-weight: 600; box-shadow: 0 0 12px rgba(168,85,247,0.3); border: none;">
+                    <i data-lucide="mail" size="14"></i> Initialize Contact
+                </a>
+            </div>
+
+        </aside>
+    </div>
+
+    <footer class="site-footer">
+  <div class="footer-social">
+    <a href="https://github.com/Dharshan212" target="_blank" aria-label="GitHub">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/dharshan-keba-432512168/" target="_blank" aria-label="LinkedIn">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+    </a>
+    <a href="https://www.researchgate.net/profile/Dharshan-Keba-Morris/research" target="_blank" aria-label="ResearchGate">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.58 3.012c-2.31 0-4.402 1.226-5.59 3.092a6.974 6.974 0 0 0-5.59-3.092C3.84 3.012 0 6.846 0 11.586c0 4.74 3.84 8.574 8.4 8.574 2.31 0 4.402-1.226 5.59-3.092a6.974 6.974 0 0 0 5.59 3.092c4.56 0 8.4-3.834 8.4-8.574 0-4.74-3.84-8.574-8.4-8.574zm-11.18 14.18c-3.1 0-5.61-2.507-5.61-5.606 0-3.099 2.51-5.606 5.61-5.606 3.1 0 5.61 2.507 5.61 5.606 0 3.099-2.51 5.606-5.61 5.606zm11.18 0c-3.1 0-5.61-2.507-5.61-5.606 0-3.099 2.51-5.606 5.61-5.606 3.1 0 5.61 2.507 5.61 5.606 0 3.099-2.51 5.606-5.61 5.606z"/></svg>
+    </a>
+    <a href="https://www.youtube.com/@dharshan079" target="_blank" aria-label="YouTube">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+    </a>
+  </div>
+  <p class="footer-copy">&copy; 2026 Dharshan Keba. All rights reserved.</p>
+</footer>
+
+    <script>
+        const words = ["BIOMEDICAL COMPUTATION", "NEURAL TELEMETRY", "ROBOTICS & AI CORE", "CONTROL PLATFORMS","NEURAL ENGINEERING", "BIOMECHANICS", "BIOMATERIALS", "AUTOMATED FRAMEWORKS"];
+        let index = 0;
+        const target = document.getElementById("typingTarget");
+        
+        setInterval(() => {
+            index = (index + 1) % words.length;
+            target.style.animation = 'none';
+            target.offsetHeight; /* Trigger layout reflow */
+            target.textContent = words[index];
+            target.style.animation = 'typing 6s steps(30, end) infinite, blink 0.75s step-end infinite';
+        }, 6000);
+    </script>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

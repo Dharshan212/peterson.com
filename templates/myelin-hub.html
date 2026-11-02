@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROJECT MYELIN — Behavioral Telemetry & Focus-Regulation System</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="stylesheet" href="../static/css/theme.css">
+
+    <style>
+        :root {
+            --bg-base: #030712;
+            --bg-panel: #0b0f19;
+            --accent-purple: #a855f7;
+            --accent-blue: #0ea5e9;
+            --accent-cyan: #06b6d4;
+            --text-muted: #64748b;
+            --text-light: #f8fafc;
+            --border: #1e293b;
+            --border-glow: rgba(168, 85, 247, 0.15);
+        }
+
+        body#myelin-hub {
+            background-color: var(--bg-base) !important;
+            color: var(--text-light) !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* ── Status Bar (sits below the fixed site nav) ── */
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-panel);
+            padding: 0.75rem 2rem;
+            margin-top: 64px;
+            border-bottom: 1px solid var(--border);
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--accent-blue);
+        }
+        .pulse-dot {
+            width: 8px; height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 8px #22c55e;
+            margin: 0 4px;
+        }
+
+        /* ── Cyber Panel ── */
+        .cyber-panel {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .cyber-panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 2px;
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue));
+        }
+        .panel-title {
+            font-family: monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.9rem;
+            color: var(--accent-purple);
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        /* ── Math ── */
+        .math-display { font-family: 'Georgia', 'Times New Roman', serif; font-style: italic; }
+        .math-frac {
+            display: inline-flex; flex-direction: column;
+            align-items: center; vertical-align: middle;
+            margin: 0 0.25em; font-size: 0.95em;
+        }
+        .math-frac .num { border-bottom: 1.5px solid currentColor; padding: 0 0.2em 0.05em; text-align: center; }
+        .math-frac .den { padding: 0.05em 0.2em 0; text-align: center; }
+        .math-block {
+            display: flex; align-items: center;
+            justify-content: center; gap: 0.3em;
+            font-size: 1.5rem; padding: 1.25rem 0;
+            color: var(--accent-cyan); flex-wrap: wrap;
+        }
+        .math-box {
+            background: #020617;
+            border: 1px solid var(--border);
+            padding: 1.2rem; border-radius: 8px;
+            text-align: center; margin-bottom: 1.5rem;
+        }
+        .math-boxed-expr {
+            border: 1.5px solid var(--accent-purple);
+            padding: 0.4rem 0.8rem; border-radius: 4px;
+            display: inline-flex; align-items: center;
+            box-shadow: 0 0 15px var(--border-glow);
+            color: var(--accent-purple);
+        }
+
+        /* ── Section headings ── */
+        .section-heading {
+            color: var(--accent-purple);
+            font-size: 1.1rem;
+            font-family: monospace;
+            margin: 2.5rem 0 1rem 0;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        /* ── Tables ── */
+        .research-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.85rem; }
+        .research-table th {
+            background: #020617; color: var(--accent-purple);
+            text-align: left; padding: 0.65rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .research-table td {
+            padding: 0.65rem;
+            border-bottom: 1px solid #0f172a;
+            color: #94a3b8;
+        }
+
+        /* ── Code snippets ── */
+        .code-snippet {
+            background: #020617;
+            color: #f8fafc;
+            padding: 1.25rem; border-radius: 8px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.85rem; line-height: 1.6;
+            overflow-x: auto; margin: 1rem 0 1.5rem 0;
+            border: 1px solid var(--border);
+        }
+        .code-comment { color: var(--text-muted); font-style: italic; }
+        .code-keyword { color: #f43f5e; }
+        .code-def { color: var(--accent-blue); }
+
+        /* ── Inline text color ── */
+        p, li { color: #94a3b8; }
+        strong { color: var(--text-light); }
+        code {
+            background: #1e293b; color: var(--accent-cyan);
+            padding: 0.1em 0.35em; border-radius: 3px;
+            font-size: 0.88em;
+        }
+
+        /* ── Abstract / callout boxes ── */
+        .abstract-box {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent-purple);
+            padding: 1.5rem; border-radius: 8px;
+            margin-bottom: 2.5rem;
+        }
+        .abstract-box h3 {
+            color: var(--accent-purple);
+            font-family: monospace; font-size: 0.9rem;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            margin: 0 0 0.75rem 0;
+        }
+
+        /* ── Disclaimer / callout ── */
+        .callout-warning {
+            background: rgba(251,191,36,0.05);
+            border-left: 4px solid #d97706;
+            padding: 1rem; border-radius: 4px;
+            font-size: 0.9rem; line-height: 1.5;
+            color: #92400e; margin-bottom: 1.5rem;
+        }
+        .callout-warning { color: #fbbf24; }
+
+        /* ── Is / Is Not boxes ── */
+        .is-box-yes {
+            background: rgba(34,197,94,0.05);
+            border: 1px solid rgba(34,197,94,0.2);
+            padding: 1.25rem; border-radius: 8px;
+        }
+        .is-box-no {
+            background: rgba(244,63,94,0.05);
+            border: 1px solid rgba(244,63,94,0.2);
+            padding: 1.25rem; border-radius: 8px;
+        }
+        .is-box-yes h4 { color: #4ade80; margin: 0 0 0.75rem 0; display: flex; align-items: center; gap: 0.4rem; }
+        .is-box-no h4  { color: #f87171; margin: 0 0 0.75rem 0; display: flex; align-items: center; gap: 0.4rem; }
+        .is-box-yes ul { color: #86efac; }
+        .is-box-no  ul { color: #fca5a5; }
+
+        /* ── Metric rows in sidebar ── */
+        .metric-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.75rem 0; border-bottom: 1px solid var(--border);
+        }
+        .metric-row:last-child { border-bottom: none; }
+        .metric-label { font-size: 0.85rem; color: var(--text-muted); }
+        .metric-val { font-family: monospace; font-size: 1.1rem; font-weight: bold; color: var(--accent-blue); }
+
+        /* ── Terminal code style ── */
+        .terminal-code { font-family: 'Consolas','Courier New',monospace; font-size: 0.8rem; line-height: 1.6; color: #94a3b8; }
+        .terminal-accent { color: var(--accent-purple); }
+        .terminal-keyword { color: #f43f5e; }
+        .terminal-def { color: var(--accent-blue); }
+
+        /* ── Lineage diagram ── */
+        .lineage-box {
+            background: #020617; border: 1px solid var(--border);
+            padding: 0.75rem; border-radius: 6px; width: 150px;
+            text-align: center;
+        }
+        .lineage-arrow { color: var(--text-muted); font-weight: bold; font-size: 1.2rem; }
+
+        /* ── Formal statement blockquote ── */
+        blockquote.formal {
+            font-family: 'Georgia', serif;
+            font-size: 1rem; line-height: 1.7;
+            color: #cbd5e1;
+            background: rgba(168,85,247,0.05);
+            border-left: 4px solid var(--accent-purple);
+            padding: 1.5rem; margin: 0; border-radius: 4px;
+            text-align: justify;
+        }
+
+        /* ── Main layout ── */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            max-width: 1300px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            align-items: start;
+        }
+    </style>
+</head>
+<body id="myelin-hub">
+
+    <div class="status-header">
+        <div>MYELIN // <span class="pulse-dot"></span> SESSION_ACTIVE</div>
+        <div style="color: var(--text-muted);">SYS_TARGET: WINDOWS_SERVER_X64 // CORE_V1.2 // MAY_2026</div>
+    </div>
+
+    <nav class="site-nav">
+  <div class="nav-brand">Dharshan Keba</div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="skills.html">CV</a></li>
+    <li><a href="research.html" class="active">Research</a></li>
+    <li><a href="publications.html">Publications</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+    <div style="position: relative; overflow: hidden; min-height: 520px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border);">
+
+        <canvas id="heroCanvas" style="position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0;"></canvas>
+
+        <div style="position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 50% 50%, transparent 30%, #030712 100%); z-index: 1; pointer-events: none;"></div>
+        <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, #030712 0%, transparent 15%, transparent 85%, #030712 100%); z-index: 1; pointer-events: none;"></div>
+
+        <div style="position: relative; z-index: 2; text-align: center; padding: 3rem 2rem;">
+
+            <div style="margin-bottom: 1.5rem; display: flex; justify-content: center;">
+                <svg width="140" height="140" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 20px rgba(168,85,247,0.65)) drop-shadow(0 0 40px rgba(14,165,233,0.4));">
+                    <defs>
+                        <linearGradient id="leftArcGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#c084fc"/>
+                            <stop offset="60%" style="stop-color:#a855f7"/>
+                            <stop offset="100%" style="stop-color:#4f46e5"/>
+                        </linearGradient>
+                        
+                        <linearGradient id="rightArcGrad" x1="100%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#38bdf8"/>
+                            <stop offset="50%" style="stop-color:#0ea5e9"/>
+                            <stop offset="100%" style="stop-color:#2563eb"/>
+                        </linearGradient>
+
+                        <linearGradient id="legGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#6366f1"/>
+                            <stop offset="100%" style="stop-color:#1d4ed8"/>
+                        </linearGradient>
+
+                        <radialGradient id="dotGlow" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" style="stop-color:#e0f2fe"/>
+                            <stop offset="40%" style="stop-color:#38bdf8"/>
+                            <stop offset="100%" style="stop-color:#0ea5e9; stop-opacity:0"/>
+                        </radialGradient>
+                    </defs>
+
+                    <circle cx="70" cy="98" r="16" fill="url(#dotGlow)" opacity="0.6" />
+
+                    <path d="M52 92 L70 66" stroke="url(#legGrad)" stroke-width="8" stroke-linecap="round" opacity="0.8"/>
+                    
+                    <path d="M88 92 L70 66" stroke="url(#legGrad)" stroke-width="8" stroke-linecap="round" opacity="0.4"/>
+
+                    <path d="M42 46 C56 46, 68 52, 70 94" stroke="url(#leftArcGrad)" stroke-width="9.5" fill="none" stroke-linecap="round"/>
+
+                    <path d="M98 46 C84 46, 72 52, 70 94" stroke="url(#rightArcGrad)" stroke-width="9.5" fill="none" stroke-linecap="round"/>
+
+                    <circle cx="70" cy="96" r="5.5" fill="#bae6fd" stroke="#0ea5e9" stroke-width="1.5"/>
+                </svg>
+            </div>
+
+            <div style="font-family: monospace; font-size: 2rem; letter-spacing: 0.55em; color: var(--text-light); font-weight: 700; margin-bottom: 0.4rem; text-shadow: 0 0 30px rgba(168,85,247,0.5);">
+                M Y E L I N
+            </div>
+            <div style="font-family: monospace; font-size: 0.75rem; letter-spacing: 0.3em; color: var(--accent-cyan); margin-bottom: 1.5rem; opacity: 0.85;">
+                GUIDE &nbsp;·&nbsp; RECOVER &nbsp;·&nbsp; FOCUS
+            </div>
+
+            <h1 style="font-size: 1.1rem; color: var(--text-light); letter-spacing: 0.02em; margin-bottom: 0.4rem; font-weight: 500;">PROJECT MYELIN — Behavioral Telemetry & Focus-Regulation System</h1>
+            <p style="font-size: 0.85rem; color: var(--text-muted); font-family: monospace; margin-bottom: 1.5rem;">Technical Development Report · v1.2 · May 2026</p>
+
+            <div style="display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap;">
+                <span style="background: #1e1b4b; color: #c7d2fe; padding: 0.3rem 0.9rem; border-radius: 4px; font-size: 0.78rem; font-weight: 600; font-family: monospace; border: 1px solid #312e81;">Windows Server App</span>
+                <span style="background: rgba(34,197,94,0.1); color: #4ade80; padding: 0.3rem 0.9rem; border-radius: 4px; font-size: 0.78rem; font-weight: 600; font-family: monospace; border: 1px solid rgba(34,197,94,0.25);">● Active Pipeline</span>
+                <span style="background: rgba(251,191,36,0.1); color: #fbbf24; padding: 0.3rem 0.9rem; border-radius: 4px; font-size: 0.78rem; font-weight: 600; font-family: monospace; border: 1px solid rgba(251,191,36,0.25);">Adaptive Model</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    (function() {
+        const canvas = document.getElementById('heroCanvas');
+        const ctx = canvas.getContext('2d');
+        let W, H, particles, waves, animId;
+
+        function resize() {
+            W = canvas.offsetWidth; H = canvas.offsetHeight;
+            canvas.width = W; canvas.height = H;
+        }
+
+        // Floating particles
+        function mkParticle() {
+            return {
+                x: Math.random() * W,
+                y: Math.random() * H,
+                r: Math.random() * 1.8 + 0.4,
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: (Math.random() - 0.5) * 0.3,
+                alpha: Math.random() * 0.6 + 0.2,
+                hue: Math.random() > 0.5 ? '#a855f7' : '#06b6d4'
+            };
+        }
+
+        function initParticles() {
+            particles = Array.from({length: 90}, mkParticle);
+        }
+
+        // Wave paths
+        const waveGroups = [
+            { color: 'rgba(168,85,247,', amp: 55, freq: 0.008, speed: 0.012, yBase: 0.38, phase: 0 },
+            { color: 'rgba(168,85,247,', amp: 35, freq: 0.010, speed: 0.009, yBase: 0.45, phase: 1.2 },
+            { color: 'rgba(6,182,212,',  amp: 50, freq: 0.007, speed: 0.010, yBase: 0.55, phase: 0.6 },
+            { color: 'rgba(6,182,212,',  amp: 30, freq: 0.011, speed: 0.014, yBase: 0.62, phase: 2.1 },
+        ];
+        let t = 0;
+
+        function drawWave(wg) {
+            ctx.beginPath();
+            for (let x = 0; x <= W; x += 3) {
+                const y = wg.yBase * H + Math.sin(x * wg.freq + t * wg.speed * 60 + wg.phase) * wg.amp;
+                x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+            }
+            // glow pass
+            ctx.strokeStyle = wg.color + '0.5)';
+            ctx.lineWidth = 2.5;
+            ctx.shadowColor = wg.color + '0.8)';
+            ctx.shadowBlur = 14;
+            ctx.stroke();
+            // bright core
+            ctx.strokeStyle = wg.color + '0.9)';
+            ctx.lineWidth = 1;
+            ctx.shadowBlur = 0;
+            ctx.stroke();
+        }
+
+        function drawDots(wg) {
+            for (let x = 0; x <= W; x += 40 + Math.random() * 20) {
+                const y = wg.yBase * H + Math.sin(x * wg.freq + t * wg.speed * 60 + wg.phase) * wg.amp;
+                ctx.beginPath();
+                ctx.arc(x, y, 2, 0, Math.PI * 2);
+                ctx.fillStyle = wg.color + '0.85)';
+                ctx.shadowColor = wg.color + '1)';
+                ctx.shadowBlur = 8;
+                ctx.fill();
+            }
+        }
+
+        function frame(ts) {
+            t = ts / 1000;
+            ctx.clearRect(0, 0, W, H);
+            ctx.shadowBlur = 0;
+
+            // Waves
+            waveGroups.forEach(wg => { drawWave(wg); drawDots(wg); });
+
+            // Particles
+            particles.forEach(p => {
+                p.x += p.vx; p.y += p.vy;
+                if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+                if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = p.hue;
+                ctx.globalAlpha = p.alpha;
+                ctx.shadowColor = p.hue;
+                ctx.shadowBlur = 6;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            });
+
+            animId = requestAnimationFrame(frame);
+        }
+
+        resize();
+        initParticles();
+        requestAnimationFrame(frame);
+        window.addEventListener('resize', () => { resize(); initParticles(); });
+    })();
+    </script>
+
+    <div class="content-grid">
+
+        <div class="cyber-panel" style="padding: 2rem;">
+
+            <div class="abstract-box">
+                <h3>Abstract</h3>
+                <p style="line-height: 1.7; font-size: 0.95rem; margin: 0; text-align: justify;">
+                    Unlike conventional screen-time tracking utilities that log purely passive app open histories, MYELIN acts as a research-grade behavioral telemetry instrument built to monitor human attention recovery paths. By applying a first-order linear differential process mathematically analogous to the classical Ebbinghaus Forgetting Curve (1885), the framework monitors user context switches, checks real-time engagement drift on social feeds, and maps post-intervention recovery rates. Parameter changes scale adaptively through user validation parameters, producing conservative, non-irritating feedback hooks that target an attention restoration baseline.
+                </p>
+            </div>
+
+            <h2 class="section-heading">1. Theoretical Origin — Ebbinghaus (1885)</h2>
+            <p style="line-height: 1.6; margin-bottom: 1.5rem; font-size: 0.95rem;">
+                Hermann Ebbinghaus derived the forgetting curve from self-experimentation on memory retention. He observed that memory loss follows a non-linear decay pattern and proposed the following functional description:
+            </p>
+            <div class="math-box">
+                <p style="font-style: italic; color: var(--text-muted); margin-top: 0; font-size: 0.85rem; font-family: monospace;">Ebbinghaus Memory Retention Function:</p>
+                <div class="math-block math-display">
+                    <span>R(t) = e</span><span style="font-size:0.8em; vertical-align:super;">&minus;t/S</span>
+                </div>
+            </div>
+            <p style="line-height: 1.6; margin-bottom: 0.75rem; font-size: 0.9rem;">Where:</p>
+            <ul style="padding-left: 1.5rem; line-height: 1.8; margin-bottom: 1.5rem; font-size: 0.9rem;">
+                <li><span class="math-display">R(t)</span> = proportion of memory retained at elapsed runtime snapshot <span class="math-display">t</span></li>
+                <li><span class="math-display">t</span> = time window delta calculated since initial encoding phase (minutes)</li>
+                <li><span class="math-display">S</span> = baseline memory stability constant calibrated to specific subjects</li>
+            </ul>
+            <p style="line-height: 1.6; margin-bottom: 1.5rem; font-size: 0.95rem;">The underlying differential relation supporting this solution modeling framework is framed as:</p>
+            <div class="math-box">
+                <div class="math-block math-display">
+                    <span class="math-frac"><span class="num">dR</span><span class="den">dt</span></span>
+                    <span>= &minus;</span>
+                    <span class="math-frac"><span class="num">1</span><span class="den">S</span></span>
+                    <span>&middot; R</span>
+                </div>
+            </div>
+            <p style="line-height: 1.6; margin-bottom: 1.5rem; font-size: 0.95rem;">
+                <strong>Core insight:</strong> The execution behavior rate of forgetting scales proportionally to the remaining retained information pool. This is configured as a first-order linear differential process yielding classic stable exponential decay bounds.
+            </p>
+
+            <h2 class="section-heading">2. The MBRM Analogy</h2>
+            <p style="line-height: 1.6; margin-bottom: 1.5rem; font-size: 0.95rem;">
+                The Myelin Behavioral Recovery Model (MBRM) maps attentional baseline restoration post high-reward overstimulation using a structurally analogous mathematical pipeline, preserving core structural mechanics rather than distinct biological matches.
+            </p>
+            <table class="research-table">
+                <thead>
+                    <tr>
+                        <th>Ebbinghaus Variable</th>
+                        <th>Operational Domain</th>
+                        <th>MBRM Equivalent</th>
+                        <th>Telemetry Domain Context</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td class="math-display" style="color:var(--accent-cyan);">R(t)</td><td>Memory metrics retained</td><td class="math-display" style="color:var(--accent-cyan);">D(t)</td><td>Estimated residual engagement level</td></tr>
+                    <tr><td class="math-display" style="color:var(--accent-cyan);">t</td><td>Time step from primary learning task</td><td class="math-display" style="color:var(--accent-cyan);">t</td><td>Time duration step from stimulus change detection</td></tr>
+                    <tr><td class="math-display" style="color:var(--accent-cyan);">S</td><td>Memory trace stability limits</td><td class="math-display" style="color:var(--accent-cyan);">1/&lambda;</td><td>Individualized systemic recovery parameter constraints</td></tr>
+                    <tr><td class="math-display" style="color:var(--accent-cyan);">R<sub>0</sub> = 1</td><td>Complete memory volume trace initialization</td><td class="math-display" style="color:var(--accent-cyan);">D<sub>0</sub></td><td>Initial stimulation magnitude allocation vector</td></tr>
+                    <tr><td>Forgetting</td><td>Proportional baseline information loss</td><td>Recovery</td><td>Attentional drift returning back to baseline parameters</td></tr>
+                </tbody>
+            </table>
+            <div class="callout-warning">
+                <strong>Important disclaimer:</strong> MBRM functions exclusively as a mathematical abstraction structurally modeled alongside exponential cognitive forgetting pipelines. It does not declare or trace literal identical neurological pathways or tracking metrics between structural memory decay functions and continuous visual interaction recoveries.
+            </div>
+
+            <h2 class="section-heading">3. The Governing Differential Equation</h2>
+            <p style="line-height: 1.6; margin-bottom: 1.5rem; font-size: 0.95rem;">Replacing standard biological metrics with behavioral observations gives the system core mathematical engine parameters:</p>
+            <div class="math-box">
+                <div class="math-block math-display">
+                    <span class="math-frac"><span class="num">dD</span><span class="den">dt</span></span>
+                    <span>= &minus;&lambda; &middot; D</span>
+                </div>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem; font-family: monospace;">Governing MBRM First-Order Relation</p>
+            </div>
+            <p style="line-height: 1.6; margin-bottom: 1.5rem; font-size: 0.95rem;">
+                <strong>Plain English:</strong> The calculation velocity tracking the clean dispersion of estimated residual engagement scales proportionally to the size of the current remaining stimulation trace. Peak stimulation spikes decay rapidly upon exit tracking before flattening out slowly — matching the mathematical lineage of chemical clearings, electronics discharging, and particle breakdowns.
+            </p>
+
+            <h2 class="section-heading">4. Full Derivation of D(t)</h2>
+            <p style="line-height: 1.6; margin-bottom: 0.75rem; font-size: 0.95rem;"><strong>Step 1 — Separate variables across integration bounds:</strong></p>
+            <div class="math-block math-display">
+                <span class="math-frac"><span class="num">dD</span><span class="den">D</span></span>
+                <span>= &minus;&lambda; &middot; dt</span>
+            </div>
+
+            <p style="line-height: 1.6; margin: 1.25rem 0 0.75rem; font-size: 0.95rem;"><strong>Step 2 — Integrate both tracking scales synchronously:</strong></p>
+            <div class="math-block math-display">
+                <span>&int;</span><span class="math-frac"><span class="num">1</span><span class="den">D</span></span><span>dD = &int; &minus;&lambda; &middot; dt</span>
+            </div>
+            <div class="math-block math-display" style="font-size: 1.2rem;">
+                <span>ln(D) = &minus;&lambda;t + C</span>
+            </div>
+
+            <p style="line-height: 1.6; margin: 1.25rem 0 0.75rem; font-size: 0.95rem;"><strong>Step 3 — Exponentiate both matching equation sides:</strong></p>
+            <div class="math-block math-display">
+                <span>D(t) = e</span><span style="font-size:0.8em;vertical-align:super;">&minus;&lambda;t + C</span>
+                <span> = e</span><span style="font-size:0.8em;vertical-align:super;">C</span>
+                <span> &middot; e</span><span style="font-size:0.8em;vertical-align:super;">&minus;&lambda;t</span>
+            </div>
+
+            <p style="line-height: 1.6; margin: 1.25rem 0 0.75rem; font-size: 0.95rem;"><strong>Step 4 — Initialize boundary states. At <span class="math-display">t = 0</span>, solve for <span class="math-display">D(0) = D<sub>0</sub></span>:</strong></p>
+            <div class="math-block math-display">
+                <span>D<sub>0</sub> = e</span><span style="font-size:0.8em;vertical-align:super;">C</span>
+            </div>
+
+            <div class="math-box" style="margin-top: 1.5rem;">
+                <div class="math-block math-display">
+                    <span class="math-boxed-expr">D(t) = D<sub>0</sub> &middot; e<sup>&minus;&lambda;t</sup></span>
+                </div>
+                <p style="font-size: 0.85rem; font-weight: 600; color: var(--text-light); margin: 0.5rem 0 0; font-family: monospace;">Equation 1 — The Recovery State Equation</p>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: -0.5rem; line-height: 1.5;">
+                Maps structural estimations tracking user engagement indices over time intervals through passive desktop interactions instead of specialized bio-sensors.
+            </p>
+
+            <h2 class="section-heading">5. Full Derivation of t*</h2>
+            <p style="line-height: 1.6; margin-bottom: 0.75rem; font-size: 0.95rem;">System interaction boundaries open when tracking values settle below explicit structural parameter floors <span class="math-display">D<sub>threshold</sub></span>:</p>
+            <div class="math-block math-display"><span>D(t<sup>*</sup>) = D<sub>threshold</sub></span></div>
+
+            <p style="line-height: 1.6; margin: 1.25rem 0 0.75rem; font-size: 0.95rem;"><strong>Step 1 — Substitute targeting components into Equation 1:</strong></p>
+            <div class="math-block math-display">
+                <span>D<sub>0</sub> &middot; e</span><span style="font-size:0.8em;vertical-align:super;">&minus;&lambda;t<sup>*</sup></span>
+                <span> = D<sub>threshold</sub></span>
+            </div>
+
+            <p style="line-height: 1.6; margin: 1.25rem 0 0.75rem; font-size: 0.95rem;"><strong>Step 2 — Isolate exponential tracking properties:</strong></p>
+            <div class="math-block math-display">
+                <span>e</span><span style="font-size:0.8em;vertical-align:super;">&minus;&lambda;t<sup>*</sup></span>
+                <span> = </span>
+                <span class="math-frac"><span class="num">D<sub>threshold</sub></span><span class="den">D<sub>0</sub></span></span>
+            </div>
+
+            <p style="line-height: 1.6; margin: 1.25rem 0 0.75rem; font-size: 0.95rem;"><strong>Step 3 — Extract natural logs across each side:</strong></p>
+            <div class="math-block math-display">
+                <span>&minus;&lambda;t<sup>*</sup> = ln</span>
+                <span style="font-size:1.2em;vertical-align:middle;">(</span>
+                <span class="math-frac"><span class="num">D<sub>threshold</sub></span><span class="den">D<sub>0</sub></span></span>
+                <span style="font-size:1.2em;vertical-align:middle;">)</span>
+            </div>
+
+            <p style="line-height: 1.6; margin: 1.25rem 0 0.75rem; font-size: 0.95rem;"><strong>Step 4 — Isolate target temporal endpoint variables:</strong></p>
+            <div class="math-block math-display">
+                <span>t<sup>*</sup> = &minus;</span>
+                <span class="math-frac"><span class="num">1</span><span class="den">&lambda;</span></span>
+                <span>ln</span>
+                <span style="font-size:1.2em;vertical-align:middle;">(</span>
+                <span class="math-frac"><span class="num">D<sub>threshold</sub></span><span class="den">D<sub>0</sub></span></span>
+                <span style="font-size:1.2em;vertical-align:middle;">)</span>
+            </div>
+
+            <p style="line-height: 1.6; margin: 1.25rem 0 0.75rem; font-size: 0.95rem;"><strong>Step 5 — Apply log transformation <span class="math-display">&minus;ln(a/b) = ln(b/a)</span>:</strong></p>
+            <div class="math-box" style="margin-top: 1.5rem;">
+                <div class="math-block math-display">
+                    <span class="math-boxed-expr">
+                        t<sup>*</sup> = <span class="math-frac"><span class="num">1</span><span class="den">&lambda;</span></span> ln<span style="font-size:1.2em;vertical-align:middle;">(</span><span class="math-frac"><span class="num">D<sub>0</sub></span><span class="den">D<sub>threshold</sub></span></span><span style="font-size:1.2em;vertical-align:middle;">)</span>
+                    </span>
+                </div>
+                <p style="font-size: 0.85rem; font-weight: 600; color: var(--text-light); margin: 0.5rem 0 0; font-family: monospace;">Equation 2 — The Intervention Duration Equation</p>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: -0.5rem; line-height: 1.5;">
+                Determines required recovery windows helping drive user focus parameters smoothly to active states without enforcing strict guarantees or rigid limits.
+            </p>
+
+            <h2 class="section-heading">6. Variable Definitions — Complete Reference</h2>
+            <table class="research-table">
+                <thead>
+                    <tr>
+                        <th>Symbol</th><th>System Variable Label</th><th>Telemetry Source</th><th>Architectural Scope</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td class="math-display" style="color:var(--accent-cyan);">D(t)</td><td>Residual engagement tracking</td><td>Real-time continuous evaluation loops</td><td>Derived purely via software telemetry arrays</td></tr>
+                    <tr><td class="math-display" style="color:var(--accent-cyan);">D<sub>0</sub></td><td>Initial stimulation value magnitude</td><td><code>DEFAULT_D0 × APP_SEVERITY[category]</code></td><td>Weighted directly based on distraction level vectors</td></tr>
+                    <tr><td class="math-display" style="color:var(--accent-cyan);">&lambda;</td><td>Personal baseline decay velocity constant</td><td><code>LAMBDA_PROFILES[profile_type]</code></td><td>Adjusts profile criteria using behavior parameters</td></tr>
+                    <tr><td class="math-display" style="color:var(--accent-cyan);">t</td><td>Elapsed session run clock timing delta</td><td>Active foreground monitor tracker</td><td>Measures time since distraction detection</td></tr>
+                    <tr><td class="math-display" style="color:var(--accent-cyan);">t<sup>*</sup></td><td>Calculated optimal intervention boundary</td><td>Computed output — Equation 2</td><td>Provides heuristic recovery estimates</td></tr>
+                    <tr><td class="math-display" style="color:var(--accent-cyan);">D<sub>threshold</sub></td><td>Attentional threshold floor</td><td><code>TONIC_THRESHOLD = 0.15</code></td><td>Static system anchor constant</td></tr>
+                </tbody>
+            </table>
+
+            <h2 class="section-heading">7. Numerical Example — Live Calculation</h2>
+            <p style="line-height: 1.6; margin-bottom: 1.25rem; font-size: 0.95rem;">
+                <strong>Target User Configuration:</strong> profile = <code>general</code>, active container site = <code>social_feed</code> (Instagram)
+            </p>
+            <div class="math-block math-display" style="font-size: 1.1rem; background: #020617; padding: 0.75rem; border-radius: 6px; border: 1px solid var(--border); justify-content: space-around;">
+                <span>D<sub>0</sub> = 0.85</span>
+                <span style="color: var(--text-muted);">|</span>
+                <span>&lambda; = 0.35</span>
+                <span style="color: var(--text-muted);">|</span>
+                <span>D<sub>threshold</sub> = 0.15</span>
+            </div>
+
+            <p style="line-height: 1.6; margin: 1.5rem 0 0.5rem; font-size: 0.95rem;"><strong>Recovery state at <span class="math-display">t = 3</span> minutes:</strong></p>
+            <div class="math-block math-display" style="font-size: 1.15rem; background: #020617; padding: 0.5rem; border: 1px solid var(--border); border-radius: 6px;">
+                <span>D(3) = 0.85 &middot; e</span><span style="font-size:0.8em;vertical-align:super;">&minus;1.05</span>
+                <span> = 0.85 &times; 0.3499 = 0.2974</span>
+            </div>
+
+            <p style="line-height: 1.6; margin: 1.5rem 0 0.5rem; font-size: 0.95rem;"><strong>Optimal rest constraint boundary (<span class="math-display">t<sup>*</sup></span>):</strong></p>
+            <div class="math-block math-display" style="font-size: 1.15rem; background: #020617; padding: 0.5rem; border: 1px solid var(--border); border-radius: 6px;">
+                <span>t<sup>*</sup> = </span><span class="math-frac"><span class="num">1</span><span class="den">0.35</span></span>
+                <span>ln</span><span style="font-size:1.2em;vertical-align:middle;">(</span>
+                <span class="math-frac"><span class="num">0.85</span><span class="den">0.15</span></span>
+                <span style="font-size:1.2em;vertical-align:middle;">)</span>
+                <span>= 2.857 &times; 1.734 = </span>
+                <span style="font-weight: 600; color: var(--accent-purple);">4.95 &asymp; 5.0 min</span>
+            </div>
+
+            <h2 class="section-heading">8. The Adaptive &lambda; Extension</h2>
+            <p style="line-height: 1.6; margin-bottom: 1.5rem; font-size: 0.95rem;">Static initialization rules serve as base reference targets. MBRM optimizes execution curves on the fly by monitoring feedback input histories:</p>
+            <div class="math-box">
+                <div class="math-block math-display">
+                    &lambda;<sub>new</sub> = &lambda;<sub>base</sub> &times; (0.8 + 0.4 &times; &alpha;)
+                </div>
+            </div>
+            <p style="line-height: 1.6; margin-bottom: 1rem; font-size: 0.95rem;">Where <span class="math-display">&alpha;</span> calculates active interaction compliance:</p>
+            <div class="math-block math-display" style="margin-bottom: 1.5rem;">
+                <span>&alpha; = </span>
+                <span class="math-frac">
+                    <span class="num">n<sub>accepted</sub></span>
+                    <span class="den">n<sub>accepted</sub> + n<sub>ignored</sub></span>
+                </span>
+            </div>
+            <table class="research-table">
+                <thead>
+                    <tr><th>Scenario</th><th>Compliance (&alpha;)</th><th>&lambda;<sub>new</sub></th><th>System Effect</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Always accepts</td><td>1.0</td><td class="math-display" style="color:var(--accent-cyan);">1.2 &middot; &lambda;<sub>base</sub></td><td>Shorter intervention windows</td></tr>
+                    <tr><td>Always ignores</td><td>0.0</td><td class="math-display" style="color:var(--accent-cyan);">0.8 &middot; &lambda;<sub>base</sub></td><td>Longer structural windows</td></tr>
+                    <tr><td>Mixed responses</td><td>0.5</td><td class="math-display" style="color:var(--accent-cyan);">1.0 &middot; &lambda;<sub>base</sub></td><td>No active calibration</td></tr>
+                </tbody>
+            </table>
+            <p style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; line-height: 1.5;">
+                Note: This optimization scaling loop operates as a custom heuristic rule and requires deeper validation sets before declaring clinical mapping accuracies. The system enforces an initialization buffer of 3 recorded validation loops before launching dynamic adjustments.
+            </p>
+
+            <h2 class="section-heading">9. Complete Code Mapping</h2>
+            <h4 style="color: var(--text-light); margin-bottom: 0.25rem; font-size: 0.9rem; font-family: monospace;">Equation 1 — State Evolution Engine</h4>
+            <div class="code-snippet">
+<span class="code-keyword">def</span> <span class="code-def">dopamine_at_time</span>(d0: <span class="code-keyword">float</span>, lam: <span class="code-keyword">float</span>, t: <span class="code-keyword">float</span>) -&gt; <span class="code-keyword">float</span>:
+    <span class="code-keyword">return</span> d0 * math.exp(-lam * t)
+    <span class="code-comment"># Implements: D(t) = D0 * e^(-λt)</span></div>
+
+            <h4 style="color: var(--text-light); margin: 1.5rem 0 0.25rem; font-size: 0.9rem; font-family: monospace;">Equation 2 — Intervention Timing Router</h4>
+            <div class="code-snippet">
+<span class="code-keyword">def</span> <span class="code-def">compute_lockout_duration</span>(d0, lam, threshold=TONIC_THRESHOLD):
+    t_star = -math.log(threshold / d0) / lam
+    <span class="code-keyword">return</span> math.ceil(t_star * 2) / 2
+    <span class="code-comment"># Implements: t* = (1/λ) * ln(D0 / D_threshold)</span></div>
+
+            <h4 style="color: var(--text-light); margin: 1.5rem 0 0.25rem; font-size: 0.9rem; font-family: monospace;">Adaptive Tracking — Lambda Recalibration Layer</h4>
+            <div class="code-snippet">
+<span class="code-keyword">def</span> <span class="code-def">update_lambda</span>(self) -&gt; <span class="code-keyword">None</span>:
+    total = self.interventions_accepted + self.interventions_ignored
+    <span class="code-keyword">if</span> total &lt; 3:
+        <span class="code-keyword">return</span>
+    acceptance_rate = self.interventions_accepted / total
+    base = LAMBDA_PROFILES.get(self.profile_type, DEFAULT_LAMBDA)
+    self.custom_lambda = base * (0.8 + 0.4 * acceptance_rate)
+    <span class="code-comment"># Implements: λ_new = λ_base × (0.8 + 0.4α)</span></div>
+
+            <h2 class="section-heading">10. The Full Lineage</h2>
+            <p style="line-height: 1.6; margin-bottom: 1.5rem; font-size: 0.95rem;">The full lineage traces the integration path from nineteenth-century cognitive psychology directly into modern telemetry systems:</p>
+            <div style="background: #020617; border: 1px solid var(--border); padding: 1.5rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem;">
+                <div style="display: flex; align-items: center; justify-content: space-between; min-width: 700px; gap: 0.5rem;">
+                    <div class="lineage-box">
+                        <div class="math-display" style="font-size: 0.95rem; color: var(--accent-cyan);">
+                            <span class="math-frac"><span class="num">dR</span><span class="den">dt</span></span> = &minus;<span class="math-frac"><span class="num">1</span><span class="den">S</span></span>R
+                        </div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.4rem; font-family: monospace;">Ebbinghaus (1885)</div>
+                    </div>
+                    <span class="lineage-arrow">&rarr;</span>
+                    <div class="lineage-box">
+                        <div class="math-display" style="font-size: 0.95rem; color: var(--accent-cyan);">
+                            <span class="math-frac"><span class="num">dD</span><span class="den">dt</span></span> = &minus;&lambda;D
+                        </div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.4rem; font-family: monospace;">MBRM Engine</div>
+                    </div>
+                    <span class="lineage-arrow">&rarr;</span>
+                    <div class="lineage-box">
+                        <div class="math-display" style="font-size: 0.95rem; color: var(--accent-cyan);">D(t) = D<sub>0</sub>e<sup>&minus;&lambda;t</sup></div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.4rem; font-family: monospace;">Equation 1</div>
+                    </div>
+                    <span class="lineage-arrow">&rarr;</span>
+                    <div class="lineage-box">
+                        <div class="math-display" style="font-size: 0.9rem; color: var(--accent-cyan);">
+                            t<sup>*</sup> = <span class="math-frac"><span class="num">1</span><span class="den">&lambda;</span></span>ln(<span class="math-frac"><span class="num">D<sub>0</sub></span><span class="den">D<sub>th</sub></span></span>)
+                        </div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.4rem; font-family: monospace;">Equation 2</div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-heading">11. Formal Research Statement</h2>
+            <blockquote class="formal">
+                "The Myelin Behavioral Recovery Model (MBRM) proposes that estimated residual attentional engagement following detection of high-reward digital stimulation decays according to a first-order differential process, yielding the recovery state equation <span class="math-display">D(t) = D<sub>0</sub> &middot; e<sup>&minus;&lambda;t</sup></span>. This formulation is structurally analogous to exponential forgetting models in cognitive science, most notably the Ebbinghaus forgetting curve (1885), with memory stability <span class="math-display">S</span> replaced by the reciprocal of an individual-specific behavioral decay constant <span class="math-display">&lambda;</span>. The optimal intervention duration <span class="math-display">t<sup>*</sup></span> is derived by solving for the time at which estimated residual engagement crosses a predefined baseline threshold. All variables are estimated from observable behavioral signals — app switching, scroll duration, and reopen frequency — without biological measurement."
+            </blockquote>
+
+            <h2 class="section-heading">12. What This Model Is and Is Not</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1rem;">
+                <div class="is-box-yes">
+                    <h4>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        It IS
+                    </h4>
+                    <ul style="padding-left: 1.2rem; margin: 0; font-size: 0.88rem; line-height: 1.7;">
+                        <li>A heuristic behavioral recovery model</li>
+                        <li>Structurally analogous to Ebbinghaus</li>
+                        <li>Mathematically derived from baseline principles</li>
+                        <li>Software-implementable in modern desktop setups</li>
+                        <li>Academically defensible within research applications</li>
+                    </ul>
+                </div>
+                <div class="is-box-no">
+                    <h4>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                        It IS NOT
+                    </h4>
+                    <ul style="padding-left: 1.2rem; margin: 0; font-size: 0.88rem; line-height: 1.7;">
+                        <li>A biological or clinical biomarker measurement</li>
+                        <li>Identical to neurological memory retention loops</li>
+                        <li>Empirically validated through clinical trials yet</li>
+                        <li>A guaranteed focus recovery automation</li>
+                        <li>A proven biological law of human attention</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <aside style="display: flex; flex-direction: column; gap: 1.5rem; position: sticky; top: 1.5rem;">
+
+            <div class="cyber-panel">
+                <div class="panel-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    System Overview
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">FOCUS SCORE</span>
+                    <span class="metric-val" style="color:#22c55e;">82%</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">SESSION DEPTH</span>
+                    <span class="metric-val">47m</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">RETURN LATENCY</span>
+                    <span class="metric-val" style="color:var(--accent-cyan);">3.2m</span>
+                </div>
+                <div style="margin-top: 1.25rem; text-align: center; background: #020617; border: 1px solid var(--border); border-radius: 6px; padding: 0.75rem;">
+                    <div style="font-size: 0.7rem; color: var(--text-muted); font-family: monospace; margin-bottom: 0.3rem;">ADAPTIVE PROFILE SNAPSHOT</div>
+                    <div style="font-size: 1.2rem; font-family: monospace; color: var(--accent-purple); font-weight: bold;">&lambda; = 0.35</div>
+                </div>
+            </div>
+
+            <div class="cyber-panel">
+                <div class="panel-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-2.5a1 1 0 0 1-.8-.4l-.9-1.2A1 1 0 0 0 15 3h-2a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z"/><path d="M20 21a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-2.9a1 1 0 0 1-.88-.55l-.42-.85a1 1 0 0 0-.92-.6H13a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z"/><path d="M3 5a2 2 0 0 0 2 2h3"/><path d="M3 3v13a2 2 0 0 0 2 2h3"/></svg>
+                    System Map
+                </div>
+                <div style="font-family: monospace; font-size: 0.75rem; background: #020617; color: #94a3b8; padding: 1rem; border-radius: 6px; line-height: 1.6; margin-bottom: 1.25rem;">
+                    MYELIN/<br>
+                    ├── logic_engine/<br>
+                    │&nbsp;&nbsp; ├── windows_monitor.py<br>
+                    │&nbsp;&nbsp; ├── trigger_detector.py<br>
+                    │&nbsp;&nbsp; └── dopamine_model.py<br>
+                    ├── platform/<br>
+                    │&nbsp;&nbsp; ├── windows/<br>
+                    │&nbsp;&nbsp; │&nbsp;&nbsp; └── nudge_ui.py<br>
+                    │&nbsp;&nbsp; └── android/<br>
+                    │&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; └── kotlin_src/<br>
+                    └── logs/<br>
+                    &nbsp;&nbsp;&nbsp; ├── telemetry.jsonl<br>
+                    &nbsp;&nbsp;&nbsp; └── eval_only.jsonl
+                </div>
+                <h4 style="color: var(--text-light); font-size: 0.85rem; margin: 0 0 0.5rem; font-family: monospace;">TELEMETRY SCHEMA</h4>
+                <ul style="padding-left: 1.2rem; margin: 0; font-size: 0.82rem; color: var(--text-muted); line-height: 1.7;">
+                    <li><code>sessions</code> records</li>
+                    <li><code>trigger_events</code> metrics</li>
+                    <li><code>return_latency</code> curves</li>
+                </ul>
+                <hr style="border: 0; height: 1px; background: var(--border); margin: 1.25rem 0;">
+                <a href="https://github.com/Dharshan212" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none; font-size: 0.85rem; padding: 0.65rem; background: var(--accent-purple); color: white; border-radius: 6px; font-weight: 600; box-shadow: 0 0 12px rgba(168,85,247,0.3);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+                    Inspect Codebase
+                </a>
+            </div>
+
+            <div class="cyber-panel">
+                <div class="panel-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="8" height="8" rx="1"/><rect x="14" y="2" width="8" height="8" rx="1"/><rect x="2" y="14" width="8" height="8" rx="1"/><path d="M14 18h8M18 14v8"/></svg>
+                    Pipeline Blueprint
+                </div>
+                <div style="font-family: monospace; font-size: 0.78rem; color: #94a3b8; line-height: 1.7;">
+                    <div style="color: var(--accent-blue);">[SENSORS]</div>
+                    &nbsp;&nbsp;— Windows Foreground Poll<br>
+                    <div style="color: var(--accent-purple); margin-top: 0.4rem;">[CLASSIFIER]</div>
+                    &nbsp;&nbsp;— Title Volatility Handler<br>
+                    <div style="color: var(--accent-cyan); margin-top: 0.4rem;">[DECISION ENGINE]</div>
+                    &nbsp;&nbsp;— Adaptive Lambda MBRM
+                </div>
+            </div>
+
+        </aside>
+    </div>
+
+<footer class="site-footer">
+  <div class="footer-social">
+    <a href="https://github.com/Dharshan212" target="_blank" aria-label="GitHub">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/dharshan-keba-432512168/" target="_blank" aria-label="LinkedIn">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+    </a>
+    <a href="https://www.researchgate.net/profile/Dharshan-Keba-Morris/research" target="_blank" aria-label="ResearchGate">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.58 3.012c-2.31 0-4.402 1.226-5.59 3.092a6.974 6.974 0 0 0-5.59-3.092C3.84 3.012 0 6.846 0 11.586c0 4.74 3.84 8.574 8.4 8.574 2.31 0 4.402-1.226 5.59-3.092a6.974 6.974 0 0 0 5.59 3.092c4.56 0 8.4-3.834 8.4-8.574 0-4.74-3.84-8.574-8.4-8.574zm-11.18 14.18c-3.1 0-5.61-2.507-5.61-5.606 0-3.099 2.51-5.606 5.61-5.606 3.1 0 5.61 2.507 5.61 5.606 0 3.099-2.51 5.606-5.61 5.606zm11.18 0c-3.1 0-5.61-2.507-5.61-5.606 0-3.099 2.51-5.606 5.61-5.606 3.1 0 5.61 2.507 5.61 5.606 0 3.099-2.51 5.606-5.61 5.606z"/></svg>
+    </a>
+    <a href="https://www.youtube.com/@dharshan079" target="_blank" aria-label="YouTube">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+    </a>
+  </div>
+  <p class="footer-copy">&copy; 2026 Dharshan Keba. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

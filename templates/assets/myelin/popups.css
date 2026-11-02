@@ -1,0 +1,272 @@
+/* MYELIN Web — Phase 2A intervention popups. Values are the desktop PyQt6 constants named beside them.
+   Additive: the legacy .wl-popup rules in web-lite.css are left in place but no longer match (the class is gone). */
+
+.wl-pp {
+  position: fixed; z-index: 9000; left: 50%; top: 50%;
+  transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px)));
+  box-sizing: border-box; max-width: calc(100vw - 24px); max-height: calc(100dvh - 24px); overflow: auto;
+  font-family: var(--font-ui, "Segoe UI", "Inter", sans-serif); color: #F4F7FB; outline: none; text-align: center;
+  --ppt: #F4F7FB; --ppm: #93A1B8; --ppf: #6B7A94; --ppbt: #06131F;
+}
+.wl-pp *, .wl-pp *::before, .wl-pp *::after { box-sizing: border-box; }
+.wl-pp p, .wl-pp h2 { margin: 0; }
+.wl-pp.pp-dragging { cursor: grabbing; user-select: none; }
+.pp-hidden { display: none !important; }
+.pp-grow { flex: 1 1 auto; }
+.pp-gap6 { height: 6px; flex: 0 0 auto; } .pp-gap8 { height: 8px; flex: 0 0 auto; }
+.pp-pre { white-space: pre-line; }
+.mono, .pp-status, .pp-resource, .pp-countdown, .pp-footer, .pp-protected-note, .pp-context, .pp-unit, .pp-timing, .pp-confirming, .pp-secant-resource { font-family: var(--font-mono, Consolas, monospace); }
+
+/* shared pieces */
+.pp-orb { width: 10px; height: 10px; border-radius: 50%; background: var(--ppa); flex: 0 0 auto; }
+.pp-shown .pp-orb { animation: ppOrb 1.8s ease-in-out infinite alternate; }   /* SINE/popup.py GLOW_BREATH_DURATION_MS: blur 10 <-> 22 */
+@keyframes ppOrb { from { box-shadow: 0 0 10px var(--ppa); } to { box-shadow: 0 0 22px var(--ppa); } }
+.pp-glyph { color: var(--ppa); flex: 0 0 auto; }
+.pp-eyebrow-row { display: flex; align-items: center; gap: 10px; text-align: left; }
+.pp-eyebrow { color: var(--ppm); font-size: 11px; font-weight: 600; letter-spacing: 1.4px; white-space: nowrap; }
+.pp-center { text-align: center; }
+.pp-badge { display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--ppa); color: var(--ppa); white-space: nowrap; }
+.pp-headline { color: var(--ppa); line-height: 1.2; }
+.pp-message { color: var(--ppt); }
+.pp-status { color: var(--ppa); }
+.pp-strip { height: 6px; padding: 1px 0; flex: 0 0 auto; position: relative; }
+.pp-strip::before { content: ""; position: absolute; left: 0; right: 0; top: 1px; height: 4px; border-radius: 2px; background: color-mix(in srgb, var(--ppa) 36%, #000); }
+.pp-strip-fill { position: absolute; left: 0; top: 1px; height: 4px; border-radius: 2px; background: var(--ppa); width: 100%; }
+.pp-btn { cursor: pointer; font-family: var(--font-ui, "Segoe UI", sans-serif); font-weight: 700; line-height: 1.2; }
+.pp-btn:disabled { cursor: not-allowed; }
+.pp-actions { display: flex; justify-content: center; flex-wrap: wrap; flex: 0 0 auto; }
+.pp-field { text-align: center; color: var(--ppt); font-family: inherit; outline: none; }
+.pp-field::placeholder { color: var(--ppm); opacity: .8; }
+
+/* ============ SINE family (SINE/popup.py): 620x460, protected red 620x360, halo window + 16px shell ============ */
+.pp-world-blue  { --ppa: #3DDCFF; --ppd: #17677A; --pph: #123244; --ppp: #111827; }
+.pp-world-amber { --ppa: #F5A623; --ppd: #8A5A12; --pph: #3A2A0D; --ppp: #1C140A; }
+.pp-world-green { --ppa: #39D98A; --ppd: #176B4A; --pph: #103629; --ppp: #0D211A; }
+.pp-world-red   { --ppa: #FF4D6D; --ppd: #8C1F33; --pph: #3A0F18; --ppp: #20090F; }
+.pp-sine { width: min(620px, calc(100vw - 24px)); height: 460px; padding: 3px; background: var(--pph); }
+.pp-sine.pp-protected { height: 360px; }
+.pp-enter { animation: ppIn .32s cubic-bezier(.215, .61, .355, 1) both; }   /* ENTRANCE_DURATION_MS 320, OutCubic, drift 14 px, opacity .88 -> 1 */
+@keyframes ppIn { from { opacity: .88; translate: 0 14px; } to { opacity: 1; translate: 0 0; } }
+.pp-sine .pp-shell { height: 100%; display: flex; flex-direction: column; gap: 12px; padding: 22px 26px 20px; background: var(--ppp); border: 1.5px solid var(--ppa); border-radius: 16px; }
+.pp-sine .pp-badge-sine { width: 78px; height: 24px; border-radius: 12px; font-size: 10.5px; font-weight: 700; letter-spacing: 1px; }
+.pp-h26 { font-size: 26px; font-weight: 800; }
+.pp-m14 { font-size: 14px; } .pp-m125 { font-size: 12.5px; }
+.pp-sine .pp-resource { color: var(--ppm); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pp-sine .pp-status, .pp-nb .pp-status { font-size: 11px; font-weight: 600; }
+.pp-sine .pp-btn { min-width: 190px; min-height: 46px; padding: 6px 16px; border-radius: 10px; font-size: 12.5px; letter-spacing: .6px; }
+.pp-sine .pp-actions, .pp-nb .pp-actions { gap: 12px; }
+.pp-sine .pp-protected-note { color: var(--ppa); font-size: 11.5px; font-weight: 700; letter-spacing: .8px; }
+.pp-sine .pp-countdown { color: var(--ppm); font-size: 10.5px; }
+.pp-sine .pp-footer { color: var(--ppf); font-size: 9.5px; letter-spacing: .5px; }
+
+/* buttons shared by SINE + Normal Break (primary fill / secondary outline, QSS #primaryAction / #secondaryAction) */
+.pp-sine .pp-primary, .pp-nb .pp-primary { color: var(--ppbt); background: var(--ppa); border: 0; }
+.pp-sine .pp-primary:hover, .pp-nb .pp-primary:hover { background: color-mix(in srgb, var(--ppa) 88%, #fff); }
+.pp-sine .pp-primary:active, .pp-nb .pp-primary:active { background: color-mix(in srgb, var(--ppa) 88%, #000); }
+.pp-sine .pp-secondary, .pp-nb .pp-secondary { color: var(--ppa); background: transparent; border: 1.5px solid var(--ppa); }
+.pp-sine .pp-secondary:hover, .pp-nb .pp-secondary:hover { background: var(--pph); }
+.pp-sine .pp-secondary:active, .pp-nb .pp-secondary:active { background: var(--ppd); }
+.pp-sine .pp-btn:focus-visible, .pp-nb .pp-btn:focus-visible, .pp-mine .pp-btn:focus-visible, .pp-cosine .pp-btn:focus-visible, .pp-secant .pp-btn:focus-visible, .pp-cosecant .pp-btn:focus-visible { outline: 2px solid var(--ppt); outline-offset: 1px; }
+.pp-sine .pp-btn:disabled, .pp-nb .pp-btn:disabled { color: var(--ppm); background: var(--ppd); border-color: var(--ppd); }
+
+/* ============ Normal Break (SINE/popup.py _NormalBreakSurface): 520x330 selector / 520x310 active, green ============ */
+.pp-nb { width: min(520px, calc(100vw - 24px)); height: 330px; padding: 3px; background: var(--pph); }
+.pp-nb-active { height: 310px; }
+.pp-nb .pp-shell { height: 100%; display: flex; flex-direction: column; justify-content: center; gap: 14px; padding: 24px 28px 22px; background: var(--ppp); border: 1.5px solid var(--ppa); border-radius: 16px; }
+.pp-nb .pp-eyebrow { font-size: 11px; letter-spacing: 1.2px; text-align: center; }
+.pp-h25 { font-size: 25px; font-weight: 800; }
+.pp-nb .pp-field-row { display: flex; align-items: center; justify-content: center; gap: 8px; }
+.pp-nb .pp-field { width: 110px; padding: 8px 12px; font-size: 18px; font-weight: 700; font-family: var(--font-mono, Consolas, monospace); background: var(--pph); border: 1.5px solid var(--ppa); border-radius: 9px; }
+.pp-nb .pp-field:focus { border: 2px solid var(--ppt); padding: 7.5px 11.5px; }
+.pp-unit { color: var(--ppt); font-size: 13px; font-weight: 700; }
+.pp-nb .pp-s105, .pp-s105 { font-size: 10.5px; font-weight: 600; }
+.pp-nb .pp-btn { min-width: 170px; min-height: 44px; padding: 7px 18px; border-radius: 10px; font-size: 12px; letter-spacing: .5px; }
+.pp-nb .pp-countdown.pp-break-clock { color: var(--ppa); font-size: 30px; font-weight: 800; font-family: var(--font-mono, Consolas, monospace); }
+.pp-enjoy { color: var(--ppa); font-size: 13px; font-weight: 700; letter-spacing: .8px; }
+
+/* ============ MINE (MINE/popup.py): 760 wide, card 2px accent border, radius 16; Amber (MINE-1) / Red (MINE-2) world tokens ============ */
+.pp-tone-amber { --mbg: #160F07; --msoft: #1C140A; --ms2: #36220C; --ppa: #F5A623; --ppm: #C9A96A; --ppt: #FFF4D6; --mbd: #4A2E12; }
+.pp-tone-red   { --mbg: #140607; --msoft: #20090F; --ms2: #3A0E12; --ppa: #FF4D6D; --ppm: #D6A0A3; --ppt: #FFF1F1; --mbd: #4F171C; }
+.pp-mine { width: min(760px, calc(100vw - 24px)); padding: 8px; background: var(--mbg); }
+.pp-mine .pp-card { display: flex; flex-direction: column; gap: 16px; padding: 24px 30px 22px; background: var(--msoft); border: 2px solid var(--ppa); border-radius: 16px; }
+.pp-mine-head { display: flex; align-items: center; text-align: left; }
+.pp-mono13 { font-family: var(--font-mono, Consolas, monospace); font-size: 13px; font-weight: 700; letter-spacing: 0; }
+.pp-mine .pp-badge-mine { background: var(--ms2); border-radius: 9px; padding: 3px 10px; font-family: var(--font-mono, Consolas, monospace); font-size: 12px; font-weight: 700; }
+.pp-rail { height: 3px; border-radius: 1px; background: var(--ppa); flex: 0 0 auto; }
+.pp-bold { font-weight: 700; }
+.pp-h26.pp-bold { font-size: 26px; }
+.pp-m15 { font-size: 15px; }
+.pp-context { color: var(--ppm); font-size: 13px; }
+.pp-mine .pp-status { font-size: 12px; font-weight: 700; }
+.pp-footer { color: var(--ppm); } .pp-f11 { font-size: 11px; } .pp-f12 { font-size: 12px; } .pp-f95 { font-size: 9.5px; letter-spacing: .5px; }
+.pp-confirming { color: var(--ppa); font-size: 15px; font-weight: 700; min-height: 1.3em; }
+.pp-mine .pp-actions { gap: 14px; }
+.pp-mine .pp-btn { min-width: 230px; padding: 12px 20px; border-radius: 10px; font-size: 14px; }
+.pp-mine .pp-primary { color: #071019; background: var(--ppa); border: 0; }
+.pp-mine .pp-primary:hover, .pp-mine .pp-primary:focus-visible { box-shadow: inset 0 0 0 2px var(--ppt); }
+.pp-mine .pp-primary:active { background: var(--ppm); }
+.pp-mine .pp-secondary { color: var(--ppa); background: transparent; border: 2px solid var(--ppa); }
+.pp-mine .pp-secondary:hover { background: var(--ms2); }
+.pp-mine .pp-secondary:active { background: var(--msoft); }
+.pp-mine .pp-btn:disabled { color: var(--ppm); border: 2px solid var(--mbd); background: var(--ms2); box-shadow: none; }
+.pp-mine .pp-field-row { display: flex; align-items: center; justify-content: center; gap: 8px; }
+.pp-mine .pp-field { width: 170px; padding: 10px; font-size: 26px; font-weight: 700; font-family: var(--font-mono, Consolas, monospace); background: var(--ms2); border: 2px solid var(--ppa); border-radius: 10px; }
+.pp-mine .pp-field:focus { border-color: var(--ppt); }
+.pp-mine .pp-field-row .pp-btn { min-width: 0; }
+
+/* ============ COSINE (COSINE/popup.py): 780 wide; follows the live body theme tokens; halo = 15 % accent over base ============ */
+.pp-cosine { width: min(780px, calc(100vw - 24px)); padding: 8px; background: color-mix(in srgb, var(--cyan) 15%, var(--base)); --ppa: var(--cyan); --ppm: var(--muted); --ppt: var(--text); }
+.pp-cosine .pp-card { display: flex; flex-direction: column; gap: 14px; padding: 22px 30px 20px; background: var(--surface-soft); border: 1.5px solid var(--cyan); border-radius: 16px; }
+.pp-cosine .pp-eyebrow, .pp-cosine .pp-footer { color: var(--muted); }
+.pp-e13 { font-size: 13px; }
+.pp-cosine .pp-badge-cosine { border-radius: 13px; padding: 5px 18px; font-size: 12px; font-weight: 700; letter-spacing: 1.2px; color: var(--cyan); border-color: var(--cyan); }
+.pp-cosine .pp-orb { background: var(--cyan); }
+.pp-cosine .pp-headline { color: var(--cyan); font-size: 27px; font-weight: 700; letter-spacing: .6px; }
+.pp-cosine .pp-message { color: var(--text); }
+.pp-cosine .pp-status { color: var(--cyan); font-size: 12px; font-weight: 600; letter-spacing: 1.2px; }
+.pp-cosine .pp-context { color: var(--muted); }
+.pp-cosine .pp-footer { font-size: 11px; letter-spacing: 1px; }
+.pp-mascot { display: block; margin: 0 auto; flex: 0 0 auto; }
+.pp-mascot .pp-eyes { transform-box: fill-box; }
+.pp-mascot .pp-eyes ellipse { transform-box: fill-box; transform-origin: center; animation: ppBlink 4s ease-in-out infinite; }
+@keyframes ppBlink { 0%, 92%, 100% { transform: scaleY(1); } 96% { transform: scaleY(.13); } }
+.pp-cosine .pp-actions { gap: 14px; }
+.pp-cosine .pp-btn { min-width: 230px; padding: 12px 22px; border-radius: 10px; font-size: 14px; letter-spacing: .8px; }
+.pp-cosine .pp-actions:has(> :only-child) .pp-btn { min-width: 260px; }
+.pp-cosine .pp-primary { color: var(--ppon, #0B0F19); background: var(--cyan); border: 0; }
+.pp-cosine .pp-primary:hover { background: color-mix(in srgb, var(--cyan) 88%, #fff); }
+.pp-cosine .pp-primary:active { background: color-mix(in srgb, var(--cyan) 88%, #000); }
+.pp-cosine .pp-secondary { color: var(--cyan); background: transparent; border: 1.5px solid var(--cyan); }
+.pp-cosine .pp-secondary:hover { background: var(--surface-2); }
+.pp-cosine .pp-btn:disabled { color: var(--muted); background: var(--cyan-dim); border-color: var(--cyan-dim); }
+.pp-cosine .pp-secondary:disabled { background: transparent; border-color: var(--border); }
+.pp-cosine .pp-field-row { display: flex; align-items: center; justify-content: center; gap: 12px; }
+.pp-cosine .pp-field { width: 140px; padding: 10px 6px; font-size: 28px; font-weight: 700; letter-spacing: 2px; background: var(--surface-2); border: 1.5px solid var(--cyan); border-radius: 10px; color: var(--text); }
+.pp-cosine .pp-field:focus { border-width: 2px; padding: 9.5px 5.5px; }
+.pp-unit-c { color: var(--muted); font-size: 15px; font-weight: 700; letter-spacing: 2.4px; }
+.pp-minutes { color: var(--cyan); font-size: 46px; font-weight: 700; letter-spacing: 2px; line-height: 1.2; }
+
+/* ============ SECANT (SECANT/popup.py + theme.secant_popup_stylesheet): 860x560 window, 20 px margin, 24 px radius ============ */
+.pp-secant-blue  { --ppa: #32D6F5; --psp: #101827; --pst: #163848; }
+.pp-secant-amber { --ppa: #FFB018; --psp: #1D1509; --pst: #49330F; }
+.pp-secant-red   { --ppa: #FF416D; --psp: #210A11; --pst: #52202E; }
+.pp-secant { width: min(860px, calc(100vw - 24px)); height: 560px; padding: 20px; background: transparent; --ppm: #9BAFCB; --ppt: #F1F5F9; }
+.pp-secant .pp-shell { height: 100%; display: flex; flex-direction: column; gap: 18px; padding: 28px 34px; background: var(--psp); border: 2px solid var(--ppa); border-radius: 24px; box-shadow: 0 0 28px color-mix(in srgb, var(--ppa) 18%, transparent); }
+.pp-secant-head { display: flex; align-items: center; text-align: left; }
+.pp-secant-eyebrow { color: #9BAFCB; font-size: 13px; font-weight: 600; letter-spacing: 2px; white-space: pre; }
+.pp-secant .pp-badge-secant { min-width: 114px; padding: 7px 16px; border-radius: 14px; font-size: 13px; font-weight: 700; }
+.pp-h34 { font-size: 34px; font-weight: 700; }
+.pp-m17 { font-size: 17px; }
+.pp-secant .pp-secant-resource { color: #9BAFCB; font-size: 12px; max-height: 56px; overflow: hidden; }
+.pp-secant .pp-status, .pp-secant .pp-protected-note { color: var(--ppa); font-size: 13px; font-weight: 700; font-family: var(--font-mono, Consolas, monospace); }
+.pp-secant .pp-actions { gap: 16px; }
+.pp-secant .pp-btn { min-width: 230px; min-height: 58px; padding: 8px 18px; border-radius: 13px; font-size: 15px; border: 2px solid var(--ppa); }
+.pp-secant .pp-primary { background: var(--ppa); color: #07131D; }
+.pp-secant .pp-secondary { background: var(--pst); color: var(--ppa); }
+.pp-secant .pp-btn:hover { border-color: #F1F5F9; }
+.pp-secant .pp-btn:focus-visible { outline: 0; border: 3px solid #F1F5F9; }
+.pp-secant .pp-btn:active { background: var(--psp); color: var(--ppa); }
+.pp-secant .pp-btn:disabled { background: var(--pst); color: #8190A4; border-color: var(--pst); }
+.pp-progress { height: 6px; border-radius: 3px; background: var(--pst); flex: 0 0 auto; overflow: hidden; }
+.pp-progress-fill { height: 100%; width: 0; background: var(--ppa); border-radius: 3px; }
+.pp-timing, .pp-secant .pp-footer { color: #9BAFCB; font-size: 12px; }
+
+/* ============ COSECANT (view.py ContinuityPopup + theme cosecantPopup*): 620x460, fixed green identity ============ */
+.pp-cosecant { width: min(620px, calc(100vw - 24px)); height: 460px; padding: 3px; --ppa: #39D98A; --ppm: var(--muted); --ppt: var(--text); background: color-mix(in srgb, #22C55E 10%, transparent); }
+.pp-cosecant .pp-shell { height: 100%; display: flex; flex-direction: column; gap: 12px; padding: 24px 28px 22px; background: var(--surface-soft); border: 2px solid #22C55E; border-radius: 18px; --ppa: #22C55E; }
+.pp-cosecant .pp-dot { color: #22C55E; font-size: 17px; font-weight: 700; line-height: 1; }
+.pp-cosecant .pp-eyebrow { color: var(--muted); }
+.pp-cosecant .pp-badge-cosecant { width: 106px; height: 28px; border-radius: 13px; border-color: #22C55E; color: #22C55E; background: color-mix(in srgb, #22C55E 8%, transparent); font-family: var(--font-mono, Consolas, monospace); font-size: 10.5px; font-weight: 700; letter-spacing: 1px; }
+.pp-cosecant .pp-headline { color: #22C55E; }
+.pp-x800 { font-size: 27px; font-weight: 800; }
+.pp-cosecant .pp-message { color: var(--text); }
+.pp-cosecant .pp-status, .pp-cosecant .pp-protected-note { color: #22C55E; font-size: 10.5px; font-weight: 600; letter-spacing: .6px; }
+.pp-cosecant .pp-protected-note { font-weight: 700; }
+.pp-c11 { color: var(--muted); font-size: 11px; font-weight: 500; }
+.pp-cosecant .pp-actions { }
+.pp-cosecant .pp-btn { width: 286px; height: 50px; padding: 10px 22px; border-radius: 10px; font-size: 12.5px; letter-spacing: .7px; color: #06210F; background: #22C55E; border: 1px solid #22C55E; }
+.pp-cosecant .pp-btn:hover { background: color-mix(in srgb, #22C55E 86%, var(--text)); border-color: color-mix(in srgb, #22C55E 86%, var(--text)); }
+.pp-cosecant .pp-btn:active { background: #15803D; border-color: #15803D; }
+.pp-cosecant .pp-btn:focus-visible { outline: 0; border: 2px solid color-mix(in srgb, #22C55E 70%, var(--text)); }
+.pp-cosecant .pp-btn:disabled { color: color-mix(in srgb, var(--muted) 55%, var(--surface-soft)); background: color-mix(in srgb, #15803D 28%, var(--surface-soft)); border-color: color-mix(in srgb, #15803D 40%, var(--surface-soft)); }
+.pp-accent-line { height: 5px; border-radius: 2px; background: #22C55E; flex: 0 0 auto; }
+.pp-cosecant .pp-footer { color: var(--muted); }
+
+/* ============ small screens: bottom-anchored sheet, natural height (web adaptation) ============ */
+@media (max-width: 700px) {
+  .wl-pp { top: auto; bottom: 12px; transform: translate(-50%, 0); max-height: var(--pp-maxh, 78dvh); }
+  .pp-sine, .pp-sine.pp-protected, .pp-nb, .pp-nb-active, .pp-secant, .pp-cosecant { height: auto; }
+  .pp-sine .pp-shell, .pp-nb .pp-shell, .pp-secant .pp-shell, .pp-cosecant .pp-shell { height: auto; }
+  .pp-sine .pp-shell { padding: 18px 16px 16px; } .pp-secant .pp-shell { padding: 20px 18px; } .pp-mine .pp-card, .pp-cosine .pp-card { padding: 18px 16px; }
+  .pp-h34 { font-size: 26px; } .pp-h27, .pp-cosine .pp-headline { font-size: 22px; } .pp-h26, .pp-h26.pp-bold { font-size: 22px; } .pp-minutes { font-size: 36px; }
+  .pp-sine .pp-btn, .pp-mine .pp-btn, .pp-cosine .pp-btn, .pp-secant .pp-btn, .pp-nb .pp-btn { min-width: 0; width: 100%; }
+  .pp-cosecant .pp-btn { width: 100%; }
+  .pp-actions { flex-direction: column; align-items: stretch; }
+  .pp-sine .pp-badge-sine { width: auto; padding: 0 10px; }
+  .pp-mine .pp-field-row, .pp-cosine .pp-field-row { flex-wrap: wrap; }
+  .pp-secant-head, .pp-eyebrow-row, .pp-mine-head { flex-wrap: wrap; row-gap: 8px; }
+  .pp-secant-eyebrow { white-space: normal; font-size: 11px; letter-spacing: 1.2px; }
+  .pp-secant .pp-badge-secant { min-width: 0; padding: 5px 12px; }
+  .pp-eyebrow { white-space: normal; }
+  .pp-cosine .pp-badge-cosine { padding: 4px 12px; }
+  .pp-mine .pp-eyebrow, .pp-mono13 { font-size: 12px; }
+}
+/* ============ coexistence with the MYELIN Academy guide (layout chosen in academy.js; popups stay above the dim layer) ============ */
+.wl-pp { max-height: var(--pp-maxh, calc(100dvh - 24px)); }
+@media (max-width: 700px) { .wl-pp { max-height: var(--pp-maxh, 78dvh); } }
+body:has(.ac-root:not([hidden])) .wl-pp { z-index: 11500; }
+body[data-ac-layout="side"]   .wl-pp { left: auto; right: 24px; transform: translate(var(--dx, 0px), calc(-50% + var(--dy, 0px))) scale(var(--pp-s, 1)); transform-origin: center right; }
+body[data-ac-layout="stack"]  .wl-pp { top: var(--pp-top, 52px); transform: translate(calc(-50% + var(--dx, 0px)), var(--dy, 0px)) scale(var(--pp-s, 1)); transform-origin: top center; }
+body[data-ac-layout="corner"] .wl-pp { left: auto; right: 12px; top: var(--pp-top, 52px); transform: translate(var(--dx, 0px), var(--dy, 0px)) scale(var(--pp-s, 1)); transform-origin: top right; }
+
+
+/* ============ Academy phases (academy.js): READ may dim the page; ACT and DONE never do ============ */
+.ac-root[data-phase="act"] .ac-dim, .ac-root[data-phase="done"] .ac-dim { opacity: 0; pointer-events: none; }
+.ac-root[data-phase="act"] .ac-coach .ac-blobwrap, .ac-root[data-phase="done"] .ac-coach .ac-blobwrap,
+.ac-root[data-phase="act"] .ac-coach .ac-bub-head, .ac-root[data-phase="done"] .ac-coach .ac-bub-head,
+.ac-root[data-phase="act"] .ac-coach .ac-bar, .ac-root[data-phase="done"] .ac-coach .ac-bar { display: none; }
+.ac-root[data-phase="act"] .ac-coach .ac-bubble, .ac-root[data-phase="done"] .ac-coach .ac-bubble { padding: 10px 16px 6px; border-radius: 18px; }
+.ac-root[data-phase="act"] .ac-coach .ac-bubble::before, .ac-root[data-phase="done"] .ac-coach .ac-bubble::before { display: none; }
+.ac-root[data-phase="act"] .ac-coach .ac-title, .ac-root[data-phase="done"] .ac-coach .ac-title { font-size: 16px; margin: 0 0 4px; }
+.ac-root[data-phase="act"] .ac-coach .ac-say, .ac-root[data-phase="done"] .ac-coach .ac-say { font-size: 14px; margin-bottom: 6px; line-height: 1.35; }
+.ac-root[data-phase="act"] .ac-coach .ac-ask, .ac-root[data-phase="done"] .ac-coach .ac-ask { font-size: 11.5px; margin-bottom: 6px; }
+.ac-root[data-phase="act"] .ac-coach .ac-actions .ac-btn, .ac-root[data-phase="done"] .ac-coach .ac-actions .ac-btn { padding: 7px 14px; font-size: 12.5px; }
+
+/* slim coach used only when a popup and the guide cannot otherwise share a very small window */
+.ac-coach.mini .ac-blobwrap, .ac-coach.mini .ac-bub-head, .ac-coach.mini .ac-ask, .ac-coach.mini .ac-bar { display: none; }
+.ac-coach.mini .ac-bubble { padding: 10px 16px 6px; border-radius: 18px; }
+.ac-coach.mini .ac-bubble::before { display: none; }
+.ac-coach.mini .ac-title { font-size: 17px; margin: 0 0 4px; } .ac-coach.mini .ac-say { font-size: 14px; margin-bottom: 6px; line-height: 1.35; }
+
+/* ============ demo-level exit (outside #wlPopup on purpose; see demo-exit.js) ============ */
+.wl-demo-exit { position: fixed; z-index: 9100; display: flex; align-items: center; gap: 6px; padding: 4px 6px; border-radius: 10px; background: var(--surface-2, #16202F); border: 1px solid var(--border, #334155); font-family: var(--font-ui, "Segoe UI", sans-serif); box-shadow: 0 6px 18px -8px rgba(0,0,0,.6); }
+.wl-demo-exit[hidden] { display: none; }
+body:has(.ac-root:not([hidden])) .wl-demo-exit { z-index: 11600; }
+.wl-de-tag { font: 700 9.5px var(--font-mono, Consolas, monospace); letter-spacing: 1.4px; color: var(--muted, #94A3B8); padding: 0 4px; }
+.wl-de-btn { min-height: 30px; padding: 4px 10px; border-radius: 7px; border: 1px solid var(--border, #334155); background: transparent; color: var(--text, #E5E7EB); font-size: 11px; font-weight: 700; letter-spacing: .6px; cursor: pointer; }
+.wl-de-btn:hover { border-color: var(--cyan-dim, #1E7BAE); color: var(--cyan, #38BDF8); }
+.wl-de-btn:focus-visible { outline: 2px solid var(--cyan, #38BDF8); outline-offset: 2px; }
+@media (max-width: 700px) { .wl-de-btn { min-height: 40px; padding: 6px 12px; } }
+@media print { .wl-demo-exit { display: none !important; } }
+
+body.reduced-motion .pp-enter, body.reduced-motion .pp-shown .pp-orb, body.reduced-motion .pp-mascot .pp-eyes ellipse { animation: none !important; }
+@media print { .wl-pp { display: none !important; } }
+
+/* ============ Phase 1 final: the centred popup stage of the eight module demonstrations (popup-stage.js) ============ */
+.pp-stage { position: fixed; inset: 0; z-index: 8990; display: none; pointer-events: none; background: rgba(5, 9, 18, .52); }
+.pp-stage.on { display: block; } .pp-stage[data-protected="1"] { background: rgba(5, 9, 18, .70); } .pp-stage.pp-off { background: transparent; }
+.pp-stage.pp-off .wl-pp { display: none; } .pp-stage .wl-pp { pointer-events: auto; }
+.pp-stage-bar { position: fixed; top: 36px; left: 50%; transform: translateX(-50%); z-index: 2; display: flex; align-items: center; gap: 10px; max-width: calc(100vw - 24px); padding: 5px 6px 5px 14px; border-radius: 999px; background: var(--surface-2, #16202F); border: 1px solid var(--amber, #F5A623); color: var(--text, #F4F7FB); pointer-events: auto; box-shadow: 0 6px 22px rgba(0, 0, 0, .35); }
+.pp-stage-label { font: 700 10px/1.3 var(--font-mono, Consolas, monospace); letter-spacing: .08em; }
+.pp-stage-btn { cursor: pointer; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--amber, #F5A623); background: transparent; color: var(--amber, #F5A623); font: 700 10px/1.2 var(--font-ui, "Segoe UI", sans-serif); letter-spacing: .08em; white-space: nowrap; }
+.pp-stage-btn:hover, .pp-stage-btn:focus-visible { background: color-mix(in srgb, var(--amber, #F5A623) 18%, transparent); }
+/* card popups (STORE, FINE, TANGENT, COT, COSINE): the SINE popup layout, sized to its content */
+.pp-sim { height: auto; min-height: 0; } .pp-sim .pp-shell { height: auto; min-height: 300px; } .pp-sim.pp-protected { height: auto; }
+.pp-sim .pp-badge-sine { width: auto; min-width: 78px; padding: 0 12px; } .pp-sim .pp-resource { white-space: normal; text-overflow: clip; }
+.pp-sim .pp-field-row, .pp-sim .pp-extra { display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; } .pp-sim .pp-extra input { width: 64px; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--ppa); background: transparent; color: var(--ppt); text-align: center; font: 600 14px var(--font-mono, Consolas, monospace); }
+.pp-sim .pp-extra span { color: var(--ppm); font: 600 11px var(--font-mono, Consolas, monospace); }
+@media (max-width: 700px) { .pp-stage-bar { top: 44px; padding: 4px 4px 4px 10px; gap: 6px; } .pp-stage-label { font-size: 8.5px; letter-spacing: .04em; } .pp-stage-btn { padding: 4px 9px; font-size: 9px; } .pp-sim .pp-btn { min-width: 0; flex: 0 0 auto; width: 100%; } .pp-sim .pp-shell { padding: 20px 16px 16px; } }
+@media print { .pp-stage { display: none !important; } }
+/* inside the stage a popup is ALWAYS centred in the viewport (the older mobile rule docks the Control Station popup to the bottom edge) */
+.pp-stage .wl-pp, .pp-stage .wl-pp.pp-sine, .pp-stage .wl-pp.pp-sim { left: 50%; top: 50%; bottom: auto; transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px))); }
+@media (max-width: 700px) { .pp-stage .wl-pp { top: 50%; bottom: auto; transform: translate(-50%, -50%); width: min(620px, calc(100vw - 24px)); } }

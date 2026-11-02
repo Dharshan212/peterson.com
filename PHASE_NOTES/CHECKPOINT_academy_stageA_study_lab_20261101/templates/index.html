@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dharshan Keba — Biomedical Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Lora:ital,wght@0,400;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../static/css/theme.css">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #03060f;
+  --panel:    #080d1a;
+  --border:   #0f1e3a;
+  --purple:   #a855f7;
+  --cyan:     #06b6d4;
+  --blue:     #3b82f6;
+  --pink:     #e879f9;
+  --white:    #f0f4ff;
+  --muted:    #4a5568;
+  --silver:   #94a3b8;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'DM Mono', monospace;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── CUSTOM CURSOR ── */
+.cursor {
+  width: 12px; height: 12px;
+  background: var(--cyan);
+  border-radius: 50%;
+  position: fixed; top: 0; left: 0;
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s, background 0.2s;
+  mix-blend-mode: screen;
+}
+.cursor-ring {
+  width: 36px; height: 36px;
+  border: 1px solid rgba(6,182,212,0.4);
+  border-radius: 50%;
+  position: fixed; top: 0; left: 0;
+  pointer-events: none; z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.18s ease, width 0.2s, height 0.2s;
+}
+
+/* ── NAV: see theme.css (.site-nav) ── */
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  width: 100%; height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+
+/* poster as background */
+.hero-bg {
+  position: absolute; inset: 0;
+  background: url('../static/img/myelinposter.png') center center / cover no-repeat;
+  filter: brightness(0.32) saturate(1.4);
+  transform: scale(1.06);
+  animation: slowZoom 20s ease-in-out infinite alternate;
+}
+@keyframes slowZoom {
+  from { transform: scale(1.06); }
+  to   { transform: scale(1.14); }
+}
+
+/* dark gradient overlay */
+.hero-overlay {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 60%, rgba(3,6,15,0.3) 0%, rgba(3,6,15,0.92) 100%),
+    linear-gradient(180deg, rgba(3,6,15,0.6) 0%, transparent 30%, transparent 70%, rgba(3,6,15,1) 100%);
+}
+
+/* scan line effect */
+.hero-scan {
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(6,182,212,0.015) 2px,
+    rgba(6,182,212,0.015) 4px
+  );
+  pointer-events: none;
+}
+
+/* animated scan beam */
+.scan-beam {
+  position: absolute; left: 0; width: 100%; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(6,182,212,0.6), transparent);
+  animation: scanBeam 6s linear infinite;
+  pointer-events: none;
+}
+@keyframes scanBeam {
+  0%   { top: -2px; opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* canvas particles */
+#particles { position: absolute; inset: 0; pointer-events: none; }
+
+/* hero content */
+.hero-content {
+  position: relative; z-index: 10;
+  text-align: center;
+  max-width: 800px;
+  padding: 0 2rem;
+}
+
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 1.1rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 1.4rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.3s forwards;
+  display: flex; align-items: center; justify-content: center; gap: 0.8rem;
+}
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content: '';
+  width: 40px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cyan));
+}
+.hero-eyebrow::after { background: linear-gradient(90deg, var(--cyan), transparent); }
+
+.hero-name {
+  font-family: 'Monospace', sans-serif;
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  margin-bottom: 0.3rem;
+  opacity: 0;
+  animation: fadeUp 0.9s ease 0.5s forwards;
+}
+.hero-name span { color: var(--purple); }
+
+.hero-title {
+  font-family: 'Monospace', sans-serif;
+  font-style: italic;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  font-weight: 300;
+  color: var(--silver);
+  margin-bottom: 0.6rem;
+  opacity: 0;
+  animation: fadeUp 0.9s ease 0.7s forwards;
+}
+
+.hero-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  margin-bottom: 2.8rem;
+  opacity: 0;
+  animation: fadeUp 0.9s ease 0.9s forwards;
+}
+
+/* ── ADVANCED CTA BUTTON ── */
+.btn-wrap {
+  opacity: 0;
+  animation: fadeUp 0.9s ease 1.1s forwards;
+  display: inline-block;
+}
+
+.btn-research {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.95rem 2.2rem;
+  background: transparent;
+  border: none;
+  cursor: none;
+  text-decoration: none;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--white);
+  transition: color 0.3s;
+  isolation: isolate;
+}
+
+/* border corners */
+.btn-research::before {
+  content: '';
+  position: absolute; inset: 0;
+  border: 1px solid rgba(168,85,247,0.5);
+  clip-path: polygon(8px 0%, 100% 0%, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0% 100%, 0% 8px);
+  transition: border-color 0.3s;
+}
+/* fill on hover */
+.btn-research::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(168,85,247,0.15), rgba(6,182,212,0.1));
+  clip-path: polygon(8px 0%, 100% 0%, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0% 100%, 0% 8px);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: -1;
+}
+.btn-research:hover::before { border-color: var(--purple); }
+.btn-research:hover::after  { opacity: 1; }
+.btn-research:hover { color: var(--purple); }
+.btn-research:hover .btn-arrow { transform: translateX(4px); }
+.btn-research:hover .btn-glow  { opacity: 1; }
+
+/* glow behind button */
+.btn-glow {
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(ellipse at center, rgba(168,85,247,0.25) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* pulsing dot */
+.btn-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan);
+  animation: pulseDot 1.8s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes pulseDot {
+  0%,100% { box-shadow: 0 0 6px var(--cyan); transform: scale(1); }
+  50%      { box-shadow: 0 0 14px var(--cyan), 0 0 24px rgba(6,182,212,0.3); transform: scale(1.3); }
+}
+
+.btn-text { position: relative; }
+
+/* animated arrow */
+.btn-arrow {
+  display: flex; align-items: center;
+  transition: transform 0.25s ease;
+}
+.btn-arrow svg { width: 16px; height: 16px; stroke: currentColor; }
+
+/* corner decorators */
+.btn-corner {
+  position: absolute;
+  width: 8px; height: 8px;
+  border-color: var(--cyan);
+  border-style: solid;
+  transition: border-color 0.3s;
+}
+.btn-corner-tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+.btn-corner-tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+.btn-corner-bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+.btn-corner-br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+.btn-research:hover .btn-corner { border-color: var(--pink); }
+
+/* scroll indicator */
+.scroll-hint {
+  position: absolute; bottom: 2.5rem; left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  opacity: 0;
+  animation: fadeIn 1s ease 2s forwards;
+}
+.scroll-hint span {
+  font-size: 0.6rem; letter-spacing: 0.25em;
+  text-transform: uppercase; color: var(--muted);
+}
+.scroll-mouse {
+  width: 20px; height: 32px;
+  border: 1px solid rgba(94,114,160,0.4);
+  border-radius: 10px;
+  position: relative;
+}
+.scroll-wheel {
+  width: 3px; height: 6px;
+  background: var(--cyan);
+  border-radius: 2px;
+  position: absolute; top: 5px; left: 50%;
+  transform: translateX(-50%);
+  animation: scrollWheel 1.8s ease-in-out infinite;
+}
+@keyframes scrollWheel {
+  0%,100% { top: 5px; opacity: 1; }
+  80%      { top: 16px; opacity: 0; }
+}
+
+/* ── PROJECT MYELIN SECTION ── */
+.myelin-section {
+  max-width: 1100px; margin: 6rem auto; padding: 0 2rem;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+}
+.myelin-poster {
+  position: relative; border-radius: 4px; overflow: hidden;
+}
+.myelin-poster img {
+  width: 100%; display: block;
+  filter: brightness(0.85) saturate(1.2);
+  transition: filter 0.4s;
+  border: 1px solid var(--border);
+}
+.myelin-poster:hover img { filter: brightness(1) saturate(1.4); }
+.myelin-poster-glow {
+  position: absolute; inset: -2px;
+  border: 1px solid rgba(168,85,247,0.3);
+  border-radius: 4px;
+  pointer-events: none;
+  transition: border-color 0.3s;
+}
+.myelin-poster:hover .myelin-poster-glow { border-color: rgba(168,85,247,0.7); box-shadow: 0 0 40px rgba(168,85,247,0.2); }
+
+.myelin-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--cyan); margin-bottom: 1rem;
+}
+.myelin-badge::before {
+  content: '';
+  width: 20px; height: 1px;
+  background: var(--cyan);
+}
+.myelin-title {
+  font-family: 'Monospace', sans-serif;
+  font-size: 2.4rem; font-weight: 800;
+  line-height: 1.1; color: var(--white);
+  margin-bottom: 1rem;
+}
+.myelin-title span { color: var(--purple); }
+.myelin-desc {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 1rem; line-height: 1.75;
+  color: var(--silver); margin-bottom: 2rem;
+}
+.myelin-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+.mtag {
+  font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid rgba(168,85,247,0.25);
+  border-radius: 2px;
+  color: var(--silver);
+  background: rgba(168,85,247,0.05);
+}
+
+/* ── FOOTER: see theme.css (.site-footer) ── */
+
+/* ── KEYFRAMES ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .myelin-section { grid-template-columns: 1fr; gap: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ── NAV ── -->
+<nav class="site-nav">
+  <div class="nav-brand">Dharshan Keba</div>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="skills.html">CV</a></li>
+    <li><a href="research.html">Research</a></li>
+    <li><a href="publications.html">Publications</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-scan"></div>
+  <div class="scan-beam"></div>
+  <canvas id="particles"></canvas>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Biomedical Engineer · Researcher</div>
+
+    <h1 class="hero-name">DHARSHAN<br><span>KEBA</span></h1>
+
+    <p class="hero-title">Advancing medical technology through research & innovation</p>
+    <p class="hero-sub">BUILDING THE FUTURE OF HEALTHCARE</p>
+
+    <div class="btn-wrap">
+      <a href="skills.html" class="btn-research">
+        <div class="btn-glow"></div>
+        <div class="btn-corner btn-corner-tl"></div>
+        <div class="btn-corner btn-corner-tr"></div>
+        <div class="btn-corner btn-corner-bl"></div>
+        <div class="btn-corner btn-corner-br"></div>
+        <span class="btn-dot"></span>
+        <span class="btn-text">View My Curriculum Vitae</span>
+        <span class="btn-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M13 6l6 6-6 6"/>
+          </svg>
+        </span>
+      </a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ── PROJECT MYELIN FEATURE ── -->
+<div class="myelin-section">
+  <div class="myelin-poster">
+    <img src="../static/img/myelinposter.png" alt="Project Myelin Poster">
+    <div class="myelin-poster-glow"></div>
+  </div>
+  <div>
+    <div class="myelin-badge">Featured Project</div>
+    <h2 class="myelin-title">Project<br><span>Myelin</span></h2>
+    <p class="myelin-desc">A Behavioral Telemetry System for Quantifying Attentional Recovery — a closed-loop human-in-the-loop platform using biometric vectors, decay modelling, and non-intrusive digital intervention.</p>
+    <div class="myelin-tags">
+      <span class="mtag">Neural Telemetry</span>
+      <span class="mtag">Closed-Loop</span>
+      <span class="mtag">HRV · GSR</span>
+      <span class="mtag">Behavioral Recovery</span>
+      <span class="mtag">MBRM Model</span>
+    </div>
+    <a href="myelin_web_sample.html" target="_blank" rel="noopener" class="btn-research" style="display:inline-flex;">
+      <div class="btn-glow"></div>
+      <div class="btn-corner btn-corner-tl"></div>
+      <div class="btn-corner btn-corner-tr"></div>
+      <div class="btn-corner btn-corner-bl"></div>
+      <div class="btn-corner btn-corner-br"></div>
+      <span class="btn-dot"></span>
+      <span class="btn-text">Explore Project</span>
+      <span class="btn-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M13 6l6 6-6 6"/>
+        </svg>
+      </span>
+    </a>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <div class="footer-social">
+    <a href="https://github.com/Dharshan212" target="_blank" aria-label="GitHub">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/dharshan-keba-432512168/" target="_blank" aria-label="LinkedIn">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+    </a>
+    <a href="https://www.researchgate.net/profile/Dharshan-Keba-Morris/research" target="_blank" aria-label="ResearchGate">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.58 3.012c-2.31 0-4.402 1.226-5.59 3.092a6.974 6.974 0 0 0-5.59-3.092C3.84 3.012 0 6.846 0 11.586c0 4.74 3.84 8.574 8.4 8.574 2.31 0 4.402-1.226 5.59-3.092a6.974 6.974 0 0 0 5.59 3.092c4.56 0 8.4-3.834 8.4-8.574 0-4.74-3.84-8.574-8.4-8.574zm-11.18 14.18c-3.1 0-5.61-2.507-5.61-5.606 0-3.099 2.51-5.606 5.61-5.606 3.1 0 5.61 2.507 5.61 5.606 0 3.099-2.51 5.606-5.61 5.606zm11.18 0c-3.1 0-5.61-2.507-5.61-5.606 0-3.099 2.51-5.606 5.61-5.606 3.1 0 5.61 2.507 5.61 5.606 0 3.099-2.51 5.606-5.61 5.606z"/></svg>
+    </a>
+    <a href="https://www.youtube.com/@dharshan079" target="_blank" aria-label="YouTube">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+    </a>
+  </div>
+  <p class="footer-copy">&copy; 2026 Dharshan Keba. All rights reserved.</p>
+</footer>
+
+<script>
+// ── Custom cursor
+const cursor = document.getElementById('cursor');
+const ring   = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animateCursor() {
+  cursor.style.left = mx + 'px';
+  cursor.style.top  = my + 'px';
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top  = ry + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(2)';
+    cursor.style.background = 'var(--purple)';
+    ring.style.width = '56px'; ring.style.height = '56px';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+    cursor.style.background = 'var(--cyan)';
+    ring.style.width = '36px'; ring.style.height = '36px';
+  });
+});
+
+// ── Particle canvas
+const canvas = document.getElementById('particles');
+const ctx    = canvas.getContext('2d');
+let W, H, particles = [];
+
+function resize() {
+  W = canvas.width  = canvas.offsetWidth;
+  H = canvas.height = canvas.offsetHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+class Particle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x  = Math.random() * W;
+    this.y  = Math.random() * H;
+    this.vx = (Math.random() - 0.5) * 0.4;
+    this.vy = (Math.random() - 0.5) * 0.4;
+    this.r  = Math.random() * 1.5 + 0.5;
+    this.alpha = Math.random() * 0.5 + 0.1;
+    this.color = Math.random() > 0.5 ? '168,85,247' : '6,182,212';
+  }
+  update() {
+    this.x += this.vx; this.y += this.vy;
+    if (this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.reset();
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${this.color},${this.alpha})`;
+    ctx.fill();
+  }
+}
+
+for (let i = 0; i < 120; i++) particles.push(new Particle());
+
+// draw connecting lines between close particles
+function drawLines() {
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const d  = Math.sqrt(dx*dx + dy*dy);
+      if (d < 90) {
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.strokeStyle = `rgba(168,85,247,${0.12 * (1 - d/90)})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+function loop() {
+  ctx.clearRect(0, 0, W, H);
+  drawLines();
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(loop);
+}
+loop();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Automated Anesthesia Control System With Patient Monitoring: a 2022 undergraduate team research prototype using Arduino Uno, a motor-driven syringe and physiological sensors.">
+  <meta name="color-scheme" content="dark">
+  <title>Automated Anesthesia Control System With Patient Monitoring | Research · 2022</title>
+  <link rel="stylesheet" href="assets/anesthesia-control/page.css">
+</head>
+<body class="ac-page">
+<a class="ac-skip" href="#main">Skip to research content</a>
+<header class="ac-masthead ac-wrap">
+  <div class="ac-identity"><span class="ac-monogram" aria-hidden="true">DK<span>M</span></span><span>Dharshan Keba Morris<small>Biomedical engineering · Research</small></span></div>
+  <a class="ac-back" href="research.html"><span aria-hidden="true">←</span> Research portfolio</a>
+</header>
+
+<main id="main">
+  <section class="ac-hero ac-wrap" aria-labelledby="project-title">
+    <div class="ac-hero-copy">
+      <p class="ac-eyebrow"><span class="ac-dot" aria-hidden="true"></span> Undergraduate team research / Published 2022</p>
+      <h1 id="project-title">Automated Anesthesia Control System With Patient Monitoring</h1>
+      <p class="ac-hero-focus">Syringe control.<br><em>Physiological monitoring.</em></p>
+      <p class="ac-lead">An Arduino Uno-based engineering prototype exploring a motor-driven syringe mechanism alongside physiological sensing, an operator interface and alerts.</p>
+      <div class="ac-actions"><a class="ac-button" href="https://journalppw.com/index.php/jpsp/article/view/11174" target="_blank" rel="noopener noreferrer">READ PUBLISHED PAPER <span aria-hidden="true">↗</span></a><a class="ac-text-link" href="#architecture">Explore the architecture <span aria-hidden="true">↓</span></a></div>
+    </div>
+    <figure class="ac-hero-photo" id="prototype-figure">
+      <div class="ac-photo-label"><span>Figure 9 / Output</span><span>Original publication photograph</span></div>
+      <a href="assets/anesthesia-control/figure-09-prototype.jpg" target="_blank" rel="noopener" aria-label="Open original prototype photograph in a new tab"><img src="assets/anesthesia-control/figure-09-prototype.jpg" width="1023" height="563" alt="Published prototype with a syringe mechanism, motor and gear assembly, keypad, LCD, sensor boards and wired Arduino-based electronics mounted on a board." fetchpriority="high"></a>
+      <figcaption>Assembled syringe-control and monitoring prototype.<br><span>Anitha et al. (2022), Figure 9, p. 783. Original image extracted unchanged. <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>.</span></figcaption>
+    </figure>
+    <dl class="ac-project-meta">
+      <div><dt>Research setting</dt><dd>Undergraduate biomedical engineering team</dd></div>
+      <div><dt>Institution</dt><dd>Jerusalem College of Engineering<br>Chennai, India</dd></div>
+      <div><dt>Publication</dt><dd>Journal of Positive School Psychology<br>Volume 6 · Issue 7 · 2022</dd></div>
+      <div><dt>Research scope</dt><dd>Proof-of-concept engineering prototype</dd></div>
+    </dl>
+  </section>
+
+  <div class="ac-body ac-wrap">
+    <aside class="ac-contents" aria-label="On this page">
+      <p class="ac-eyebrow">Research notes</p>
+      <a href="#overview"><span>01</span> Overview</a>
+      <a href="#architecture"><span>02</span> System architecture</a>
+      <a href="#workflow"><span>03</span> Control &amp; monitoring</a>
+      <a href="#prototype"><span>04</span> Physical prototype</a>
+      <a href="#results"><span>05</span> Results &amp; evidence</a>
+      <a href="#limitations"><span>06</span> Limitations &amp; future work</a>
+      <a href="#publication"><span>07</span> Publication &amp; authors</a>
+      <div class="ac-side-note"><span class="ac-status">Published · 2022</span><p>A team project. The paper does not assign individual contributions to its authors.</p></div>
+    </aside>
+
+    <article class="ac-article" aria-label="Anesthesia control research account">
+      <section class="ac-section" id="overview" aria-labelledby="overview-title">
+        <p class="ac-eyebrow">01 / Overview</p>
+        <h2 id="overview-title">Combining a delivery mechanism<br>with a monitoring interface.</h2>
+        <p>The project investigated how a microcontroller-based system could combine a syringe-control mechanism with physiological monitoring. Its motivation was the need to observe patient parameters alongside the operation of a delivery system, bringing sensing, display and operator input into one prototype.</p>
+        <p>The publication describes an undergraduate biomedical engineering team project at Jerusalem College of Engineering, Chennai. Arduino Uno is the central controller. A keypad provides operator input, a motor-driven mechanism moves the syringe, and the monitoring subsystem includes heartbeat, ECG and temperature sensing.</p>
+        <div class="ac-note"><strong>Engineering scope</strong><p>The paper documents a design and an assembled proof of concept. Publication does not establish clinically validated automated anesthetic dosing, demonstrated delivery accuracy or proven safety in patients.</p></div>
+        <p class="ac-source">Source: published paper, abstract, introduction and methodology, pp. 780–782.</p>
+      </section>
+
+      <section class="ac-section" id="architecture" aria-labelledby="architecture-title">
+        <p class="ac-eyebrow">02 / System architecture</p>
+        <h2 id="architecture-title">Arduino Uno at the centre.</h2>
+        <p>The documented architecture links operator settings and sensor inputs with the controller, syringe mechanism and display. The paper identifies an AD8232 ECG module and a DHT11 temperature/humidity sensor, together with a heartbeat sensor, keypad and LCD. Its text also describes an alert mechanism.</p>
+        <figure class="ac-architecture">
+          <div class="ac-figure-heading"><span>Documented design</span><span>Simplified interpretation</span></div>
+          <div class="ac-system" role="group" aria-label="Keypad and physiological sensors feed the Arduino Uno, which coordinates the motor-driven syringe, LCD and proposed alerts. A power supply serves the system.">
+            <div class="ac-node-group"><p class="ac-node-label">Inputs</p><ul><li><strong>Keypad</strong><span>Operator-selected setting</span></li><li><strong>Heartbeat sensor</strong><span>Pulse-related signal</span></li><li><strong>AD8232 ECG module</strong><span>ECG signal conditioning</span></li><li><strong>DHT11</strong><span>Temperature / humidity sensor</span></li></ul></div>
+            <div class="ac-core"><span class="ac-chip-mark" aria-hidden="true"></span><p class="ac-mini-label">Central controller</p><h3>Arduino Uno</h3><p>Control and sensor-processing logic</p><span class="ac-power">Power supply</span></div>
+            <div class="ac-node-group"><p class="ac-node-label">Control, display &amp; alerts</p><ul><li><strong>Motor-driven syringe</strong><span>Delivery mechanism</span></li><li><strong>LCD</strong><span>Operator information</span></li><li><strong>Alert mechanism</strong><span>Proposed abnormal-condition notification</span></li></ul></div>
+          </div>
+          <figcaption>Redrawn from the published methodology, Figures 7–8 and accompanying text. This diagram explains the design; it is not a measured control-flow trace. Automatic motor stopping on abnormal readings remains future work.</figcaption>
+        </figure>
+        <div class="ac-source-images">
+          <figure><a href="assets/anesthesia-control/figure-07-patient-monitoring.png" target="_blank" rel="noopener" aria-label="Open original Figure 7 patient-monitoring block diagram"><img src="assets/anesthesia-control/figure-07-patient-monitoring.png" width="508" height="323" alt="Original Figure 7: temperature, heartbeat and ECG sensors connected to Arduino Uno, with power supply, LCD, keypad and syringe setup." loading="lazy"></a><figcaption><strong>Figure 7 — Patient monitoring</strong><span>Original published block diagram, p. 783. Anitha et al. (2022), CC BY 4.0; extracted unchanged.</span></figcaption></figure>
+          <figure><a href="assets/anesthesia-control/figure-08-syringe-setup.jpg" target="_blank" rel="noopener" aria-label="Open original Figure 8 syringe-setup block diagram"><img src="assets/anesthesia-control/figure-08-syringe-setup.jpg" width="490" height="240" alt="Original Figure 8: keypad and power supply feeding the syringe setup, with an LCD connected to the setup." loading="lazy"></a><figcaption><strong>Figure 8 — Syringe setup</strong><span>Original published block diagram, p. 783. Anitha et al. (2022), CC BY 4.0; extracted unchanged.</span></figcaption></figure>
+        </div>
+        <p class="ac-source">The original figures are reproduced as published. The simplified diagram uses the methodology's description of keypad input rather than treating every arrow in Figure 7 as a verified implementation detail.</p>
+      </section>
+
+      <section class="ac-section" id="workflow" aria-labelledby="workflow-title">
+        <p class="ac-eyebrow">03 / Control and monitoring</p>
+        <h2 id="workflow-title">The proposed operating sequence.</h2>
+        <p>The following sequence summarises the publication's design. The paper does not provide experimental records establishing every step as a validated operating behaviour.</p>
+        <ol class="ac-process">
+          <li><div><h3>Select a delivery setting</h3><p>The operator uses the keypad to enter the intended setting. The paper describes preset operation but does not provide a validated dose-selection model or an infusion calibration procedure.</p></div></li>
+          <li><div><h3>Operate the syringe mechanism</h3><p>The Arduino-based controller operates the motor-driven syringe setup. The publication discusses motor movement as the means of driving the mechanism, without quantitative delivery measurements.</p></div></li>
+          <li><div><h3>Process monitoring signals</h3><p>The monitoring subsystem receives heartbeat, ECG and temperature-related readings from the documented sensors.</p></div></li>
+          <li><div><h3>Display information</h3><p>The LCD is the proposed interface for displaying system and monitoring information alongside operator input.</p></div></li>
+          <li><div><h3>Notify the operator</h3><p>The design includes alerts for abnormal monitored conditions; the introduction refers to a buzzer. Alarm thresholds and their physiological validity are not experimentally established in the paper.</p></div></li>
+        </ol>
+        <div class="ac-note ac-note-future"><strong>Automatic stopping is a future direction.</strong><p>The introduction relates delivery to monitored parameters, while the conclusion proposes stopping the motor when abnormal readings occur. This page therefore treats abnormality-triggered motor stopping as future work, rather than an experimentally validated feature.</p></div>
+        <p class="ac-source">Source: introduction and methodology, pp. 780–782; conclusion, pp. 783–784.</p>
+      </section>
+
+      <section class="ac-section" id="prototype" aria-labelledby="prototype-title">
+        <p class="ac-eyebrow">04 / Physical prototype</p>
+        <h2 id="prototype-title">The hardware shown in the paper.</h2>
+        <p>The publication's result section presents Figure 9, labelled “Output.” The <a href="#prototype-figure">original prototype photograph above</a> shows the assembled syringe mechanism, keypad, LCD and wired electronics. It provides a record of the physical assembly.</p>
+        <div class="ac-observations">
+          <div><span class="ac-mini-label">Actuation</span><h3>Syringe mechanism</h3><p>A mounted syringe and mechanical drive assembly form the delivery side of the prototype.</p></div>
+          <div><span class="ac-mini-label">Operator interface</span><h3>Keypad and LCD</h3><p>The assembly includes a keypad for input and an LCD for displaying information.</p></div>
+          <div><span class="ac-mini-label">Monitoring</span><h3>Embedded electronics</h3><p>The photograph shows connected boards and sensor wiring alongside the mechanism.</p></div>
+        </div>
+        <p>The photograph does not establish how accurately fluid was delivered or whether the system operated safely in patients. No individual author's construction role is specified by the publication.</p>
+        <a class="ac-text-link ac-figure-link" href="assets/anesthesia-control/figure-09-prototype.jpg" target="_blank" rel="noopener">View original Figure 9 photograph <span aria-hidden="true">↗</span></a>
+        <p class="ac-source">Source: Anitha et al. (2022), “Result,” Figure 9, p. 783. Image reproduced under the publisher's CC BY 4.0 policy.</p>
+      </section>
+
+      <section class="ac-section" id="results" aria-labelledby="results-title">
+        <p class="ac-eyebrow">05 / Results and evidence</p>
+        <h2 id="results-title">An assembled prototype.<br>A limited experimental record.</h2>
+        <p>The paper describes the components and architecture and shows the assembled apparatus. It does not supply quantitative results sufficient to establish the performance claims below.</p>
+        <div class="ac-table-wrap" tabindex="0" role="region" aria-label="Evidence boundaries; scroll horizontally on small screens">
+          <table class="ac-evidence-table">
+            <caption>What the publication supports</caption>
+            <thead><tr><th scope="col">Area</th><th scope="col">Documented evidence</th><th scope="col">Evidence still required</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Physical implementation</th><td>Component descriptions, two system block diagrams and an assembled prototype photograph.</td><td>Documented operating tests that connect the design descriptions to measured behaviour.</td></tr>
+              <tr><th scope="row">Syringe delivery</th><td>A motor-driven syringe mechanism and a proposed operator-input workflow.</td><td>Drug-delivery accuracy, repeatability and infusion-rate calibration measurements.</td></tr>
+              <tr><th scope="row">Physiological monitoring</th><td>Heartbeat, AD8232 ECG and DHT11 sensor descriptions, with display and alert functionality proposed.</td><td>Sensor validation, comparison measurements and validated alarm thresholds.</td></tr>
+              <tr><th scope="row">Clinical use</th><td>An engineering motivation concerning anesthesia delivery and monitoring.</td><td>Evidence of clinical effectiveness and patient safety. These are not established by this publication.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="ac-source">Source: complete five-page publication, pp. 780–784. No fictional measurements, clinical datasets or simulated device demonstrations are presented here.</p>
+      </section>
+
+      <section class="ac-section" id="limitations" aria-labelledby="limitations-title">
+        <p class="ac-eyebrow">06 / Limitations and future research</p>
+        <h2 id="limitations-title">Separating a proposal<br>from a demonstrated capability.</h2>
+        <p>This work is best described as a proof-of-concept engineering project. The publication leaves important questions about calibration, response behaviour, alarm design and the relationship between sensor values and delivery control unanswered by quantitative testing.</p>
+        <div class="ac-future">
+          <span class="ac-mini-label">Proposed in the paper's conclusion</span>
+          <h3>Extend monitoring and investigate control responses.</h3>
+          <p>The authors propose additional monitoring parameters, including SpO₂ and blood pressure. They also propose using a monitored parameter to stop the motor when an abnormality occurs. These are future possibilities, not completed or validated features of the published prototype.</p>
+        </div>
+        <p>Further evaluation would need to distinguish mechanical delivery performance from physiological monitoring performance. Any claim about accuracy, clinical effectiveness or patient safety would require evidence beyond the paper's design descriptions and photograph.</p>
+        <p class="ac-source">Source: conclusion, pp. 783–784. The need for further measurement is an evidence-based interpretation of the publication's reporting limits.</p>
+      </section>
+
+      <section class="ac-section" id="publication" aria-labelledby="publication-title">
+        <p class="ac-eyebrow">07 / Publication and authors</p>
+        <h2 id="publication-title">The published research record.</h2>
+        <div class="ac-citation">
+          <p class="ac-mini-label">Authors · In published order</p>
+          <p class="ac-authors">Dr R. Anitha, B. Nivetha, R. Abinaya, M. Dharshan Keba and S. A. Sree Vishwa.</p>
+          <p><cite>Automated Anesthesia Control System With Patient Monitoring.</cite> <em>Journal of Positive School Psychology</em>, 2022, Volume 6, Issue 7, pages 780–784.</p>
+          <p class="ac-source">Department of Biomedical Engineering, Jerusalem College of Engineering, Narayanapuram, Chennai, India. Published 31 August 2022.</p>
+        </div>
+        <p>The author list includes academic staff and undergraduate scholars. Dharshan is credited as a coauthor using the name printed in the paper, M. Dharshan Keba. The publication does not specify individual contributions.</p>
+        <div class="ac-actions"><a class="ac-button" href="https://journalppw.com/index.php/jpsp/article/view/11174" target="_blank" rel="noopener noreferrer">READ PUBLISHED PAPER <span aria-hidden="true">↗</span></a></div>
+        <div class="ac-rights"><h3>Sources and figure attribution</h3><p>Technical source: the complete five-page paper supplied by the researcher. Figures 7, 8 and 9 are credited to the paper's five authors and extracted unchanged from p. 783. The original PDF is not hosted on this page.</p><p>The <a href="https://journalppw.com/index.php/jpsp/copyright" target="_blank" rel="noopener noreferrer">publisher's copyright policy</a> licenses articles and figures under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">Creative Commons Attribution 4.0 International</a>. The simplified architecture is a new explanatory diagram based on the paper, with its interpretive changes identified in the caption.</p></div>
+      </section>
+    </article>
+  </div>
+</main>
+<footer class="ac-footer ac-wrap"><p>Dharshan Keba Morris <span>/</span> Research portfolio</p><p>Undergraduate team research · Published 2022</p></footer>
+</body>
+</html>

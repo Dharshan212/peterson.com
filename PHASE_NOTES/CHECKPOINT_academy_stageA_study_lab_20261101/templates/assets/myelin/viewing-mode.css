@@ -1,0 +1,42 @@
+/* Viewing-mode advice screen for phones in a conventional mobile layout (see viewing-mode.js). Uses the existing theme tokens, so all seven themes apply. */
+.vm-gate[hidden] { display: none; }
+html.vm-open { overflow: hidden; }
+.vm-gate {
+  position: fixed; inset: 0; z-index: 30000; overflow: auto; -webkit-overflow-scrolling: touch;
+  display: flex; align-items: center; justify-content: center;
+  padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  background: radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--cyan) 12%, transparent) 0%, transparent 62%), var(--base);
+  color: var(--text);
+}
+.vm-card {
+  width: min(560px, 100%); margin: auto; box-sizing: border-box;
+  display: grid; gap: 16px; padding: 24px 22px 22px;
+  background: var(--surface); border: 1px solid var(--cyan-dim); border-radius: 20px;
+  box-shadow: var(--shadow), 0 0 44px -14px var(--axon-glow);
+}
+.vm-head { display: grid; gap: 12px; }
+.vm-brand { display: flex; align-items: center; }
+.vm-brand .logo-row { display: flex; align-items: center; gap: 8px; }
+.vm-brand .logo-row > svg { width: 28px; height: 28px; flex: none; }
+.vm-brand .name { font-size: 18px; letter-spacing: 3px; font-weight: 800; color: var(--text); white-space: nowrap; }
+.vm-brand .name .dash { color: var(--muted); margin: 0 2px; font-weight: 400; }
+.vm-brand .name .core { color: var(--cyan); font-weight: 600; margin-left: 6px; letter-spacing: 2px; }
+.vm-title { margin: 0; font-size: clamp(22px, 6.6vw, 30px); line-height: 1.2; letter-spacing: 2px; font-weight: 800; color: var(--cyan); text-transform: uppercase; outline: none; }
+.vm-msg { margin: 0; font-size: 16px; line-height: 1.5; color: var(--text); }
+.vm-steps { list-style: none; counter-reset: vm; margin: 0; padding: 0; display: grid; gap: 10px; }
+.vm-step { counter-increment: vm; display: flex; align-items: center; gap: 14px; min-height: 52px; padding: 10px 14px; box-sizing: border-box; font-size: 16px; line-height: 1.4; background: var(--surface-soft); border: 1px solid var(--border); border-radius: 12px; }
+.vm-step::before { content: counter(vm); flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font: 700 15px var(--font-mono, monospace); color: var(--cyan); border: 1px solid var(--cyan-dim); background: color-mix(in srgb, var(--cyan) 10%, transparent); }
+.vm-foot { margin: 0; font-size: 14px; line-height: 1.5; color: var(--muted); }
+.vm-continue { min-height: 48px; width: 100%; padding: 0 16px; border-radius: 12px; cursor: pointer; font: 700 14px var(--font-mono, monospace); letter-spacing: 2px; color: var(--cyan); background: transparent; border: 1px solid var(--cyan-dim); }
+.vm-continue:hover { background: color-mix(in srgb, var(--cyan) 12%, transparent); }
+.vm-continue:focus-visible, .vm-title:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+/* narrow landscape phone: short screen, so brand + message sit beside the steps */
+@media (orientation: landscape) and (max-height: 560px) {
+  .vm-card { width: min(920px, 100%); grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px 24px; padding: 16px 22px; }
+  .vm-foot, .vm-continue { grid-column: 1 / -1; }
+  .vm-continue { width: min(360px, 100%); justify-self: center; }
+  .vm-head { gap: 8px; }
+  .vm-title { font-size: clamp(20px, 3.4vw, 26px); }
+  .vm-step { min-height: 46px; padding: 6px 12px; }
+}
+.vm-diag { position: fixed; left: 8px; bottom: 8px; z-index: 30001; margin: 0; max-width: calc(100vw - 16px); max-height: 40vh; overflow: auto; padding: 6px 8px; font: 11px/1.3 var(--font-mono, monospace); color: var(--text); background: color-mix(in srgb, var(--base) 88%, transparent); border: 1px solid var(--border); border-radius: 6px; pointer-events: none; }

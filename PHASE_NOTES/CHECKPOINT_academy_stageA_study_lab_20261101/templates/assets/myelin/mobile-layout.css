@@ -1,0 +1,249 @@
+/* Control Station + Study Mode only. Existing desktop and all seven theme tokens stay authoritative. */
+.ml-mobile-only, .ml-landscape-hint { display: none; }
+body[data-mobile-page][data-phone-desktop] .ml-landscape-hint {
+  display: flex; align-items: center; gap: 12px; padding: 12px 20px;
+  background: var(--surface); border: 1px solid var(--cyan-dim);
+  color: var(--text); font-size: clamp(16px, 3.8vw, 40px); line-height: 1.35;
+}
+.ml-rotate-dismiss { margin-left: auto; flex-shrink: 0; min-width: 2.8em; min-height: 2.8em; background: var(--surface-soft); color: var(--text); border: 1px solid var(--border); border-radius: 8px; font-size: inherit; }
+@media (max-width: 700px) {
+  body[data-mobile-page] { --ml-gap: 14px; }
+  body[data-mobile-page] .main { padding: 10px 12px 80px; }
+  body[data-mobile-page] .preview-banner { font-size: 9px; line-height: 1.5; padding: 5px 12px; letter-spacing: .6px; }
+  body[data-mobile-page] .topbar {
+    position: relative; top: auto; display: grid; grid-template-columns: 70px minmax(0, 1fr) 44px;
+    gap: 12px 8px; padding: 0 0 14px; min-height: 0; height: auto;
+  }
+  body[data-mobile-page] .topbar-left,
+  body[data-mobile-page] .topbar-right { display: contents; }
+  body[data-mobile-page] #menuToggle { grid-column: 1; grid-row: 1; justify-content: center; padding: 0 6px; min-width: 0; min-height: 44px; font-size: 10px; gap: 5px; }
+  body[data-mobile-page] #menuToggle svg { width: 16px; height: 16px; }
+  body[data-mobile-page] .brand-console { grid-column: 2; grid-row: 1; position: static !important; transform: none !important; width: auto; min-width: 0; justify-content: center; }
+  body[data-mobile-page] .circuit-trace,
+  body[data-mobile-page] .brand-title .tagline,
+  body[data-mobile-page] .brand-title .dash { display: none; }
+  body[data-mobile-page] .brand-title .logo-row { gap: 5px; align-items: flex-start; }
+  body[data-mobile-page] .logo-row > svg { width: 25px; height: 25px; }
+  body[data-mobile-page] .brand-title .name { font-size: 18px; line-height: 1.2; letter-spacing: 3px; white-space: normal; }
+  body[data-mobile-page] .brand-title .core { display: block; font-size: 11px; line-height: 1.3; letter-spacing: 1px; text-align: center; margin: 2px 0 0; }
+  body[data-mobile-page] #getChartBtn {
+    grid-column: 3; grid-row: 1; width: 44px; min-height: 44px; padding: 10px;
+    font-size: 0; border: 1px solid var(--border); background: var(--surface-soft); color: var(--cyan);
+  }
+  body[data-mobile-page] #getChartBtn::after { content: ''; width: 22px; height: 22px; background: currentColor; clip-path: polygon(0 100%,0 58%,15% 58%,15% 100%,28% 100%,28% 32%,43% 32%,43% 100%,56% 100%,56% 0,71% 0,71% 100%,84% 100%,84% 18%,100% 18%,100% 100%); }
+  body[data-mobile-page] #clockToggle { display: none; }
+  body[data-mobile-page] .ml-clock-menu { display: block; min-height: 44px; width: 100%; color: var(--muted); border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-soft); }
+  body[data-mobile-page] #hudClock {
+    grid-column: 1 / -1; grid-row: 2; width: 100%; min-width: 0; padding: 12px 14px;
+    border-radius: var(--radius-lg); align-items: stretch;
+  }
+  body[data-mobile-page] .sysclock .hud-clock-head { position: relative; z-index: 2; min-height: 24px; margin-bottom: 2px; font-size: 10px; letter-spacing: 1.3px; padding-right: 44px; }
+  body[data-mobile-page] .sysclock .hud-time { font-size: 22px; line-height: 1.2; }
+  body[data-mobile-page] .sysclock .sc-tz { margin-top: 4px; font-size: 10px; }
+  body[data-mobile-page] .sysclock .sc-date { margin-top: 5px; flex-wrap: wrap; gap: 5px 12px; font-size: 10px; white-space: normal; }
+  body[data-mobile-page] .sysclock .sc-btns { display: none; }
+  body[data-mobile-page] .sysclock.ml-tools-open .sc-btns { display: flex; margin-left: auto; }
+  body[data-mobile-page] .sysclock .sc-icon { width: 44px; height: 44px; border-radius: 8px; }
+  body[data-mobile-page] .ml-clock-expand { display: flex; position: absolute; z-index: 3; right: 8px; top: 4px; width: 44px; height: 44px; align-items: center; justify-content: center; padding: 0; background: transparent; border: 0; color: var(--cyan); font-size: 24px; }
+  body[data-mobile-page] .sysclock.collapsed .hud-clock-head { margin-bottom: 2px; }
+  body[data-mobile-page] .sysclock.collapsed .sc-title { display: inline; }
+
+  body[data-mobile-page] #page-control .grid { grid-template-columns: minmax(0, 1fr); gap: var(--ml-gap); padding: 0; }
+  body[data-mobile-page] #page-control .grid > .col { display: contents; }
+  body[data-mobile-page] #page-control .grid > .col > .card { order: 4; }
+  body[data-mobile-page] #page-control .grid > .col > .hero-card { order: 1; }
+  body[data-mobile-page] #page-control .grid #mlLiveTelemetry { order: 2; }
+  body[data-mobile-page] #page-control .grid #mlSessionHealth { order: 3; }
+  body[data-mobile-page] #page-control .grid .col-telemetry > .card:not(.feed-card) { order: 5; }
+  body[data-mobile-page] :is(#page-control, #page-study-mode) .card { padding: 16px; min-height: 0; max-height: none; border-radius: 16px; }
+  body[data-mobile-page] :is(#page-control, #page-study-mode) .card-head { align-items: center; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+  body[data-mobile-page] :is(#page-control, #page-study-mode) .card-head h2 { font-size: 12px; letter-spacing: 1px; color: var(--text); }
+  body[data-mobile-page] :is(#page-control, #page-study-mode) .card-head .hint { font-size: 10px; overflow-wrap: anywhere; }
+  body[data-mobile-page] #page-control .hero-topbar { flex-direction: row; align-items: center; gap: 8px; margin-bottom: 12px; }
+  body[data-mobile-page] #page-control .hero-title { font-size: 12px; letter-spacing: 1px; }
+  body[data-mobile-page] #page-control .hero-topbar-right { width: auto; gap: 6px; }
+  body[data-mobile-page] #page-control .profile-btn { width: auto; font-size: 9px; padding: 6px 8px; }
+  body[data-mobile-page] #page-control .mode-toggle-btn { min-height: 44px; padding: 8px; font-size: 10px; }
+  body[data-mobile-page] #axonCanvas { opacity: .16; }
+  body[data-mobile-page] #page-control .status-pill { margin-bottom: 4px; }
+  body[data-mobile-page] #engineRing { width: 190px; height: 190px; margin: 8px auto 12px; }
+  body[data-mobile-page] #engineRingTime { font-size: 34px; }
+  body[data-mobile-page] #engineRingLabel { font-size: 10px; letter-spacing: 1px; }
+  body[data-mobile-page] .engine-controls { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: none; margin-top: 0; }
+  body[data-mobile-page] .engine-controls .btn { min-width: 0; width: 100%; min-height: 44px; padding: 10px 5px; font-size: 11px; justify-content: center; gap: 4px; }
+  body[data-mobile-page] #btnEngineEmergency { width: 100%; min-height: 44px; margin-top: 12px; font-size: 12px; }
+  body[data-mobile-page] #mlLiveTelemetry .feed { min-height: 48px; max-height: 280px; overflow-y: auto; }
+  body[data-mobile-page] .feed-sim { white-space: normal; line-height: 1.5; font-size: 10px; padding: 7px 9px; text-align: center; }
+  body[data-mobile-page] #mlLiveTelemetry .card-head .hint { margin-left: auto; }
+  body[data-mobile-page] .ml-fold-toggle { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 44px; width: 44px; height: 44px; padding: 0; margin: -10px -8px -10px auto; color: var(--cyan); border: 0; background: transparent; font-size: 24px; }
+  body[data-mobile-page] .ml-fold-toggle[aria-expanded='false'] { transform: rotate(-90deg); }
+  body[data-mobile-page] .ml-folded > :not(.card-head):not(.feed-sim) { display: none !important; }
+  body[data-mobile-page] .ml-folded .card-head { margin-bottom: 0; }
+  body[data-mobile-page] #mlLiveTelemetry.ml-folded .feed-sim { margin: 10px 0 0; }
+  body[data-mobile-page] #mlSessionHealth .stat-row { gap: 8px; }
+  body[data-mobile-page] #mlSessionHealth .stat { padding: 10px 8px; }
+  body[data-mobile-page] #mlSessionHealth .label { font-size: 10px; }
+  body[data-mobile-page] #page-control .stat-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  body[data-mobile-page] #page-control :is(.stat .label,.cs-cap) { overflow-wrap: anywhere; }
+  body[data-mobile-page] #page-control .cs-rows { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  body[data-mobile-page] #page-control .cs-rows :is(.k,.v) { min-width: 0; overflow-wrap: anywhere; }
+  body[data-mobile-page] #page-control .cs-foot { flex-wrap: wrap; }
+  body[data-mobile-page] #page-control .disclaimer { padding: 16px 0; margin: 0; }
+
+  body[data-mobile-page] #page-study-mode .mh-wrap { padding: 0; }
+  body[data-mobile-page] #page-study-mode .sx-header { margin: 0 0 14px; gap: 10px; }
+  body[data-mobile-page] #page-study-mode .sx-header h1 { font-size: 17px; }
+  body[data-mobile-page] #page-study-mode .sx-header p { font-size: 11px; line-height: 1.5; }
+  body[data-mobile-page] #page-study-mode .sx-header-r { display: grid; width: 100%; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
+  body[data-mobile-page] #page-study-mode .sx-pill { min-width: 0; padding: 7px 5px; font-size: 10px; letter-spacing: .4px; text-align: center; white-space: normal; border-radius: 8px; }
+  body[data-mobile-page] #page-study-mode .sx-menubtn { width: 100%; min-height: 44px; padding: 9px 6px; font-size: 10px; }
+  body[data-mobile-page] #page-study-mode .sx-menu { right: auto; left: 0; }
+  body[data-mobile-page] #page-study-mode .sx-menu button { min-height: 44px; }
+  body[data-mobile-page] #page-study-mode .sx-grid { grid-template-columns: minmax(0,1fr); gap: 14px; }
+  body[data-mobile-page] #page-study-mode .col { gap: 14px; min-width: 0; }
+  body[data-mobile-page] #sxTimerCard .sm-timer-task { margin-top: 0; }
+  body[data-mobile-page] #sxTimerCard .sm-timer-subject { margin-top: 5px; font-size: 17px; overflow-wrap: anywhere; }
+  body[data-mobile-page] #sxTimerCard .sm-timer-block { margin-top: 5px; font-size: 11px; }
+  body[data-mobile-page] #sxTimerCard .sm-ring-wrap { width: 190px; height: 190px; margin: 16px auto 12px; }
+  body[data-mobile-page] #sxTimerCard .sm-countdown { font-size: 34px; }
+  body[data-mobile-page] #sxTimerCard .sm-timer-meta { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 7px; margin-top: 12px; }
+  body[data-mobile-page] #sxTimerCard .sm-timer-meta .val { font-size: 12px; overflow-wrap: anywhere; }
+  body[data-mobile-page] #sxTimerCard .sm-timer-meta .lbl { font-size: 9px; }
+  body[data-mobile-page] #sxTimerCard .sm-timer-actions { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; margin-top: 16px; }
+  body[data-mobile-page] #sxTimerCard .sx-actrow { display: contents; }
+  body[data-mobile-page] #sxTimerCard [data-study-action='break'] { grid-column: span 2; }
+  body[data-mobile-page] #sxTimerCard .btn { min-height: 44px; min-width: 0; padding: 8px 5px; font-size: 10px; }
+  body[data-mobile-page] #sxTimerCard .sx-secant { font-size: 11px; line-height: 1.5; margin-top: 12px; }
+  body[data-mobile-page] #sxPresets { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 7px; margin: 0 0 16px; }
+  body[data-mobile-page] #sxPresets button { min-width: 0; min-height: 44px; padding: 8px 2px; font-size: 11px; }
+  body[data-mobile-page] #page-study-mode .sx-fields { grid-template-columns: minmax(0,1fr); gap: 14px; }
+  body[data-mobile-page] #page-study-mode .sx-f { grid-column: 1 / -1; }
+  body[data-mobile-page] #page-study-mode .sx-f > span:first-child { font-size: 11px; }
+  body[data-mobile-page] #page-study-mode .sx-f input { min-height: 44px; font-size: 16px; }
+  body[data-mobile-page] #page-study-mode .sx-num input { flex: 1; width: 100%; text-align: left; }
+  body[data-mobile-page] #page-study-mode .sx-num em { font-size: 12px; }
+  body[data-mobile-page] #sxPrepare { width: 100% !important; min-height: 48px; font-size: 14px; }
+  body[data-mobile-page] #page-study-mode .sx-kv .r { grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 10px; }
+  body[data-mobile-page] #page-study-mode .sx-kv :is(.k,.v) { overflow-wrap: anywhere; min-width: 0; }
+  body[data-mobile-page] .ac-launcher { width: 48px; height: 48px; padding: 5px; right: 12px; bottom: max(12px,env(safe-area-inset-bottom)); gap: 0; justify-content: center; }
+  body[data-mobile-page] .ac-launcher-blob { width: 34px; height: 34px; }
+  body[data-mobile-page] .ac-launcher-txt { display: none; }
+  /* Match the existing centred demonstration stage for runtime notices in these two views. */
+  body[data-mobile-page]:not([data-ac-layout]) > .wl-pp {
+    left: 50%; top: 50%; bottom: auto;
+    transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px)));
+    max-height: calc(100dvh - 24px);
+  }
+  body[data-mobile-page] .wl-de-btn { min-height: 44px; }
+}
+
+/* ---- Compact density (S24 FE correction). Same scope as above: phones only, Control Station + Study Mode only; desktop untouched. ---- */
+@media (max-width: 700px) {
+  body[data-mobile-page] { --ml-gap: 10px; }
+  body[data-mobile-page] .main { padding: 8px 10px 72px; }
+  body[data-mobile-page] .topbar { gap: 8px; padding: 0 0 8px; }
+  body[data-mobile-page] .brand-title .name { font-size: 16px; letter-spacing: 2.5px; }
+  body[data-mobile-page] .brand-title .core { font-size: 10px; margin: 0; }
+  body[data-mobile-page] .logo-row > svg { width: 22px; height: 22px; }
+  /* clock: title row + time on the left, zone and date on the right */
+  body[data-mobile-page] #hudClock { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: 'head head' 'time tz' 'time date'; column-gap: 12px; row-gap: 0; align-items: center; padding: 6px 12px 8px; border-radius: 14px; }
+  body[data-mobile-page] .sysclock .hud-clock-head { grid-area: head; min-height: 30px; margin: 0; font-size: 9px; padding-right: 40px; }
+  body[data-mobile-page] .sysclock .hud-time { grid-area: time; font-size: 21px; line-height: 1.1; margin: 0; }
+  body[data-mobile-page] .sysclock .sc-tz { grid-area: tz; margin: 0; font-size: 9px; text-align: right; }
+  body[data-mobile-page] .sysclock .sc-date { grid-area: date; margin: 0; justify-content: flex-end; gap: 0 10px; font-size: 9px; }
+  body[data-mobile-page] .ml-clock-expand { top: 0; right: 0; width: 44px; height: 28px; font-size: 16px; line-height: 1; }
+  body[data-mobile-page] .sysclock .sc-tz { align-self: end; padding-top: 4px; }
+  body[data-mobile-page] .sysclock .sc-date { align-self: start; }
+  body[data-mobile-page] .sysclock.ml-tools-open .sc-btns { grid-column: 1 / -1; }
+  /* cards */
+  body[data-mobile-page] :is(#page-control, #page-study-mode) .card { padding: 12px; border-radius: 14px; }
+  body[data-mobile-page] :is(#page-control, #page-study-mode) .card-head { margin-bottom: 8px; gap: 4px; }
+  body[data-mobile-page] #page-control .grid { gap: var(--ml-gap); }
+  body[data-mobile-page] #axonCanvas { display: none; }
+  body[data-mobile-page] #page-control .hero-topbar { margin-bottom: 6px; }
+  body[data-mobile-page] #page-control .profile-btn { font-size: 9px; padding: 5px 7px; }
+  body[data-mobile-page] #page-control .mode-toggle-btn { padding: 6px 8px; }
+  body[data-mobile-page] #engineRing { width: 150px; height: 150px; margin: 4px auto 8px; }
+  body[data-mobile-page] #engineRingTime { font-size: 28px; }
+  body[data-mobile-page] #engineRingLabel { font-size: 9px; }
+  body[data-mobile-page] .engine-controls { gap: 6px; }
+  body[data-mobile-page] #btnEngineEmergency { margin-top: 8px; }
+  body[data-mobile-page] #mlSessionHealth .stat-row, body[data-mobile-page] #page-control .stat-row { gap: 6px; }
+  body[data-mobile-page] #page-control .stat { padding: 8px 6px; }
+  body[data-mobile-page] #page-control .stat .value { font-size: 18px; margin-top: 3px; }
+  body[data-mobile-page] #page-control .stat .label { font-size: 9px; letter-spacing: .6px; }
+  body[data-mobile-page] #page-control .cs-rows { gap: 2px 10px; }
+  body[data-mobile-page] #page-control .cs-rows :is(.k, .v) { line-height: 1.35; padding-block: 1px; }
+  body[data-mobile-page] #csPrev, body[data-mobile-page] #csNext { min-width: 44px; min-height: 40px; }
+  body[data-mobile-page] #page-control .disclaimer { padding: 10px 0; font-size: 11px; line-height: 1.5; }
+  body[data-mobile-page] .wl-status { padding: 6px 10px; font-size: 10px; line-height: 1.4; margin: 0 0 8px; }
+  /* floating Academy launcher: smaller, hit area kept at 44 px */
+  body[data-mobile-page] .ac-launcher { width: 40px; height: 40px; padding: 3px; right: 10px; position: fixed; }
+  body[data-mobile-page] .ac-launcher::before { content: ''; position: absolute; inset: -2px; }
+  body[data-mobile-page] .ac-launcher-blob { width: 30px; height: 30px; }
+  /* Study Mode */
+  body[data-mobile-page] #page-study-mode .sx-header { margin: 0 0 10px; gap: 8px; }
+  body[data-mobile-page] #page-study-mode .sx-header p { margin: 2px 0 0; font-size: 10px; line-height: 1.4; }
+  body[data-mobile-page] #page-study-mode .sx-grid, body[data-mobile-page] #page-study-mode .col { gap: 10px; }
+  body[data-mobile-page] #sxTimerCard .sm-timer-task { font-size: 9px; letter-spacing: 1.2px; }
+  body[data-mobile-page] #sxTimerCard .sm-timer-subject { margin-top: 2px; font-size: 15px; }
+  body[data-mobile-page] #sxTimerCard .sm-timer-block { margin-top: 2px; font-size: 10px; }
+  body[data-mobile-page] #sxTimerCard .sm-ring-wrap { width: 156px; height: 156px; margin: 8px auto 6px; }
+  body[data-mobile-page] #sxTimerCard .sm-countdown { font-size: 30px; }
+  body[data-mobile-page] #sxTimerCard .sm-countdown-label { font-size: 9px; }
+  body[data-mobile-page] #sxTimerCard .sx-prog { margin: 6px auto 0; width: 60%; }
+  body[data-mobile-page] #sxTimerCard .sm-timer-meta { margin-top: 8px; gap: 6px; }
+  body[data-mobile-page] #sxTimerCard .sm-timer-actions { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; margin-top: 10px; }
+  body[data-mobile-page] #sxTimerCard .sm-timer-actions .btn { grid-column: span 2; }
+  body[data-mobile-page] #sxTimerCard .sm-timer-actions .btn[data-study-action='complete'], body[data-mobile-page] #sxTimerCard .sm-timer-actions .btn[data-study-action='break'] { grid-column: span 3; }
+  body[data-mobile-page] #sxTimerCard .sx-secant { margin-top: 8px; font-size: 10px; text-align: center; }
+  body[data-mobile-page] #sxPresets { gap: 6px; margin: 0 0 10px; }
+  body[data-mobile-page] #page-study-mode .sx-fields { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 8px; margin-bottom: 10px; }  /* web-lite.css forces 1fr !important at <=600px */
+  body[data-mobile-page] #page-study-mode .sx-f { grid-column: 1 / -1 !important; gap: 3px; }
+  body[data-mobile-page] #page-study-mode .sx-f:has(#sxStudyMin), body[data-mobile-page] #page-study-mode .sx-f:has(#sxBreakMin) { grid-column: auto !important; }
+  body[data-mobile-page] #page-study-mode .sx-f > span:first-child { font-size: 10px; letter-spacing: .6px; }
+  body[data-mobile-page] #page-study-mode .sx-num em { font-size: 10px; }
+  body[data-mobile-page] #page-study-mode .sx-f input { padding: 6px 9px; }
+}
+
+/* ---- Wide layouts below the real desktop (701-1240 px: tablets, narrow windows, phones in Desktop site / landscape) behave like the real desktop Control Station:
+   Live Telemetry + Handover in the RIGHT column beside Engine Core / Session Health (rules below). The old one-row header drew the System Clock over the MYELIN name from 701 to ~1240 px,
+   and a first fix pushed the brand off-centre. Here row 1 is MENU | brand EXACTLY CENTRED | buttons (equal 1fr side columns, circuit traces kept where the desktop shows them) and the
+   normal-size clock card sits on its own row beneath. 1241 px and wider is untouched. ---- */
+@media (min-width: 701px) and (max-width: 1240px) {
+  body:not([data-eff-wide]) .topbar { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); grid-template-areas: 'menu brand right' 'clock clock clock'; gap: 8px 12px; padding: 18px 20px 8px; }
+  body:not([data-eff-wide]) .topbar-left { display: contents; }
+  body:not([data-eff-wide]) .topbar-left > #menuToggle { grid-area: menu; justify-self: start; }
+  body:not([data-eff-wide]) .topbar .brand-console { grid-area: brand; justify-self: center; min-width: 0; gap: 8px; }
+  body:not([data-eff-wide]) .topbar .topbar-right { grid-area: right; justify-self: end; gap: 8px; }
+  body:not([data-eff-wide]) .topbar #hudClock { grid-area: clock; justify-self: start; }   /* the clock card keeps its normal size and look; it only moves to its own row */
+  body:not([data-eff-wide]) .topbar .brand-title .name { font-size: 22px; letter-spacing: 4px; }
+  body:not([data-eff-wide]) .topbar .brand-title .tagline { letter-spacing: 3px; }
+}
+@media (min-width: 701px) and (max-width: 800px) {   /* the brand must clear the right-hand buttons while staying centred */
+  body:not([data-eff-wide]) .topbar .brand-title .name { font-size: 18px; letter-spacing: 3px; }
+  body:not([data-eff-wide]) .topbar .brand-title .tagline { letter-spacing: 2px; font-size: 8px; }
+  body:not([data-eff-wide]) .topbar .brand-console { gap: 4px; }
+  body:not([data-eff-wide]) .topbar .topbar-right { gap: 6px; }
+  body:not([data-eff-wide]) .topbar .topbar-right :is(#clockToggle, #getChartBtn) { padding-inline: 10px; font-size: 11px; }
+  body:not([data-eff-wide]) .logo-row > svg { width: 22px; height: 22px; }
+}
+/* The zoom lens makes the page content wider than the browser reports (content width = viewport / zoom, but media queries only see the viewport). When that effective width reaches the
+   desktop's (data-eff-wide, set by mobile-layout.js) the header goes back to the real desktop arrangement: clock beside MENU, brand centred, circuit traces drawn, columns side by side. */
+@media (min-width: 701px) and (max-width: 1180px) { body[data-eff-wide] .circuit-trace { display: block; } }
+@media (min-width: 701px) and (max-width: 860px) { body[data-eff-wide] .grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; padding: 14px 20px 24px; } body[data-eff-wide] .sx-grid { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 14px; } }
+@media (min-width: 701px) and (max-width: 1240px) and (max-height: 620px) { .topbar { position: relative; top: auto; } }   /* landscape phone: the header scrolls away instead of covering the screen */
+@media (min-width: 861px) and (max-width: 1180px) {
+  .grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; padding: 14px 20px 24px; }   /* Engine Core + health left, Live Telemetry + Handover right, as on the desktop */
+  .sx-grid { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 14px; }
+}
+/* ---- Zoom lens (phones with a wide layout; see mobile-layout.js) ---- */
+body[data-lens-zoom] .ac-launcher { zoom: calc(1 / var(--ml-lens-z, 1)); }   /* the Academy launcher keeps its normal size while the page content is zoomed out */
+.ml-lens[hidden], .ml-lens-panel[hidden] { display: none; }
+.ml-lens { position: fixed; left: 10px; bottom: max(10px, env(safe-area-inset-bottom)); z-index: 900; display: flex; align-items: center; gap: 6px; }
+.ml-lens-btn, .ml-lens-step, .ml-lens-reset { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 0 10px; background: var(--surface); color: var(--cyan); border: 1px solid var(--cyan-dim); border-radius: 22px; font: 700 18px var(--font-mono, monospace); box-shadow: var(--shadow); }
+.ml-lens-reset { font-size: 12px; color: var(--text); }
+.ml-lens-btn[aria-expanded='true'] { background: color-mix(in srgb, var(--cyan) 18%, var(--surface)); }
+.ml-lens-step:disabled { opacity: .4; }
+.ml-lens-panel { display: flex; align-items: center; gap: 6px; padding: 4px 6px; background: var(--surface-soft); border: 1px solid var(--border); border-radius: 26px; }
+.ml-lens-read { min-width: 46px; text-align: center; font: 700 13px var(--font-mono, monospace); color: var(--text); }

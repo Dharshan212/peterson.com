@@ -1,0 +1,74 @@
+{
+  "purpose": "Self-hosted SQLite/WebAssembly reader for the OPEN DB FILE feature of MYELIN Web. Obtained for MYELIN Web Lite; no CDN, no runtime download.",
+  "retrievedUTC": "2026-10-27",
+  "source": "npm registry https://registry.npmjs.org/sql.js (upstream https://github.com/sql-js/sql.js)",
+  "license": "MIT (LICENSE + AUTHORS copied beside each build)",
+  "verification": "Tarball SHA-512 (SRI) and SHA-1 equal the registry's published dist.integrity / dist.shasum. This proves the download matches what npm published; it does not independently prove upstream authorship (registry signatures / provenance attestation were not verified with sigstore tooling).",
+  "builds": {
+    "1.14.2": {
+      "npmPublishedUTC": "2026-08-14T18:12:12.496Z",
+      "gitHead": "1d5db4546e5feb944a3415739eb2a54103b54882",
+      "bundledSQLite": "3.49.1 (2025-02-18)",
+      "tarball": {
+        "url": "https://registry.npmjs.org/sql.js/-/sql.js-1.14.2.tgz",
+        "sha512SRI": "sha512-3ZGPovObMFrdw79zrUHbfdE/DLIsy8jdNdssmMSQuRAymedU6q84asPt0kgiqrdMYlPegDItiIMfmIXzZnYFcw==",
+        "sha1": "01088911d183482b6f961b3563233df69edc9ab5",
+        "sha256": "9d491337e1850df39362be640c23f9751bf0fbd33fc232c2a580bb87b70d62fd",
+        "bytes": 9443490
+      },
+      "distFileUsed": "dist/sql-wasm-browser.js + dist/sql-wasm-browser.wasm",
+      "files": {
+        "AUTHORS": {
+          "bytes": 133,
+          "sha256": "2bb11c65286bd0f2919022e119671036ff8d85c6cd1522b6ebcc1362e67f2ce5"
+        },
+        "LICENSE": {
+          "bytes": 2199,
+          "sha256": "60a3f6e4d7b29b4321359e683b36cf198d24f58e24582070f56e6fa89d5ee2be"
+        },
+        "sql-wasm-browser.js": {
+          "bytes": 45129,
+          "sha256": "35e39a73b2e0bc1c2202a4cadb23bcf7a3a77071a39c270f014402968785b95f"
+        },
+        "sql-wasm-browser.wasm": {
+          "bytes": 658410,
+          "sha256": "38c14f6e379210bc942bdc4ebca44e7bfdb4318ecc1c72ca666a28fdce96670a"
+        }
+      }
+    }
+  },
+  "pinnedForV1": "1.14.2 (decision 2026-10-27). 1.15.2 was evaluated in Stage 2 (identical results) and REMOVED from the bundle; its hashes are kept below for the record.",
+  "evaluatedNotShipped": {
+    "1.15.2": {
+      "npmPublishedUTC": "2026-10-26T11:22:23.208Z",
+      "gitHead": "4f1c22d0cf7d91b78e5feedab62212e8127751f4",
+      "bundledSQLite": "3.54.0 (2026-10-09)",
+      "tarball": {
+        "url": "https://registry.npmjs.org/sql.js/-/sql.js-1.15.2.tgz",
+        "sha512SRI": "sha512-ZmMYFsZPZWDKIJUh3A5rdnpRV3hB/r7AijwAzSzLnfv/9CSx4obUmDtA8brAjWJWjGtUVh43nIEJ+6nl6HuOUg==",
+        "sha1": "ee1f9fc47c9886b71aefc3338d3774e11faedc97",
+        "sha256": "74fbdd373ad7eb2bbe74c7807581c1c39e424ee53ed95042a02208cbc96d72fd",
+        "bytes": 13670555
+      },
+      "distFileUsed": "dist/sql-wasm-browser.js + dist/sql-wasm-browser.wasm",
+      "files": {
+        "AUTHORS": {
+          "bytes": 133,
+          "sha256": "2bb11c65286bd0f2919022e119671036ff8d85c6cd1522b6ebcc1362e67f2ce5"
+        },
+        "LICENSE": {
+          "bytes": 2199,
+          "sha256": "60a3f6e4d7b29b4321359e683b36cf198d24f58e24582070f56e6fa89d5ee2be"
+        },
+        "sql-wasm-browser.js": {
+          "bytes": 45855,
+          "sha256": "17e880ef4c40827f93ead7766ab960937259368a8341b9d231984a7d8f9fbd41"
+        },
+        "sql-wasm-browser.wasm": {
+          "bytes": 685235,
+          "sha256": "0dfeecda2070b36da0cd4f6afa250af9453de528a983770f85b13d5d6b667572"
+        }
+      }
+    }
+  }
+}

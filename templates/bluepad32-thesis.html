@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Dharshan Keba Morris's 2025 MSc research: integrating Bluepad32, an Xbox controller and ESP32 in a servo-control prototype at the University of Dundee.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="color-scheme" content="dark">
+  <title>Bluepad32 &amp; ESP32 | MSc Research · Dharshan Keba Morris</title>
+  <link rel="stylesheet" href="assets/bluepad32-thesis/page.css">
+</head>
+<body class="bp-page">
+<a class="bp-skip" href="#main">Skip to research content</a>
+<header class="bp-masthead bp-wrap">
+  <div class="bp-identity"><span class="bp-monogram" aria-hidden="true">DK<span>M</span></span><span>Dharshan Keba Morris<small>Biomedical engineering · Research</small></span></div>
+  <p class="bp-edition">MSc thesis <span>/</span> Dundee, 2025</p>
+</header>
+
+<main id="main">
+  <section class="bp-hero bp-wrap" aria-labelledby="project-title">
+    <div class="bp-hero-copy">
+      <p class="bp-eyebrow"><span class="bp-dot" aria-hidden="true"></span> Embedded systems / Medical robotics</p>
+      <h1 id="project-title">Open-Source Control Platform for a Medical Robot Using Standard Components</h1>
+      <p class="bp-hero-focus">Wireless control with <em>Bluepad32.</em></p>
+      <p class="bp-lead">An MSc engineering prototype connecting an Xbox controller to an ESP32, translating wireless gamepad input into servo commands with standard components.</p>
+      <div class="bp-actions"><a class="bp-button" href="#integration">Explore the control pathway <span aria-hidden="true">↗</span></a><a class="bp-text-link" href="#recordings">Video documentation <span aria-hidden="true">↓</span></a></div>
+    </div>
+    <figure class="bp-hero-photo">
+      <div class="bp-photo-label"><span>01 / Prototype</span><span>Original thesis photograph</span></div>
+      <img src="assets/bluepad32-thesis/prototype-thesis-p43.jpg" width="1087" height="683" alt="Xbox controller beside an ESP32 breadboard prototype, wired driver board and three small servo motors on a desk." fetchpriority="high">
+      <figcaption>Wireless input, embedded processing, servo actuation.<br><span>Photo: Dharshan Keba Morris · Thesis Figure 5.1, PDF p. 43.</span></figcaption>
+    </figure>
+    <dl class="bp-project-meta">
+      <div><dt>Researcher</dt><dd>Dharshan Keba Morris</dd></div>
+      <div><dt>Institution</dt><dd>University of Dundee</dd></div>
+      <div><dt>Programme</dt><dd>MSc Biomedical Engineering · 2025</dd></div>
+      <div><dt>Supervisor</dt><dd>Dr Luigi Manfredi</dd></div>
+    </dl>
+  </section>
+
+  <div class="bp-body bp-wrap">
+    <aside class="bp-contents" aria-label="On this page">
+      <p class="bp-eyebrow">Research notes</p>
+      <a href="#background"><span>01</span> Background</a>
+      <a href="#alternative"><span>02</span> The wireless approach</a>
+      <a href="#integration"><span>03</span> Bluepad32 integration</a>
+      <a href="#servos"><span>04</span> Servo experiments</a>
+      <a href="#timing"><span>05</span> Timing &amp; response</a>
+      <a href="#recordings"><span>↳</span> Video documentation</a>
+      <a href="#results"><span>06</span> Results &amp; limitations</a>
+      <a href="#documentation"><span>07</span> Research documentation</a>
+      <div class="bp-side-note"><span class="bp-status">Research prototype</span><p>Exploring an accessible control pathway for medical robotics research.</p></div>
+    </aside>
+
+    <article class="bp-article" aria-label="Thesis research account">
+      <section class="bp-section" id="background" aria-labelledby="background-title">
+        <p class="bp-eyebrow">01 / Research background</p>
+        <h2 id="background-title">A familiar controller.<br>A more accessible platform.</h2>
+        <p>Dr Luigi Manfredi suggested developing a control platform for a medical robot. His existing endorobot setup used an Xbox controller with MATLAB/Simulink and Arduino Mega boards.</p>
+        <p>Dharshan explored that approach, but the MATLAB/Simulink environment was financially inaccessible to him. The block-based hardware configuration also appeared complicated for the simpler platform he wanted to investigate. This prompted a search for an affordable, straightforward wireless alternative while retaining the familiar gamepad interface.</p>
+        <p class="bp-source">Source: researcher-provided background. The existing setup was not benchmarked against this prototype; no comparative latency finding was established.</p>
+      </section>
+
+      <section class="bp-section" id="alternative" aria-labelledby="alternative-title">
+        <p class="bp-eyebrow">02 / Finding an alternative</p>
+        <h2 id="alternative-title">Bringing wireless input onto the ESP32.</h2>
+        <p>The ESP32 offered built-in Bluetooth, low-cost hardware and an Arduino IDE-compatible development route. It could receive gamepad input and interface with an external servo driver, making it a practical candidate for a compact control prototype.</p>
+        <p>The question became how to receive the Xbox controller's wireless input on the microcontroller, interpret it and pass useful commands to the motors. Bluepad32 provided the gamepad connection layer; the project supplied the application logic around it.</p>
+        <div class="bp-component-strip" aria-label="Main prototype components"><span>Xbox controller</span><span>ESP32-WROOM-32D</span><span>PCA9685</span><span>Servo motors</span></div>
+        <p class="bp-source">Technical reference: thesis Chapter 3, PDF pp. 22–31.</p>
+      </section>
+
+      <section class="bp-section bp-integration" id="integration" aria-labelledby="integration-title">
+        <p class="bp-eyebrow">03 / Bluepad32 integration</p>
+        <h2 id="integration-title">From gamepad state<br>to a motor command.</h2>
+        <p class="bp-intro">Bluepad32 by Ricardo Quesada and contributors enabled the Xbox controller to communicate with the ESP32 over Bluetooth. The research contribution was integrating this existing library into the control prototype.</p>
+        <figure class="bp-architecture">
+          <div class="bp-figure-heading"><span>Signal pathway</span><span>Simplified architecture</span></div>
+          <ol class="bp-flow" aria-label="Xbox controller to servo signal path">
+            <li><span class="bp-node-index">01</span><strong>Xbox controller</strong><small>Buttons &amp; joystick axes</small></li>
+            <li class="bp-flow-library"><span class="bp-node-index">02</span><strong>Bluetooth / Bluepad32</strong><small>Gamepad state access</small></li>
+            <li><span class="bp-node-index">03</span><strong>ESP32</strong><small>Microcontroller</small></li>
+            <li><span class="bp-node-index">04</span><strong>Control logic</strong><small>Filter · map · step-limit</small></li>
+            <li><span class="bp-node-index">05</span><strong>I²C / PCA9685</strong><small>PWM generation</small></li>
+            <li><span class="bp-node-index">06</span><strong>Servo motors</strong><small>Physical actuation</small></li>
+          </ol>
+          <figcaption>Based on thesis Chapters 3–4. Bluepad32 and the application control logic run on the ESP32; they are shown separately to explain their roles. The PCA9685 generates PWM signals for the motors.</figcaption>
+        </figure>
+        <ol class="bp-process">
+          <li><div><h3>Connect and read</h3><p>Connection callbacks track the gamepad's connection state. In the main loop, <code>BP32.update()</code> refreshes controller data. The application can then read buttons and joystick axes through the controller API, including <code>axisRX()</code> and <code>axisRY()</code>.</p></div></li>
+          <li><div><h3>Filter and map</h3><p>The thesis applies a dead-zone threshold of 100 to the joystick axes to suppress small centre movements. Filtered values are mapped from the approximately −512 to +512 input range into constrained positional-servo targets, with direction inverted where required.</p></div></li>
+          <li><div><h3>Update and actuate</h3><p>A step-limiting routine moves the commanded angle towards its target in bounded increments. On an update flag, the ESP32 converts that command to PWM counts and sends it over I²C to the PCA9685. The driver supplies the servo pulses.</p></div></li>
+        </ol>
+        <div class="bp-note"><strong>Command state is not shaft feedback.</strong><p>The variable <code>currentAngles</code> stores the software's commanded state. Logging it does not independently measure the physical servo position or establish a closed-loop actuator feedback system.</p></div>
+        <p class="bp-source">Technical reference: thesis PDF pp. 24–39. <a href="https://bluepad32.readthedocs.io/en/latest/">Official Bluepad32 documentation ↗</a></p>
+      </section>
+
+      <section class="bp-section" id="servos" aria-labelledby="servos-title">
+        <p class="bp-eyebrow">04 / Servo motor experimentation</p>
+        <h2 id="servos-title">Testing the command chain.</h2>
+        <p>The researcher's early trials used a 360-degree continuous-rotation servo to check controller-to-motor responsiveness. Appendix B identifies an FS90R continuous servo. This provided a way to observe a physical response to wireless input.</p>
+        <div class="bp-servo-comparison">
+          <div><span class="bp-mini-label">Initial trial · Author account</span><h3>Continuous rotation</h3><p>The pulse command primarily controls direction and speed around a neutral setting. It does not request an absolute shaft angle.</p></div>
+          <div><span class="bp-mini-label">Thesis body · Chapters 4–5</span><h3>Positional control</h3><p>The thesis discusses MG996R servos, angular targets, PWM mapping and positioning tests. These measurements must be kept separate from the early continuous-servo trial.</p></div>
+        </div>
+        <p>For the positional-servo implementation, the PCA9685 generates the PWM output while the ESP32 calculates the target and limits command changes. The thesis describes a laser pointer and protractor method for checking final position. The motor used in each individual recording still needs to be confirmed from the original test records.</p>
+        <p class="bp-source">Technical reference: thesis PDF pp. 32–36, 45, 49 and 63. No motor model is inferred from the prototype photograph.</p>
+      </section>
+
+      <section class="bp-section" id="timing" aria-labelledby="timing-title">
+        <p class="bp-eyebrow">05 / Interrupts and responsiveness</p>
+        <h2 id="timing-title">The update clock and<br>the observation window.</h2>
+        <p>The detailed timer implementation describes a short interrupt service routine that sets an update flag every 40 ms. The main loop handles the servo calculations and I²C writes when it sees that flag. Keeping the interrupt small lets gamepad processing continue between scheduled updates.</p>
+        <div class="bp-timing-grid">
+          <div><span class="bp-mini-label">Configured interval</span><p class="bp-timing-value">40 <span>ms</span></p><h3>Control update</h3><p>Equivalent to 25 Hz. This schedules command updates; main-loop execution still affects when the work is serviced.</p></div>
+          <div><span class="bp-mini-label">Logging interval</span><p class="bp-timing-value">100 <span>ms</span></p><h3>Serial reporting</h3><p>The described Serial Plotter stream reports controller values and commanded angles at approximately this interval.</p></div>
+        </div>
+        <p>These are different timing quantities. Neither interval alone establishes input-to-motion latency. Physical response also depends on wireless communication, processing, command transfer and the motor. Serial sampling limits what can be resolved from the plotted command stream.</p>
+        <p class="bp-source">Technical reference: thesis PDF pp. 25–28 and 39. The abstract and one smoothing discussion mention 10 ms; the detailed timer configuration specifies 40 ms. This inconsistency remains unresolved.</p>
+      </section>
+
+      <section class="bp-section bp-recordings" id="recordings" aria-labelledby="recordings-title">
+        <p class="bp-eyebrow">Video documentation / Awaiting recordings</p>
+        <h2 id="recordings-title">Two test categories.<br>Four views to document.</h2>
+        <p>The spaces below are reserved for the researcher's recordings. “100 ms” and “40 ms” identify planned evidence categories; they are not claims of measured performance. No video files have been supplied or reviewed.</p>
+        <div class="bp-recording-head" aria-hidden="true"><span>Test</span><span>Graph recording</span><span>ESP32 control recording</span></div>
+        <div class="bp-recording-row" role="group" aria-labelledby="test-100">
+          <h3 class="bp-test-label" id="test-100">100 <span>ms</span><small>Test category</small></h3>
+          <figure class="bp-video-slot" data-media-directory="assets/bluepad32-thesis/media/video-01-graph-100ms/">
+            <div class="bp-empty-frame"><span class="bp-slot-number">01 / Graph recording</span><span class="bp-empty-mark" aria-hidden="true"></span><p>Video to be added</p></div>
+            <figcaption>Video 01 — Graph: 100 ms Test</figcaption>
+          </figure>
+          <figure class="bp-video-slot" data-media-directory="assets/bluepad32-thesis/media/video-02-esp32-control-100ms/">
+            <div class="bp-empty-frame"><span class="bp-slot-number">02 / ESP32 control recording</span><span class="bp-empty-mark" aria-hidden="true"></span><p>Video to be added</p></div>
+            <figcaption>Video 02 — ESP32 Control: 100 ms Test</figcaption>
+          </figure>
+        </div>
+        <div class="bp-recording-row" role="group" aria-labelledby="test-40">
+          <h3 class="bp-test-label" id="test-40">40 <span>ms</span><small>Test category</small></h3>
+          <figure class="bp-video-slot" data-media-directory="assets/bluepad32-thesis/media/video-03-graph-40ms/">
+            <div class="bp-empty-frame"><span class="bp-slot-number">03 / Graph recording</span><span class="bp-empty-mark" aria-hidden="true"></span><p>Video to be added</p></div>
+            <figcaption>Video 03 — Graph: 40 ms Test</figcaption>
+          </figure>
+          <figure class="bp-video-slot" data-media-directory="assets/bluepad32-thesis/media/video-04-esp32-control-40ms/">
+            <div class="bp-empty-frame"><span class="bp-slot-number">04 / ESP32 control recording</span><span class="bp-empty-mark" aria-hidden="true"></span><p>Video to be added</p></div>
+            <figcaption>Video 04 — ESP32 Control: 40 ms Test</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="bp-section" id="results" aria-labelledby="results-title">
+        <p class="bp-eyebrow">06 / Results and limitations</p>
+        <h2 id="results-title">What the prototype demonstrates.</h2>
+        <p>The thesis describes a working pathway from wireless gamepad input, through Bluepad32 and ESP32 control logic, to servo actuation. It combines input filtering, bounded command changes and serial monitoring in a compact experimental platform.</p>
+        <p>The numerical findings below are attributed to the thesis. They have not been independently reproduced for this webpage. Differences within the source are retained rather than silently reconciled.</p>
+        <div class="bp-table-wrap" tabindex="0" role="region" aria-label="Thesis findings and interpretation; scroll horizontally on narrow screens">
+          <table class="bp-results-table">
+            <caption>Reported, calculated and unresolved values</caption>
+            <thead><tr><th scope="col">Quantity</th><th scope="col">Source record</th><th scope="col">How to interpret it</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Software-based latency</th><td><span class="bp-badge">Reported</span>Chapter 5: approximately 90–100 ms; mean 98 ms, standard deviation 12 ms, over 100 observations. PDF pp. 44, 47.</td><td>Derived from controller and commanded-angle logs. No independent measurement of servo-shaft onset is established by this method.</td></tr>
+              <tr><th scope="row">85 ms latency</th><td><span class="bp-badge">Abstract / model</span>The abstract states 85 ms; Chapter 3 projects approximately 85 ms from component delays. PDF pp. 4, 31.</td><td>A projection and an abstract claim differ from the detailed reported results. They do not establish a separately verified physical delay.</td></tr>
+              <tr><th scope="row">Servo resolution &amp; accuracy</th><td><span class="bp-badge">Unresolved</span>Abstract: 0.5° resolution. Chapter 5: 2.1° mean absolute positioning error. PDF pp. 4, 45.</td><td>Resolution and accuracy are different. The five listed table errors average 1.14° with equal weighting, which does not reconcile with the stated 2.1°.</td></tr>
+              <tr><th scope="row">Step-response calculation</th><td><span class="bp-badge">Calculated / unresolved</span>The source states 1.8 s for a 90° change with a 5° step and 40 ms period. PDF pp. 46–47.</td><td>The printed formula gives (90 ÷ 5) × 0.04 = 0.72 s. Original parameters and raw records are needed to resolve the difference.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="bp-note bp-limitation"><strong>Scope of the evidence</strong><p>This is a medical robotics research control prototype. It is not a clinically validated endorobot, a completed surgical simulator or an independently validated force-feedback system. Chapter 5 identifies missing real-time force sensing, timing variation and inexpensive servo mechanics as limitations.</p></div>
+        <details class="bp-disclosure"><summary>Open questions in the research record</summary><div>
+          <ul>
+            <li>Which servo and controller firmware were used in each run, and which update interval belongs to each recording?</li>
+            <li>How were 98 ± 12 ms timing values resolved from a stream described as reporting every 100 ms? Raw timestamps and the analysis method are needed.</li>
+            <li>Which angle-accuracy aggregate is correct, and what accounts for the step-response arithmetic difference?</li>
+            <li>The abstract mentions FSRs, potentiometer validation and clinician usability tests; the later limitations describe absent real-time force sensing and future validation. Their implementation and test records need confirmation.</li>
+          </ul>
+          <p>The background account is supplied by the researcher. The four recordings and underlying datasets were not available for review.</p>
+        </div></details>
+      </section>
+
+      <section class="bp-section" id="full-thesis" aria-labelledby="full-thesis-title">
+        <p class="bp-eyebrow">Research archive / Complete document</p>
+        <h2 id="full-thesis-title">Full MSc Thesis</h2>
+        <p>Read or download the complete MSc thesis: <cite>Open-Source Control Platform for a Medical Robot Using Standard Components</cite>, by Dharshan Keba Morris, University of Dundee, 2025.</p>
+        <div class="bp-actions">
+          <a class="bp-button" href="assets/bluepad32-thesis/Dharshan_Keba_Morris_MSc_Thesis_2025.pdf" target="_blank" rel="noopener noreferrer" type="application/pdf">READ THESIS <span aria-hidden="true">↗</span></a>
+          <a class="bp-button" href="assets/bluepad32-thesis/Dharshan_Keba_Morris_MSc_Thesis_2025.pdf" download="Dharshan_Keba_Morris_MSc_Thesis_2025.pdf" type="application/pdf">DOWNLOAD THESIS <span aria-hidden="true">↓</span></a>
+        </div>
+        <p class="bp-source">64 pages · PDF · Complete original document, preserved unchanged. READ THESIS opens in a new browser tab.</p>
+      </section>
+
+      <section class="bp-section" id="documentation" aria-labelledby="documentation-title">
+        <p class="bp-eyebrow">07 / Research documentation</p>
+        <h2 id="documentation-title">Sources, credit and the next questions.</h2>
+        <div class="bp-reference">
+          <span class="bp-reference-number">[01]</span><div><h3>MSc thesis</h3><p>Morris, Dharshan Keba (2025). <cite>Open-Source Control Platform for a Medical Robot Using Standard Components.</cite> MSc Biomedical Engineering, School of Science and Engineering, University of Dundee. Primary technical reference: Chapters 3–6 and Appendix B.</p><p class="bp-source">Page references on this webpage use the PDF page count, including front matter. The complete original document is available in the Full MSc Thesis section.</p></div>
+        </div>
+        <div class="bp-reference">
+          <span class="bp-reference-number">[02]</span><div><h3>Supervision</h3><p>Dr Luigi Manfredi supervised the MSc project and is acknowledged for guidance and provision of hardware components. The account of the initial MATLAB/Simulink setup is supplied by the researcher.</p></div>
+        </div>
+        <div class="bp-reference">
+          <span class="bp-reference-number">[03]</span><div><h3>Bluepad32</h3><p>Bluepad32 by Ricardo Quesada and contributors. The library provides Bluetooth gamepad support; this project used and integrated that work.</p><div class="bp-reference-links"><a href="https://bluepad32.readthedocs.io/en/latest/">Official documentation ↗</a><a href="https://github.com/ricardoquesada/bluepad32">Upstream repository ↗</a></div></div>
+        </div>
+        <div class="bp-future"><span class="bp-mini-label">Proposed future development</span><h3>Measure the physical system, then extend it.</h3><p>Further work would require independent position and latency measurement, actuator feedback, reliability testing and task-based evaluation. Chapter 6 proposes closed-loop control, ROS 2 integration and progressively more realistic validation environments. These remain future directions.</p></div>
+        <p class="bp-source">Editorial source: <cite>Bluepad32 MSc Thesis Web Page Draft</cite>, 29 October 2026. Technical statements checked against the supplied thesis; background statements attributed to the researcher.</p>
+      </section>
+    </article>
+  </div>
+</main>
+<footer class="bp-footer bp-wrap"><p>Dharshan Keba Morris <span>/</span> MSc research · 2025</p><p>Bluepad32 · ESP32 · Servo control</p></footer>
+</body>
+</html>

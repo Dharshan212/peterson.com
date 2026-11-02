@@ -1,0 +1,3 @@
+# Keep every file byte-for-byte as written (several Academy and page files use CRLF line endings and the
+# phase SHA-256 audits depend on exact bytes): no automatic line-ending conversion.
+* -text
